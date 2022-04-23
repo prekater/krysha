@@ -1,0 +1,2 @@
+class IncorrectPriceException extends Error {
+}

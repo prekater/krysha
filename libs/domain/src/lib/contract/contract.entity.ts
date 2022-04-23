@@ -4,6 +4,7 @@ import {Option} from "./option.value-object";
 import {UniqueEntityID} from "../core/unique-entity";
 import {IAggregateRoot} from "../core/aggregate-root";
 
+
 export class Contract implements IAggregateRoot{
 
   options: OptionsCollection;
@@ -35,11 +36,15 @@ export class Contract implements IAggregateRoot{
 
   public validate() {
 
+    if ( this.price <= 0 ) throw new IncorrectPriceException()
 
     // negative sum of contract
   }
 
   public publish() {
+
+    this.validate()
+
 
 
 
