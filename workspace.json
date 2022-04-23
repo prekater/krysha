@@ -1,6 +1,4 @@
 {
   "version": 2,
-  "projects": {
-    "bigdeal": "apps/bigdeal"
-  }
+  "projects": {}
 }
