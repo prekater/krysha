@@ -10,7 +10,7 @@ import {Deposit} from "../../offer/value-objects/deposit.value-object";
 import {DepositCollectType, DepositReturnType} from "../../offer/interfaces/deposit.interface";
 import {PeriodUnit, PriceUnit} from "../../offer/interfaces/term.interface";
 
-export const makeOffer = (defaults: OfferProps) => {
+export const makeOffer = (defaults: Partial<OfferProps> = {}) => {
 
   return  Offer.create({
       ID: new UniqueEntityID(),
