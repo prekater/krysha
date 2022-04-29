@@ -1,6 +1,7 @@
-import {IAggregateRoot, UniqueEntityID} from "@bigdeal/domain";
 import {AggregateRoot} from "@nestjs/cqrs";
 import {OfferProps, OfferType} from "../interfaces/offer.interface";
+import {IAggregateRoot} from "../../core/aggregate-root";
+import {UniqueEntityID} from "../../core/unique-entity";
 import {IEntity} from "../../core/entity";
 
 
@@ -19,7 +20,11 @@ export class Offer extends AggregateRoot implements IEntity, IAggregateRoot {
   static create(offerProps: OfferProps): Offer {
     return new Offer(offerProps)
   }
-  //   // если все поля заполнены, то можно опубликовать
+
+  isValid() {
+
+  }
+  // если все поля заполнены, то можно опубликовать
   publish() {}
 }
 
