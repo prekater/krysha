@@ -1,6 +1,8 @@
 {
   "version": 2,
   "projects": {
-    "domain": "libs/domain"
+    "domain": "libs/domain",
+    "infra": "libs/infra",
+    "mappers": "libs/mappers"
   }
 }

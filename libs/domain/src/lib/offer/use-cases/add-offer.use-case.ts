@@ -5,5 +5,5 @@ export interface AddOffer {
 }
 
 export namespace AddOffer {
-  export type Params = Omit<OfferProps, 'ID'>
+  export type Params = OfferProps
 }

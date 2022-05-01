@@ -12,6 +12,10 @@ export class Option implements IValueObject {
   get isEnabled() {
     return this.props.isEnabled;
   }
+
+  toObject() {
+    return {...this.props}
+  }
   static create(props: OptionProps) {
     return new Option(props)
   }

@@ -1,13 +1,11 @@
 import {makeOffer} from "./mocks/offer.mocks";
-import {Offer} from "../offer/entities/offer.entity";
+import {Domain} from "../offer/entities/offer.entity";
 import {UncompletedOfferException} from "../offer/exceptions/uncompleted-offer.exception";
 import {OfferType} from "../offer/interfaces/offer.interface";
-import * as events from "../offer/events/offer-published.event";
 import {OfferPublishedEvent} from "../offer/events/offer-published.event";
-// import {OfferPublishedEvent} from "../offer/events/offer-published.event";
 
 jest.mock('../offer/events/offer-published.event')
-describe('Test Offer', () => {
+describe(Domain.Offer, () => {
 
 
   it('should be defined', function () {
@@ -15,7 +13,7 @@ describe('Test Offer', () => {
 
     expect.assertions(2)
     expect(offer).toBeDefined()
-    expect(offer).toBeInstanceOf(Offer)
+    expect(offer).toBeInstanceOf(Domain.Offer)
   });
 
 
@@ -36,7 +34,8 @@ describe('Test Offer', () => {
 
       const offer = makeOffer()
 
-      offer['props']['ID'] = null
+      // @ts-ignore
+      offer['ID'] = null
 
       try {
         offer.validate()
@@ -63,10 +62,9 @@ describe('Test Offer', () => {
       expect(offer.validate).toHaveBeenCalled()
       expect(offer.type).toEqual(OfferType.PUBLISHED)
       expect(offer.apply).toHaveBeenCalledWith(expect.any(OfferPublishedEvent))
-      expect(events.OfferPublishedEvent).toHaveBeenCalledWith(offer)
+      expect(OfferPublishedEvent).toHaveBeenCalledWith(offer)
     });
 
   })
-
 
 });

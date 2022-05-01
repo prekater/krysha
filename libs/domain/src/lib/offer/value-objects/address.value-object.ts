@@ -26,6 +26,10 @@ export class Address implements IValueObject{
   toString() {
     return `City: ${this.city}, Street: ${this.street}, House: ${this.house}, Flat: ${this.flat}`
   }
+
+  toObject() {
+    return this.props
+  }
   static create(props: AddressProps) {
     return new Address(props)
   }

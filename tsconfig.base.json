@@ -15,7 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@bigdeal/domain": ["libs/domain/src/index.ts"]
+      "@bigdeal/domain": ["libs/domain/src/index.ts"],
+      "@bigdeal/infra": ["libs/infra/src/index.ts"],
+      "@bigdeal/mappers": ["libs/mappers/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

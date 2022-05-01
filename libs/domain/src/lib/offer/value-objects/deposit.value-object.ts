@@ -15,6 +15,10 @@ export class Deposit implements IValueObject {
   get returnType() {
     return this.props.returnType
   }
+
+  toObject() {
+    return {...this.props}
+  }
   static create(props: DepositProps) {
     return new Deposit(props)
   }

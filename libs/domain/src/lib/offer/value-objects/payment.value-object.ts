@@ -15,6 +15,10 @@ export class Payment implements IValueObject {
   get type() {
     return this.props.type
   }
+
+  toObject() {
+    return {...this.props}
+  }
   static create(props: PaymentProps) {
     return new Payment(props)
   }

@@ -8,7 +8,7 @@ export class Term implements IEntity {
   ID: UniqueEntityID;
   private props: TermProps;
 
-  private constructor(props: TermProps, ID = new UniqueEntityID()) {
+  private constructor(props: TermProps, ID: UniqueEntityID) {
 
     this.ID = ID
     props.periodUnit = props.periodUnit || PeriodUnit.DAY
@@ -20,8 +20,16 @@ export class Term implements IEntity {
     return this.props.price
   }
 
-  static create(props: TermProps) {
-    return new Term(props)
+  toObject() {
+    return {
+      ...this.props,
+      ID: this.ID.toString(),
+      deposit: this.props.deposit.toObject()
+    }
+  }
+
+  static create(props: TermProps, ID: string = null) {
+    return new Term(props, new UniqueEntityID(ID))
   }
 
 }
