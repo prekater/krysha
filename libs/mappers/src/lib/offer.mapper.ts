@@ -1,7 +1,5 @@
-import {Address, Domain, Option, Term, TermProps} from "@bigdeal/domain";
+import {Address, Domain, Option, Term, TermProps, Deposit, Payment} from "@bigdeal/domain";
 import {Infra} from "@bigdeal/infra";
-import {Deposit} from "../../../domain/src/lib/offer/value-objects/deposit.value-object";
-import {Payment} from "../../../domain/src/lib/offer/value-objects/payment.value-object";
 
 
 export namespace Mappers {
