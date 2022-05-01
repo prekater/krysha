@@ -51,30 +51,21 @@ describe('Test Offer', () => {
 
     it('should publish correct contract', function () {
 
-      expect.assertions(3)
+      expect.assertions(4)
 
       const offer = makeOffer()
 
+      offer.validate = jest.fn()
       offer.apply = jest.fn()
 
       offer.publish()
 
+      expect(offer.validate).toHaveBeenCalled()
       expect(offer.type).toEqual(OfferType.PUBLISHED)
       expect(offer.apply).toHaveBeenCalledWith(expect.any(OfferPublishedEvent))
       expect(events.OfferPublishedEvent).toHaveBeenCalledWith(offer)
     });
-    it('should throw exception if validation havent been passed', function () {
-      expect.assertions(1)
-      const offer = makeOffer()
 
-
-      offer['props']['ID'] = null
-      offer.publish()
-
-
-      expect(offer.type).toEqual(OfferType.PUBLISHED)
-
-    });
   })
 
 
