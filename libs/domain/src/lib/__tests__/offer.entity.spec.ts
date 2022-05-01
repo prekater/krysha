@@ -1,7 +1,12 @@
 import {makeOffer} from "./mocks/offer.mocks";
 import {Offer} from "../offer/entities/offer.entity";
 import {UncompletedOfferException} from "../offer/exceptions/uncompleted-offer.exception";
+import {OfferType} from "../offer/interfaces/offer.interface";
+import * as events from "../offer/events/offer-published.event";
+import {OfferPublishedEvent} from "../offer/events/offer-published.event";
+// import {OfferPublishedEvent} from "../offer/events/offer-published.event";
 
+jest.mock('../offer/events/offer-published.event')
 describe('Test Offer', () => {
 
 
@@ -25,7 +30,7 @@ describe('Test Offer', () => {
       expect(result).toBeTruthy()
 
     });
-    it('should throw exception when fields nor filled(check all)', async function () {
+    it('should throw exception when fields not filled(check all)', async function () {
 
       expect.assertions(1)
 
@@ -39,7 +44,6 @@ describe('Test Offer', () => {
         expect(e).toBeInstanceOf(UncompletedOfferException)
 
       }
-
     });
   })
 
@@ -47,8 +51,28 @@ describe('Test Offer', () => {
 
     it('should publish correct contract', function () {
 
+      expect.assertions(3)
+
+      const offer = makeOffer()
+
+      offer.apply = jest.fn()
+
+      offer.publish()
+
+      expect(offer.type).toEqual(OfferType.PUBLISHED)
+      expect(offer.apply).toHaveBeenCalledWith(expect.any(OfferPublishedEvent))
+      expect(events.OfferPublishedEvent).toHaveBeenCalledWith(offer)
     });
     it('should throw exception if validation havent been passed', function () {
+      expect.assertions(1)
+      const offer = makeOffer()
+
+
+      offer['props']['ID'] = null
+      offer.publish()
+
+
+      expect(offer.type).toEqual(OfferType.PUBLISHED)
 
     });
   })

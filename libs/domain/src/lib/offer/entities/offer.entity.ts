@@ -6,6 +6,7 @@ import {IEntity} from "../../core/entity";
 import {Address} from "../value-objects/address.value-object";
 import {Payment} from "../value-objects/payment.value-object";
 import {UncompletedOfferException} from "../exceptions/uncompleted-offer.exception";
+import {OfferPublishedEvent} from "../events/offer-published.event";
 
 
 export class Offer extends AggregateRoot implements IEntity, IAggregateRoot {
@@ -22,6 +23,11 @@ export class Offer extends AggregateRoot implements IEntity, IAggregateRoot {
 
   static create(offerProps: OfferProps): Offer {
     return new Offer(offerProps)
+  }
+
+  get type () {
+
+    return this.props.type
   }
 
   validate(): boolean{
@@ -41,8 +47,13 @@ export class Offer extends AggregateRoot implements IEntity, IAggregateRoot {
     }
     return true;
   }
-  // если все поля заполнены, то можно опубликовать
-  publish() {}
+
+  public publish(): void {
+
+    this.validate()
+    this.props.type = OfferType.PUBLISHED
+    this.apply(new OfferPublishedEvent(this))
+  }
 }
 
 
