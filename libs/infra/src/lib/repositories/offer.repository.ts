@@ -31,18 +31,38 @@ export class OfferRepository implements IOfferRepository{
   }
 
   public async getAllByAuthorId(authorId: Domain.Offer['authorId']): Promise<Domain.Offer[]> {
-    const offersDbView = await this.offers.find({authorId}).lean().exec();
 
-    return offersDbView.map(
-      o => Mappers.Offer.fromPersistenceModelToDomainModel(o)
-    )
+    try {
+      const offersDbView = await this.offers.find({authorId}).lean().exec();
+
+      return offersDbView.map(
+        o => Mappers.Offer.fromPersistenceModelToDomainModel(o)
+      )
+    }
+    catch (e) {
+      this.logger.error(e.message)
+      console.error(e.stack)
+      return []
+    }
+
 
   }
 
   public async getById(ID: Domain.Offer['ID']): Promise<Domain.Offer> {
 
-    const offerDbView = await this.offers.findOne({ID}).lean().exec();
+    try {
+      const offerDbView = await this.offers
+        .findOne({ID})
+        .lean()
+        .exec();
 
-    return Mappers.Offer.fromPersistenceModelToDomainModel(offerDbView)
+      return Mappers.Offer.fromPersistenceModelToDomainModel(offerDbView)
+    }
+    catch (e) {
+      this.logger.error(e.message)
+      console.error(e.stack)
+      return null
+    }
+
   }
 }
