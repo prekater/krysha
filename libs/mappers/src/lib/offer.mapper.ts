@@ -7,6 +7,8 @@ export namespace Mappers {
 
     static fromDomainModelToPersistenceModel(model: Domain.Offer): Infra.Offer {
 
+      if ( !model ) return null;
+
       const terms = model.terms.map(t => t.toObject())
       const options = model.options.map(o => o.toObject())
 
@@ -24,6 +26,7 @@ export namespace Mappers {
 
     static fromPersistenceModelToDomainModel(model: Infra.Offer): Domain.Offer {
 
+      if ( !model ) return null;
       const options = model.options.map( o => (
         Option.create(o)
       ))

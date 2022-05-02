@@ -8,8 +8,6 @@ jest.mock('uuid')
 
 describe(Mappers.Offer, () => {
 
-
-
   it('should convert from domain to persitence model', function () {
 
     jest.spyOn(uuid, 'v4').mockReturnValue('test')
@@ -33,6 +31,5 @@ describe(Mappers.Offer, () => {
     expect(domainOffer).toEqual(offer)
 
   });
-
 
 });
