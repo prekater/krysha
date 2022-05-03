@@ -24,7 +24,7 @@ export namespace Mappers {
       }
     }
 
-    static fromPersistenceModelToDomainModel(model: Infra.Offer): Domain.Offer {
+    static fromObjectToDomainModel(model: Infra.Offer): Domain.Offer {
 
       if ( !model ) return null;
       const options = model.options.map( o => (

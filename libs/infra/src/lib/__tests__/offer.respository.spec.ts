@@ -71,7 +71,7 @@ describe(OfferRepository, () => {
 
       const offerFromDb = await repo['offers'].findOne({ID: offer.ID}).lean().exec()
 
-      const offerFromDbToDomainModel = Mappers.Offer.fromPersistenceModelToDomainModel(offerFromDb)
+      const offerFromDbToDomainModel = Mappers.Offer.fromObjectToDomainModel(offerFromDb)
 
       expect(offerFromDbToDomainModel).toEqual(offer)
     });
@@ -88,7 +88,7 @@ describe(OfferRepository, () => {
 
       const offerFromDb = await repo['offers'].findOne({ID: createdOffer.ID}).lean().exec()
 
-      const offerFromDbToDomainModel = Mappers.Offer.fromPersistenceModelToDomainModel(offerFromDb)
+      const offerFromDbToDomainModel = Mappers.Offer.fromObjectToDomainModel(offerFromDb)
 
       expect(offerFromDbToDomainModel).toEqual(createdOffer)
 

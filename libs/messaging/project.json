@@ -1,0 +1,22 @@
+{
+  "root": "libs/messaging",
+  "sourceRoot": "libs/messaging/src",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/messaging/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/messaging"],
+      "options": {
+        "jestConfig": "libs/messaging/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

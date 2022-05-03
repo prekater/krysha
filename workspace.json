@@ -5,6 +5,8 @@
     "domain": "libs/domain",
     "infra": "libs/infra",
     "mappers": "libs/mappers",
-    "offers": "apps/offers"
+    "messaging": "libs/messaging",
+    "offers": "apps/offers",
+    "test-utils": "libs/test-utils"
   }
 }

@@ -1,28 +1,30 @@
-import {Controller, Post, UsePipes, ValidationPipe} from '@nestjs/common';
+import {Controller, UsePipes} from '@nestjs/common';
+import {MessagePattern} from "@nestjs/microservices";
 import {CommandBus} from "@nestjs/cqrs";
 import {
   IController,
   BaseOperationResponse,
-  RetrieveOfferDomainModelFromDtoPipe
+  RetrieveOfferDomainModelFromDtoPipe,
+  OfferDraftStatusPipe
 } from "@bigdeal/common";
-import {AddOfferDto} from "../dto/add-offer.dto";
+import {ADD_OFFER_COMMAND} from "@bigdeal/messaging";
+import {Domain} from "@bigdeal/domain";
+import {AddOfferCommand} from "../commands/add-offer.command";
 
 
-@Controller('offers')
-export class AddOfferController implements IController<AddOfferDto, BaseOperationResponse>{
+@Controller()
+export class AddOfferController implements IController<Domain.Offer, BaseOperationResponse> {
 
-
-  constructor(private commandBus: CommandBus) {}
-
+  constructor(private readonly commandBus: CommandBus) {
+  }
 
   @UsePipes(
-    ValidationPipe,
+    OfferDraftStatusPipe,
     RetrieveOfferDomainModelFromDtoPipe
   )
-  @Post()
-  handle(addOfferDto: AddOfferDto): Promise<BaseOperationResponse> {
-
-    return;
+  @MessagePattern(ADD_OFFER_COMMAND)
+  async handle(offer: Domain.Offer): Promise<BaseOperationResponse> {
+    return await this.commandBus.execute(new AddOfferCommand(offer));
   }
 
 }

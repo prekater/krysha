@@ -36,7 +36,7 @@ export class OfferRepository implements IOfferRepository{
       const offersDbView = await this.offers.find({authorId}).lean().exec();
 
       return offersDbView.map(
-        o => Mappers.Offer.fromPersistenceModelToDomainModel(o)
+        o => Mappers.Offer.fromObjectToDomainModel(o)
       )
     }
     catch (e) {
@@ -56,7 +56,7 @@ export class OfferRepository implements IOfferRepository{
         .lean()
         .exec();
 
-      return Mappers.Offer.fromPersistenceModelToDomainModel(offerDbView)
+      return Mappers.Offer.fromObjectToDomainModel(offerDbView)
     }
     catch (e) {
       this.logger.error(e.message)

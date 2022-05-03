@@ -26,7 +26,7 @@ describe(Mappers.Offer, () => {
 
     const offer = makeOffer()
 
-    const domainOffer = Mappers.Offer.fromPersistenceModelToDomainModel(offerObjectMock)
+    const domainOffer = Mappers.Offer.fromObjectToDomainModel(offerObjectMock)
 
     expect(domainOffer).toEqual(offer)
 

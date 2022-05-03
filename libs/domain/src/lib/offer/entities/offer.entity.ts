@@ -23,9 +23,12 @@ export namespace Domain {
     get type () {
       return this.props.type
     }
+    // todo: make collection
     get options(): Option[] {
       return this.props.options
     }
+
+    // todo: make collection
     get terms(): Term[] {
       return this.props.terms
     }
@@ -46,17 +49,20 @@ export namespace Domain {
     }
 
     static create(offerProps: OfferProps, ID = null): Offer {
+
+      // add validation logic here
       return new Offer(offerProps, ID ? new UniqueEntityID(ID) : new UniqueEntityID())
     }
 
     validate(): boolean{
 
       if (
-        !this.ID || !(this.ID instanceof  UniqueEntityID) ||
-        !this.props.type ||
+        this.ID && !(this.ID instanceof  UniqueEntityID) ||
+        !(Object.values(OfferType).includes(this.props.type) ) ||
         !this.props.address || !(this.props.address instanceof Address) ||
-        !this.props.propertyType ||
-        this.props.terms.length === 0 ||
+        !(Object.values(PropertyType).includes(this.props.propertyType) ) ||
+        this.props.terms.length === 0 || !this.props.terms.every(t => t instanceof Term) ||
+        !this.props.options.every(t => t instanceof Option) ||
         !this.props.authorId ||
         !this.props.payment || !(this.props.payment instanceof Payment)
       )
