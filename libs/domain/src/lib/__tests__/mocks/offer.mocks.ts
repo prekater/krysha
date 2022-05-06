@@ -5,7 +5,7 @@ import {Address} from "../../offer/value-objects/address.value-object";
 import {Payment} from "../../offer/value-objects/payment.value-object";
 import {Option} from "../../offer/value-objects/option.value-object";
 import {PaymentStart, PaymentType, PenaltyType} from "../../offer/interfaces/payment.interface";
-import {Term} from "../../offer/value-objects/term.value-object";
+import {Term} from "../../offer/entities/term.entity";
 import {Deposit} from "../../offer/value-objects/deposit.value-object";
 import {DepositCollectType, DepositReturnType} from "../../offer/interfaces/deposit.interface";
 import {PeriodUnit, PriceUnit} from "../../offer/interfaces/term.interface";

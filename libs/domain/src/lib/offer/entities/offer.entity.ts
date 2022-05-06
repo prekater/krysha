@@ -8,7 +8,7 @@ import {Payment} from "../value-objects/payment.value-object";
 import {UncompletedOfferException} from "../exceptions/uncompleted-offer.exception";
 import {OfferPublishedEvent} from "../events/offer-published.event";
 import {Option} from "../value-objects/option.value-object";
-import {Term} from "../value-objects/term.value-object";
+import {Term} from "./term.entity";
 
 
 export namespace Domain {
@@ -17,13 +17,15 @@ export namespace Domain {
     get authorId() {
       return this.props.authorId
     }
-    get address () {
+
+    get address() {
       return this.props.address
     }
-    get type () {
+
+    get type() {
       return this.props.type
     }
-    // todo: make collection
+
     get options(): Option[] {
       return this.props.options
     }
@@ -32,15 +34,18 @@ export namespace Domain {
     get terms(): Term[] {
       return this.props.terms
     }
+
     get propertyType(): PropertyType {
       return this.props.propertyType
     }
+
     get payment(): Payment {
       return this.props.payment
     }
 
 
     private props: OfferProps;
+
     private constructor(props: OfferProps, readonly ID: UniqueEntityID) {
       super()
       props.type = props.type || OfferType.DRAFT
@@ -50,23 +55,22 @@ export namespace Domain {
 
     static create(offerProps: OfferProps, ID = null): Offer {
 
-      // add validation logic here
-      return new Offer(offerProps, ID ? new UniqueEntityID(ID) : new UniqueEntityID())
+      Domain.Offer.validate(offerProps)
+
+      return new Offer(offerProps, new UniqueEntityID(ID))
     }
 
-    validate(): boolean{
+    static validate(props: OfferProps): boolean {
 
       if (
-        this.ID && !(this.ID instanceof  UniqueEntityID) ||
-        !(Object.values(OfferType).includes(this.props.type) ) ||
-        !this.props.address || !(this.props.address instanceof Address) ||
-        !(Object.values(PropertyType).includes(this.props.propertyType) ) ||
-        this.props.terms.length === 0 || !this.props.terms.every(t => t instanceof Term) ||
-        !this.props.options.every(t => t instanceof Option) ||
-        !this.props.authorId ||
-        !this.props.payment || !(this.props.payment instanceof Payment)
-      )
-      {
+        !(Object.values(OfferType).includes(props.type)) ||
+        !(props.address instanceof Address) ||
+        !(Object.values(PropertyType).includes(props.propertyType)) ||
+        props.terms.length === 0 || !props.terms.every(t => t instanceof Term) ||
+        ! (props.options.every(t => t instanceof Option)) ||
+        !props.authorId ||
+        !(props.payment instanceof Payment)
+      ) {
         throw new UncompletedOfferException()
       }
       return true;
@@ -74,7 +78,6 @@ export namespace Domain {
 
     public publish(): void {
 
-      this.validate()
       this.props.type = OfferType.PUBLISHED
       this.apply(new OfferPublishedEvent(this))
     }

@@ -12,7 +12,7 @@ export * from './lib/offer/value-objects/option.value-object'
 export * from './lib/offer/value-objects/address.value-object'
 export * from './lib/offer/value-objects/deposit.value-object'
 export * from './lib/offer/value-objects/payment.value-object'
-export * from './lib/offer/value-objects/term.value-object'
+export * from './lib/offer/entities/term.entity'
 export * from './lib/offer/entities/offer.entity'
 export * from './lib/__tests__/mocks/offer.mocks'
 

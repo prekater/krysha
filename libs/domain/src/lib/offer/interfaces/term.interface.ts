@@ -1,5 +1,4 @@
 import {Deposit} from "../value-objects/deposit.value-object";
-import {UniqueEntityID} from "@bigdeal/domain";
 
 export enum PeriodUnit {
   DAY = 'DAY',

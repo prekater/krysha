@@ -22,7 +22,6 @@ describe(AddOfferController, () => {
         ClientsModule.register([
           {
             name: 'Client',
-
             transport: Transport.TCP,
             options: {
               port: 3000
@@ -98,7 +97,6 @@ describe(AddOfferController, () => {
 
     expect(controller['commandBus'].execute).toHaveBeenCalledWith(expect.any(AddOfferCommand))
     expect(AddOfferCommand).toHaveBeenCalledWith(domainOffer)
-
   });
 
 

@@ -1,4 +1,4 @@
-import {Term} from "../value-objects/term.value-object";
+import {Term} from "../entities/term.entity";
 import { Option } from '../value-objects/option.value-object'
 import {Payment} from "../value-objects/payment.value-object";
 import {Address} from "../value-objects/address.value-object";

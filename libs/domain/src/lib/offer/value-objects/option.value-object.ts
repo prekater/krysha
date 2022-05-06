@@ -1,5 +1,6 @@
 import {IValueObject} from "../../core/value-object";
 import {OptionProps} from "../interfaces/option.interface";
+import {UncompletedOptionException} from "../exceptions/uncompleted-option.exception";
 
 export class Option implements IValueObject {
 
@@ -17,6 +18,12 @@ export class Option implements IValueObject {
     return {...this.props}
   }
   static create(props: OptionProps) {
+    Option.validate(props)
     return new Option(props)
+  }
+
+  static validate(props: OptionProps) {
+    if  ('title' in props && 'isEnabled' in props) return true;
+    throw new UncompletedOptionException()
   }
 }

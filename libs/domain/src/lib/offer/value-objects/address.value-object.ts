@@ -1,7 +1,9 @@
 import {IValueObject} from "../../core/value-object";
 import {AddressProps} from "../interfaces/address.interface";
+import {NotImplementedException} from "../exceptions/not-implemented.exception";
+import {UncompletedAddressException} from "../exceptions/uncompleted-address.exception";
 
-export class Address implements IValueObject{
+export class Address implements IValueObject {
 
   private props: AddressProps;
 
@@ -12,13 +14,16 @@ export class Address implements IValueObject{
   get flat() {
     return this.props.flat
   }
-  get house () {
+
+  get house() {
     return this.props.house
   }
-  get city () {
+
+  get city() {
     return this.props.city
   }
-  get street () {
+
+  get street() {
     return this.props.street
   }
 
@@ -30,8 +35,22 @@ export class Address implements IValueObject{
   toObject() {
     return this.props
   }
+
   static create(props: AddressProps) {
+    Address.validate(props)
     return new Address(props)
+  }
+
+  static validate(props: AddressProps) {
+
+    if (
+      props.city.length > 0 &&
+      props.street.length > 0 &&
+      props.house.length > 0 &&
+      props.flat.length > 0
+    ) return true;
+
+    throw new UncompletedAddressException()
   }
 
 }
