@@ -12,7 +12,7 @@ describe('Test', () => {
 
     it('should be defined', function () {
         expect.assertions(1)
-        expect().toBeDefined()
+        expect(true).toBeDefined()
     });
 
 

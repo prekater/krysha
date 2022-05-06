@@ -12,7 +12,6 @@ export class RetrieveOfferDomainModelFromDtoPipe implements PipeTransform{
 
     try {
       const domainOffer = Mappers.Offer.fromObjectToDomainModel(value)
-      domainOffer.validate()
       return domainOffer
     }
     catch (e) {

@@ -23,7 +23,7 @@ describe(Domain.Offer, () => {
     it('should call validate on instance creation', function () {
 
       expect.assertions(1)
-      Domain.Offer.validate = jest.fn()
+      jest.spyOn(Domain.Offer, 'validate')
 
       makeOffer()
       expect(Domain.Offer.validate).toHaveBeenCalled()
@@ -52,7 +52,9 @@ describe(Domain.Offer, () => {
 
       for (const testCase of casesList) {
         try {
-          makeOffer(testCase as any)
+          const offer = makeOffer(testCase as any)
+          console.log(offer)
+
         } catch (e) {
           expect(e).toBeInstanceOf(UncompletedOfferException)
         }

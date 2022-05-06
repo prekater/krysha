@@ -1,8 +1,6 @@
 import {IValueObject} from "../../core/value-object";
 import {DepositCollectType, DepositProps, DepositReturnType} from "../interfaces/deposit.interface";
-import {NotImplementedException} from "../exceptions/not-implemented.exception";
 import {UncompletedDepositException} from "../exceptions/uncompleted-deposit.exception";
-import {PropertyType} from "../interfaces/offer.interface";
 
 export class Deposit implements IValueObject {
 
