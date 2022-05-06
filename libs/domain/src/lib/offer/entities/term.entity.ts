@@ -36,8 +36,9 @@ export class Term implements IEntity {
     if (
       props.deposit instanceof Deposit &&
       typeof props.price === 'number' &&
-        props.periodFrom >= 0 &&
-        props.periodTo >= props.periodFrom
+      props.price >= 0 &&
+      props.periodFrom >= 0 &&
+      props.periodTo >= props.periodFrom
     ) return true
 
     throw new UncompletedTermException()

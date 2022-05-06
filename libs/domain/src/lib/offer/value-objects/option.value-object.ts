@@ -23,7 +23,7 @@ export class Option implements IValueObject {
   }
 
   static validate(props: OptionProps) {
-    if  ('title' in props && 'isEnabled' in props) return true;
+    if  ( props.title.length > 0  && typeof props.isEnabled === 'boolean') return true;
     throw new UncompletedOptionException()
   }
 }

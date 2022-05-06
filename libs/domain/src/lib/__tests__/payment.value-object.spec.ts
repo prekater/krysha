@@ -1,0 +1,53 @@
+import {makePayment} from "./mocks/offer.mocks";
+import {Payment} from "@bigdeal/domain";
+import {
+  UncompletedPaymentException
+} from "../offer/exceptions/uncompleted-payment.exception";
+
+describe(Payment, () => {
+
+
+  it('should be defined', function () {
+
+    const payment = makePayment()
+
+    expect.assertions(2)
+    expect(payment).toBeDefined()
+    expect(payment).toBeInstanceOf(Payment)
+  });
+
+
+  describe('Validation', () => {
+
+    it('should call validate on instance creation', function () {
+      expect.assertions(1)
+      jest.spyOn(Payment, 'validate')
+
+      makePayment()
+      expect(Payment.validate).toHaveBeenCalled()
+    });
+
+
+    it('should throw exception when fields not filled(check all)', async function () {
+      const cases = {
+        incorrectPaymentStart: {paymentStart: 'wefew'},
+        incorrectType: {type: 'wefew'},
+        incorrectPenalty: {penalty: 'wefew'},
+      }
+      const casesList = Object.values(cases)
+      expect.assertions(casesList.length)
+
+      for (const testCase of casesList) {
+        try {
+          const payment = makePayment(testCase as any)
+
+        } catch (e) {
+          expect(e).toBeInstanceOf(UncompletedPaymentException)
+        }
+      }
+
+    });
+  })
+
+
+});

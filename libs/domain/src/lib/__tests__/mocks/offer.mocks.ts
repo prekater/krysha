@@ -43,6 +43,48 @@ export function makeOptions(): Option[] {
 }
 
 
+export const makeOption = (defaults: Partial<Option> = {}) => Option.create({
+  isEnabled: true,
+  title: 'Электричество',
+  ...defaults
+})
+
+export const makeDeposit = (defaults: Partial<Deposit> = {}) => Deposit.create({
+  collectType: DepositCollectType.CONCLUSION,
+  returnType: DepositReturnType.REFOUND_IN_CASE_OF_1_MONTH_NOTICE,
+  value: 100000,
+  ...defaults
+})
+
+export const makePayment = (defaults: Partial<Payment> = {}) => Payment.create({
+  paymentStart: PaymentStart.START_OF_RENT,
+  penalty: PenaltyType.ABSENT,
+  type: PaymentType.ONE_PAYMENT,
+  ...defaults
+})
+
+export const makeAddress = (defaults: Partial<Address> = {}) => Address.create({
+  city: "Москва",
+  flat: "222",
+  house: "56",
+  street: "улица Свободы",
+  ...defaults
+})
+
+export const makeTerm = (defaults: Partial<Term> = {}) => Term.create({
+  deposit: Deposit.create({
+    collectType: DepositCollectType.CONCLUSION,
+    returnType: DepositReturnType.REFOUND_IN_CASE_OF_1_MONTH_NOTICE,
+    value: 45000
+  }),
+  periodFrom: 6,
+  periodTo: 12,
+  periodUnit: PeriodUnit.MONTH,
+  price: 90000,
+  priceUnit: PriceUnit.RUB,
+  ...defaults
+})
+
 export function makeTerms(): Term[] {
   return [
     Term.create({
@@ -84,14 +126,13 @@ export function makeTerms(): Term[] {
   ]
 }
 
-
 export const offerObjectMock = {
   // @ts-ignore
   ID: 'test',
   address: {city: 'Москва', flat: '222', house: '56', street: 'улица Свободы'},
   payment: {
     paymentStart: PaymentStart.START_OF_RENT,
-    penalty:PenaltyType.ABSENT,
+    penalty: PenaltyType.ABSENT,
     type: PaymentType.ONE_PAYMENT
   },
   propertyType: PropertyType.ONE_ROOM,
