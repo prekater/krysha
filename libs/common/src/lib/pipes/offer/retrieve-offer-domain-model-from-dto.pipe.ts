@@ -4,7 +4,6 @@ import {Infra} from "@bigdeal/infra";
 import {Mappers} from "@bigdeal/mappers";
 
 @Injectable()
-
 export class RetrieveOfferDomainModelFromDtoPipe implements PipeTransform{
 
   async transform(value: Infra.Offer, { metatype }: ArgumentMetadata): Promise<Domain.Offer> {

@@ -14,6 +14,9 @@ export * from './offer/value-objects/deposit.value-object'
 export * from './offer/value-objects/payment.value-object'
 export * from './offer/entities/term.entity'
 export * from './offer/entities/offer.entity'
+export * from './contract/entities/contract.entity'
+export * from './contract/interfaces/exporter.interface'
+export * from './contract/interfaces/contract.interface'
 
 
 
