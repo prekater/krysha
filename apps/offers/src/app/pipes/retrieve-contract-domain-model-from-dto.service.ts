@@ -4,7 +4,7 @@ import {Infra} from "@bigdeal/infra";
 import {AddContractDto} from "../dto/add-contract.dto";
 
 @Injectable()
-export class RetrieveContractDomainModelFromDtoPipe implements PipeTransform {
+export class RetrieveContractDomainModelFromDto implements PipeTransform {
 
 
   constructor(

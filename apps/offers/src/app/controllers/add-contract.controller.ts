@@ -8,7 +8,7 @@ import {
 import {CONVERT_OFFER_COMMAND} from "@bigdeal/messaging";
 import {AddContractCommand} from "../commands/add-contract.command";
 import {Domain} from "@bigdeal/domain";
-import {RetrieveContractDomainModelFromDtoPipe} from "../pipes/retrieve-contract-domain-model-from-dto.pipe";
+import {RetrieveContractDomainModelFromDto} from "../pipes/retrieve-contract-domain-model-from-dto.service";
 
 
 @Controller()
@@ -19,7 +19,7 @@ export class AddContractController implements IController<Domain.Contract, BaseO
     ) {
   }
 
-  @UsePipes(RetrieveContractDomainModelFromDtoPipe)
+  @UsePipes(RetrieveContractDomainModelFromDto)
   @MessagePattern(CONVERT_OFFER_COMMAND)
   async handle(contract: Domain.Contract): Promise<BaseOperationResponse> {
     return await this.commandBus.execute(new AddContractCommand(contract));
