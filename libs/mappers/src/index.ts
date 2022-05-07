@@ -1,1 +1,3 @@
-export * from './lib/offer.mapper';
+import * as Mappers from './lib/mappers'
+
+export {Mappers}

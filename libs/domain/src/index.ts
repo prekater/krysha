@@ -1,19 +1,7 @@
-export * from './lib/core/unique-entity'
-export * from './lib/core/aggregate-root'
-export * from './lib/core/identifier.entity'
-export * from './lib/offer/interfaces/offer.interface'
-export * from './lib/offer/interfaces/address.interface'
-export * from './lib/offer/interfaces/deposit.interface'
-export * from './lib/offer/interfaces/option.interface'
-export * from './lib/offer/interfaces/term.interface'
-export * from './lib/offer/interfaces/payment.interface'
-export * from './lib/offer/interfaces/offer-repository.interface'
-export * from './lib/offer/value-objects/option.value-object'
-export * from './lib/offer/value-objects/address.value-object'
-export * from './lib/offer/value-objects/deposit.value-object'
-export * from './lib/offer/value-objects/payment.value-object'
-export * from './lib/offer/entities/term.entity'
-export * from './lib/offer/entities/offer.entity'
-export * from './lib/__tests__/mocks/offer.mocks'
+import * as Domain from './lib/domain'
+
+export {Domain}
+
+
 
 

@@ -1,8 +1,8 @@
-import {Address} from "@bigdeal/domain";
-import {makeAddress} from "./mocks/offer.mocks";
+import {Domain} from "@bigdeal/domain";
+import {makeAddress} from "@bigdeal/test-utils";
 import {UncompletedAddressException} from "../offer/exceptions/uncompleted-address.exception";
 
-describe(Address, () => {
+describe(Domain.Address, () => {
 
 
   it('should be defined', function () {
@@ -11,7 +11,7 @@ describe(Address, () => {
 
     expect.assertions(2)
     expect(address).toBeDefined()
-    expect(address).toBeInstanceOf(Address)
+    expect(address).toBeInstanceOf(Domain.Address)
   });
 
 
@@ -19,10 +19,10 @@ describe(Address, () => {
 
     it('should call validate on instance creation', function () {
       expect.assertions(1)
-      jest.spyOn(Address, 'validate')
+      jest.spyOn(Domain.Address, 'validate')
 
       makeAddress()
-      expect(Address.validate).toHaveBeenCalled()
+      expect(Domain.Address.validate).toHaveBeenCalled()
     });
 
 

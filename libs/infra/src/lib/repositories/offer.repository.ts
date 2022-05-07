@@ -2,11 +2,11 @@ import {Model} from "mongoose";
 import {Injectable, Logger} from "@nestjs/common";
 import {InjectModel} from "@nestjs/mongoose";
 import {Mappers} from "@bigdeal/mappers";
-import {Domain, IOfferRepository} from "@bigdeal/domain";
-import {Infra} from "../schemas/offer.schema";
+import {Domain} from "@bigdeal/domain";
+import * as Infra from "../schemas/offer.schema";
 
 @Injectable()
-export class OfferRepository implements IOfferRepository{
+export class OfferRepository implements Domain.IOfferRepository {
 
   private readonly logger = new Logger(OfferRepository.name);
 
@@ -22,12 +22,11 @@ export class OfferRepository implements IOfferRepository{
     try {
       const persistenceViewOffer = Mappers.Offer.fromDomainModelToPersistenceModel(offer)
 
-      await this.offers.updateOne({ID: persistenceViewOffer.ID},persistenceViewOffer, {upsert: true})
+      await this.offers.updateOne({ID: persistenceViewOffer.ID}, persistenceViewOffer, {upsert: true})
+    } catch (e) {
+      this.logger.error(e.message)
+      console.error(e.stack)
     }
-   catch (e) {
-     this.logger.error(e.message)
-     console.error(e.stack)
-   }
   }
 
   public async getAllByAuthorId(authorId: Domain.Offer['authorId']): Promise<Domain.Offer[]> {
@@ -38,8 +37,7 @@ export class OfferRepository implements IOfferRepository{
       return offersDbView.map(
         o => Mappers.Offer.fromObjectToDomainModel(o)
       )
-    }
-    catch (e) {
+    } catch (e) {
       this.logger.error(e.message)
       console.error(e.stack)
       return []
@@ -57,8 +55,7 @@ export class OfferRepository implements IOfferRepository{
         .exec();
 
       return Mappers.Offer.fromObjectToDomainModel(offerDbView)
-    }
-    catch (e) {
+    } catch (e) {
       this.logger.error(e.message)
       console.error(e.stack)
       return null

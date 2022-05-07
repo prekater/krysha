@@ -1,8 +1,8 @@
-import {makeTerm} from "./mocks/offer.mocks";
-import {Term} from "@bigdeal/domain";
+import {makeTerm} from "@bigdeal/test-utils";
+import {Domain} from "@bigdeal/domain";
 import {UncompletedTermException} from "../offer/exceptions/uncompleted-term.exception";
 
-describe(Term, () => {
+describe(Domain.Term, () => {
 
 
   it('should be defined', function () {
@@ -11,7 +11,7 @@ describe(Term, () => {
 
     expect.assertions(2)
     expect(deposit).toBeDefined()
-    expect(deposit).toBeInstanceOf(Term)
+    expect(deposit).toBeInstanceOf(Domain.Term)
   });
 
 
@@ -19,10 +19,10 @@ describe(Term, () => {
 
     it('should call validate on instance creation', function () {
       expect.assertions(1)
-      jest.spyOn(Term, 'validate')
+      jest.spyOn(Domain.Term, 'validate')
 
       makeTerm()
-      expect(Term.validate).toHaveBeenCalled()
+      expect(Domain.Term.validate).toHaveBeenCalled()
     });
 
 

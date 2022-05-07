@@ -1,9 +1,9 @@
-import {makeOffer} from "./mocks/offer.mocks";
-import {Domain} from "../offer/entities/offer.entity";
+import {makeOffer} from "@bigdeal/test-utils";
+import {Domain} from "../..";
 import {UncompletedOfferException} from "../offer/exceptions/uncompleted-offer.exception";
 import {OfferType} from "../offer/interfaces/offer.interface";
 import {OfferPublishedEvent} from "../offer/events/offer-published.event";
-import {PaymentStart, PaymentType, PenaltyType} from "@bigdeal/domain";
+import {PaymentStart, PaymentType, PenaltyType} from "../offer/interfaces/payment.interface";
 
 jest.mock('../offer/events/offer-published.event')
 describe(Domain.Offer, () => {

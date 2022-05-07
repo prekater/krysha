@@ -1,10 +1,10 @@
-import {makePayment} from "./mocks/offer.mocks";
-import {Payment} from "@bigdeal/domain";
+import {makePayment} from "@bigdeal/test-utils";
+import {Domain} from "@bigdeal/domain";
 import {
   UncompletedPaymentException
 } from "../offer/exceptions/uncompleted-payment.exception";
 
-describe(Payment, () => {
+describe(Domain.Payment, () => {
 
 
   it('should be defined', function () {
@@ -13,7 +13,7 @@ describe(Payment, () => {
 
     expect.assertions(2)
     expect(payment).toBeDefined()
-    expect(payment).toBeInstanceOf(Payment)
+    expect(payment).toBeInstanceOf(Domain.Payment)
   });
 
 
@@ -21,10 +21,10 @@ describe(Payment, () => {
 
     it('should call validate on instance creation', function () {
       expect.assertions(1)
-      jest.spyOn(Payment, 'validate')
+      jest.spyOn(Domain.Payment, 'validate')
 
       makePayment()
-      expect(Payment.validate).toHaveBeenCalled()
+      expect(Domain.Payment.validate).toHaveBeenCalled()
     });
 
 

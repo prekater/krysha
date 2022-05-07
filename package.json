@@ -5,8 +5,11 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
-    "test-all": "nx run-many --target=test --all",
-    "test-domain": "nx run domain:test"
+    "test:all": "nx run-many --target=test --all --skip-nx-cache",
+    "test:app:offers": "nx run offers:test",
+    "test:domain": "nx run domain:test",
+    "test:infra": "nx run infra:test",
+    "test:mappers": "nx run mappers:test"
   },
   "private": true,
   "dependencies": {

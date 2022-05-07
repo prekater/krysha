@@ -4,10 +4,10 @@ import {CommandBus, CqrsModule} from "@nestjs/cqrs";
 import {Test, TestingModule} from '@nestjs/testing';
 import {AddOfferController} from "../controllers/add-offer.controller";
 import {ADD_OFFER_COMMAND} from "@bigdeal/messaging";
-import {offerObjectMock, OfferType} from "@bigdeal/domain";
-import {MockCommandBus} from "@bigdeal/test-utils";
+import {MockCommandBus, offerObjectMock} from "@bigdeal/test-utils";
 import {Mappers} from "@bigdeal/mappers";
 import {AddOfferCommand} from "../commands/add-offer.command";
+import {OfferType} from "../../../../../libs/domain/src/lib/offer/interfaces/offer.interface";
 jest.mock("../commands/add-offer.command")
 
 describe(AddOfferController, () => {

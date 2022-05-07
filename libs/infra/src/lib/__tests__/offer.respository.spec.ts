@@ -1,11 +1,12 @@
 import {INestApplication} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
 import {MongooseModule} from "@nestjs/mongoose";
+import {Mappers} from "@bigdeal/mappers";
+import {makeOffer} from "@bigdeal/test-utils";
+import {Domain} from "@bigdeal/domain";
+import * as mongoose from "mongoose";
 import {OfferRepository} from "../repositories/offer.repository";
 import {OfferPersistenceModule} from "../modules/offer-persistence.module";
-import * as mongoose from "mongoose";
-import {makeOffer, OfferProps, PropertyType} from "@bigdeal/domain";
-import {Mappers} from "@bigdeal/mappers";
 
 describe(OfferRepository, () => {
   let app: INestApplication;
@@ -13,7 +14,7 @@ describe(OfferRepository, () => {
 
 
   const clearDB = async () => await repo['offers'].deleteMany({})
-  const insertOfferIntoDB = async (defaults: Partial<OfferProps> = {}) => {
+  const insertOfferIntoDB = async (defaults: Partial<Domain.OfferProps> = {}) => {
 
     const offer = makeOffer()
     Object.assign(offer['props'], defaults)
@@ -82,7 +83,7 @@ describe(OfferRepository, () => {
 
       const createdOffer = await insertOfferIntoDB()
 
-      createdOffer['props'].propertyType = PropertyType.TWO_ROOM
+      createdOffer['props'].propertyType = Domain.PropertyType.TWO_ROOM
 
       await repo.persist(createdOffer)
 

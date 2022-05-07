@@ -1,8 +1,8 @@
-import {makeDeposit} from "./mocks/offer.mocks";
-import {Deposit} from "@bigdeal/domain";
+import {makeDeposit} from "@bigdeal/test-utils";
+import {Domain} from "@bigdeal/domain";
 import {UncompletedDepositException} from "../offer/exceptions/uncompleted-deposit.exception";
 
-describe(Deposit, () => {
+describe(Domain.Deposit, () => {
 
 
   it('should be defined', function () {
@@ -11,7 +11,7 @@ describe(Deposit, () => {
 
     expect.assertions(2)
     expect(deposit).toBeDefined()
-    expect(deposit).toBeInstanceOf(Deposit)
+    expect(deposit).toBeInstanceOf(Domain.Deposit)
   });
 
 
@@ -19,10 +19,10 @@ describe(Deposit, () => {
 
     it('should call validate on instance creation', function () {
       expect.assertions(1)
-      jest.spyOn(Deposit, 'validate')
+      jest.spyOn(Domain.Deposit, 'validate')
 
       makeDeposit()
-      expect(Deposit.validate).toHaveBeenCalled()
+      expect(Domain.Deposit.validate).toHaveBeenCalled()
     });
 
 

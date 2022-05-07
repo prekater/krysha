@@ -1,8 +1,8 @@
-import { makeOption} from "./mocks/offer.mocks";
-import {Option} from "@bigdeal/domain";
+import {makeOption} from "@bigdeal/test-utils";
+import {Domain} from "@bigdeal/domain";
 import {UncompletedOptionException} from "../offer/exceptions/uncompleted-option.exception";
 
-describe(Option, () => {
+describe(Domain.Option, () => {
 
 
   it('should be defined', function () {
@@ -11,7 +11,7 @@ describe(Option, () => {
 
     expect.assertions(2)
     expect(option).toBeDefined()
-    expect(option).toBeInstanceOf(Option)
+    expect(option).toBeInstanceOf(Domain.Option)
   });
 
 
@@ -19,17 +19,17 @@ describe(Option, () => {
 
     it('should call validate on instance creation', function () {
       expect.assertions(1)
-      jest.spyOn(Option, 'validate')
+      jest.spyOn(Domain.Option, 'validate')
 
       makeOption()
-      expect(Option.validate).toHaveBeenCalled()
+      expect(Domain.Option.validate).toHaveBeenCalled()
     });
 
 
     it('should throw exception when fields not filled(check all)', async function () {
       const cases = {
         emptyTitle: {title: ''},
-        incorrectIsEnabled: {isEnabled: 'hello' }
+        incorrectIsEnabled: {isEnabled: 'hello'}
       }
       const casesList = Object.values(cases)
       expect.assertions(casesList.length)

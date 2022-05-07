@@ -1,9 +1,7 @@
-import {Mappers} from "../offer.mapper";
-import {
-  makeOffer,
-  offerObjectMock,
-} from "@bigdeal/domain";
+import {Mappers} from "../../";
+
 import * as uuid from 'uuid'
+import {makeOffer, offerObjectMock} from "@bigdeal/test-utils";
 jest.mock('uuid')
 
 describe(Mappers.Offer, () => {
