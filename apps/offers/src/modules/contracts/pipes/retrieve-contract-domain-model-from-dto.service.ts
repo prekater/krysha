@@ -2,6 +2,7 @@ import {ArgumentMetadata, BadRequestException, Injectable, NotFoundException, Pi
 import {Domain} from "@bigdeal/domain";
 import {Infra} from "@bigdeal/infra";
 import {AddContractDto} from "../dto/add-contract.dto";
+import {Mappers} from "@bigdeal/mappers";
 
 @Injectable()
 export class RetrieveContractDomainModelFromDto implements PipeTransform {
@@ -17,7 +18,7 @@ export class RetrieveContractDomainModelFromDto implements PipeTransform {
     if (!offer) throw new NotFoundException()
 
     try {
-      return Domain.Contract.fromOffer(offer, value.termId)
+      return Mappers.Contract.fromOfferToDomainModel(offer, value.termId)
     } catch (e) {
       throw new BadRequestException()
     }

@@ -1,16 +1,13 @@
 import {Domain} from "@bigdeal/domain";
-import {makeContract} from "@bigdeal/test-utils";
+import {contractObjectMock, makeContract} from "@bigdeal/test-utils";
 import {UncompletedContractException} from "../contract/exceptions/uncompleted-contract.exception";
 import {IExporter} from "../contract/interfaces/exporter.interface";
 
 describe(Domain.Contract, () => {
 
-
-
   describe('Init', () => {
     it('should create contract from offer', function () {
       expect.assertions(2)
-
 
       const contract = makeContract()
       expect(contract).toBeDefined()

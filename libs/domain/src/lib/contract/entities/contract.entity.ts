@@ -1,7 +1,5 @@
-import * as _ from 'lodash'
 import {UniqueEntityID} from "../../core/unique-entity";
 import {IAggregateRoot} from "../../core/aggregate-root";
-import {Offer} from "../../offer/entities/offer.entity";
 import {ContractProps} from "../interfaces/contract.interface";
 import {IEntity} from "../../core/entity";
 import {IExporter} from "../interfaces/exporter.interface";
@@ -15,24 +13,40 @@ import {UncompletedContractException} from "../exceptions/uncompleted-contract.e
 
 export class Contract implements IAggregateRoot, IEntity{
 
+  get authorId() {
+    return this.props.authorId
+  }
+
+  get address() {
+    return this.props.address
+  }
+  get term(): Term {
+    return this.props.term
+  }
+
+  get propertyType(): PropertyType {
+    return this.props.propertyType
+  }
+
+  get payment(): Payment {
+    return this.props.payment
+  }
+
+  get options(): Option[] {
+    return this.props.options
+  }
+
   private constructor(
     private readonly props: ContractProps,
     public readonly ID: UniqueEntityID = new UniqueEntityID()
   ) {
   }
 
-  static fromOffer (offer: Offer, termId: string): Contract {
-
-    const term = offer.terms.find(t => t.ID.toString() === termId)
-
-    const props: ContractProps = Object.assign({},
-      _.pick(offer, ['authorId', 'options', 'payment', 'propertyType', 'address']),
-      {term}
-    )
+  static create(props: ContractProps, ID: string) {
 
     Contract.validate(props)
 
-    return new Contract(props)
+    return new Contract(props, new UniqueEntityID(ID))
   }
 
 

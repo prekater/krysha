@@ -1,6 +1,7 @@
 import {
   Domain,
 } from "@bigdeal/domain";
+import {Mappers} from "@bigdeal/mappers";
 
 export const makeOffer = (defaults: Partial<Domain.OfferProps> = {}) => {
 
@@ -183,11 +184,41 @@ export const offerObjectMock = {
   type: Domain.OfferType.DRAFT
 }
 
+export const contractObjectMock =  {
+  ID: 'test',
+  address: { city: 'Москва', flat: '222', house: '56', street: 'улица Свободы' },
+  payment: {
+    paymentStart: 'START_OF_RENT',
+    penalty: 'ABSENT',
+    type: 'ONE_PAYMENT'
+  },
+  propertyType: 'ONE_ROOM',
+  authorId: 'test',
+  options: [
+    { isEnabled: true, title: 'Электричество' },
+    { isEnabled: true, title: 'Вода' },
+    { isEnabled: true, title: 'Кондиционер' }
+  ],
+  term: {
+    deposit: {
+      collectType: 'CONCLUSION',
+      returnType: 'REFOUND_IN_CASE_OF_1_MONTH_NOTICE',
+      value: 100000
+    },
+    periodFrom: 1,
+    periodTo: 3,
+    periodUnit: 'MONTH',
+    price: 100000,
+    priceUnit: 'RUB',
+    ID: 'test'
+  }
+}
+
 
 export const makeContract = (termId: string = null) => {
 
   const offer = makeOffer()
   termId = termId || offer.terms[0].ID.toString()
 
-  return Domain.Contract.fromOffer(offer, termId)
+  return Mappers.Contract.fromOfferToDomainModel(offer, termId)
 }

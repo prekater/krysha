@@ -17,6 +17,8 @@ export * from './offer/entities/offer.entity'
 export * from './contract/entities/contract.entity'
 export * from './contract/interfaces/exporter.interface'
 export * from './contract/interfaces/contract.interface'
+export * from './contract/interfaces/contract-repository.interface'
+
 
 
 
