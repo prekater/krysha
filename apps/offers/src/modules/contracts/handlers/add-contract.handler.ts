@@ -12,5 +12,7 @@ export class AddContractHandler implements ICommandHandler<AddContractCommand> {
 
     const { contract } = command
 
+    await contract.export(this.exporter)
+
   }
 }

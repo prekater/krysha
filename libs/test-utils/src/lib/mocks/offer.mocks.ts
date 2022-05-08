@@ -183,3 +183,11 @@ export const offerObjectMock = {
   type: Domain.OfferType.DRAFT
 }
 
+
+export const makeContract = (termId: string = null) => {
+
+  const offer = makeOffer()
+  termId = termId || offer.terms[0].ID.toString()
+
+  return Domain.Contract.fromOffer(offer, termId)
+}

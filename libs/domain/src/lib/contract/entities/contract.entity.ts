@@ -30,6 +30,8 @@ export class Contract implements IAggregateRoot, IEntity{
       {term}
     )
 
+    Contract.validate(props)
+
     return new Contract(props)
   }
 
