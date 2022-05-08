@@ -11,7 +11,7 @@ export class Contract {
   authorId: string;
 
   @Prop(raw({
-    type: mongoose.Schema.Types.Mixed
+    type: mongoose.Schema.Types.Mixed,
   }))
   term: (
     Omit<Domain.Term['props'], 'deposit'>

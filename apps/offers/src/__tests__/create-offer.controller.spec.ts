@@ -7,7 +7,7 @@ import {ADD_OFFER_COMMAND} from "@bigdeal/messaging";
 import {MockCommandBus, offerObjectMock} from "@bigdeal/test-utils";
 import {Mappers} from "@bigdeal/mappers";
 import {AddOfferCommand} from "../commands/add-offer.command";
-import {OfferType} from "../../../../../../libs/domain/src/lib/offer/interfaces/offer.interface";
+import {OfferType} from "../../../../libs/domain/src/lib/offer/interfaces/offer.interface";
 jest.mock("../commands/add-offer.command")
 
 describe(AddOfferController, () => {
