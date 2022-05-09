@@ -1,6 +1,6 @@
-import {Domain} from "@bigdeal/domain";
 
+//todo: validate with class-validator
 export type AddContractDto =  {
-  offerId: Domain.Offer["ID"];
+  offerId: string;
   termId: string;
 }

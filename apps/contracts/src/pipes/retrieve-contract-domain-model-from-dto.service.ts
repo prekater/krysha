@@ -20,6 +20,8 @@ export class RetrieveContractDomainModelFromDto implements PipeTransform {
     try {
       return Mappers.Contract.fromOfferToDomainModel(offer, value.termId)
     } catch (e) {
+      console.log(e)
+
       throw new BadRequestException()
     }
 

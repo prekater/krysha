@@ -46,7 +46,7 @@ export class OfferRepository implements Domain.IOfferRepository {
 
   }
 
-  public async getById(ID: Domain.Offer['ID']): Promise<Domain.Offer> {
+  public async getById(ID: string): Promise<Domain.Offer> {
 
     try {
       const offerDbView = await this.offers
