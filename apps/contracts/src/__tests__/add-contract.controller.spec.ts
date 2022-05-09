@@ -1,17 +1,17 @@
-import {INestApplication, NotFoundException} from '@nestjs/common';
+import {INestApplication} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
 import {MongooseModule} from "@nestjs/mongoose";
 import {ClientProxy, ClientsModule, MicroserviceOptions, Transport} from "@nestjs/microservices";
 import {CommandBus, CqrsModule} from "@nestjs/cqrs";
-import {makeOffer, MockCommandBus} from "@bigdeal/test-utils";
-import {AddContractController} from "../controllers/add-contract.controller";
 import {Infra} from "@bigdeal/infra";
-import {AddContractDto} from "../dto/add-contract.dto";
 import {CONVERT_OFFER_COMMAND} from "@bigdeal/messaging";
-import {AddContractCommand} from "../commands/add-contract.command";
 import {Domain} from "@bigdeal/domain";
-jest.mock("../commands/add-contract.command")
+import {makeOffer, MockCommandBus} from "@bigdeal/test-utils";
 
+import {AddContractDto} from "../dto/add-contract.dto";
+import {AddContractCommand} from "../commands/add-contract.command";
+import {AddContractController} from "../controllers/add-contract.controller";
+jest.mock("../commands/add-contract.command")
 
 describe(AddContractController, () => {
   let app: INestApplication;

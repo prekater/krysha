@@ -1,8 +1,8 @@
 import {ArgumentMetadata, BadRequestException, Injectable, NotFoundException, PipeTransform} from "@nestjs/common";
 import {Domain} from "@bigdeal/domain";
 import {Infra} from "@bigdeal/infra";
-import {AddContractDto} from "../dto/add-contract.dto";
 import {Mappers} from "@bigdeal/mappers";
+import {AddContractDto} from "../dto/add-contract.dto";
 
 @Injectable()
 export class RetrieveContractDomainModelFromDto implements PipeTransform {

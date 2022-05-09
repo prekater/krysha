@@ -4,6 +4,7 @@ import {InjectModel} from "@nestjs/mongoose";
 import {Mappers} from "@bigdeal/mappers";
 import {Domain} from "@bigdeal/domain";
 import * as Infra from "../schemas/contract.schema";
+import {BaseOperationResponse} from "@bigdeal/common";
 
 @Injectable()
 export class ContractRepository implements Domain.IContractRepository {
@@ -17,15 +18,17 @@ export class ContractRepository implements Domain.IContractRepository {
   }
 
 
-  public async persist(contract: Domain.Contract): Promise<void> {
+  public async persist(contract: Domain.Contract): Promise<BaseOperationResponse> {
 
     try {
       const persistenceViewContract = Mappers.Contract.fromDomainModelToPersistenceModel(contract)
 
       await this.contracts.updateOne({ID: persistenceViewContract.ID}, persistenceViewContract, {upsert: true})
+      return {result: true}
     } catch (e) {
       this.logger.error(e.message)
       console.error(e.stack)
+      return { result: false}
     }
   }
 
@@ -47,7 +50,8 @@ export class ContractRepository implements Domain.IContractRepository {
   public async getById(ID: string): Promise<Domain.Contract> {
 
     try {
-      const contractDbView = await this.contracts
+      const contractDbView = await this
+        .contracts
         .findOne({ID})
         .lean()
         .exec();
