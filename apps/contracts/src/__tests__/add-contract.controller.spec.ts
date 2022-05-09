@@ -4,8 +4,8 @@ import {MongooseModule} from "@nestjs/mongoose";
 import {ClientProxy, ClientsModule, MicroserviceOptions, Transport} from "@nestjs/microservices";
 import {CommandBus, CqrsModule} from "@nestjs/cqrs";
 import {Infra} from "@bigdeal/infra";
-import {CONVERT_OFFER_COMMAND} from "@bigdeal/messaging";
 import {Domain} from "@bigdeal/domain";
+import {CONVERT_OFFER_COMMAND} from "@bigdeal/messaging";
 import {makeOffer, MockCommandBus} from "@bigdeal/test-utils";
 
 import {AddContractDto} from "../dto/add-contract.dto";
@@ -14,6 +14,7 @@ import {AddContractController} from "../controllers/add-contract.controller";
 jest.mock("../commands/add-contract.command")
 
 describe(AddContractController, () => {
+
   let app: INestApplication;
   let controller: AddContractController;
   let repo: Infra.OfferRepository;
@@ -159,7 +160,6 @@ describe(AddContractController, () => {
       expect(controller['commandBus'].execute).not.toHaveBeenCalled()
       expect(AddContractCommand).not.toHaveBeenCalled()
     }
-
 
   });
 
