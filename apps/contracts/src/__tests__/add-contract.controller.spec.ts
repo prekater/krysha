@@ -110,6 +110,7 @@ describe(AddContractController, () => {
 
   });
 
+  //todo: add exception filter and format error and check format
   it('should throw not found exception', async function () {
 
     expect.assertions(2)
