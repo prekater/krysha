@@ -104,7 +104,7 @@ describe(OfferRepository, () => {
 
       const createdOffer = await insertOfferIntoDB()
 
-      const offerFromDb = await repo.getById(createdOffer.ID)
+      const offerFromDb = await repo.getById(createdOffer.ID.toString())
 
       expect(offerFromDb).toEqual(createdOffer)
 
@@ -119,12 +119,9 @@ describe(OfferRepository, () => {
 
       const offersFromDb = await repo.getAllByAuthorId(createdOffer1.authorId)
 
-
       expect(offersFromDb).toHaveLength(2)
       expect(offersFromDb).toEqual(expect.arrayContaining([createdOffer1,createdOffer2]))
-
     });
   })
-
 
 });

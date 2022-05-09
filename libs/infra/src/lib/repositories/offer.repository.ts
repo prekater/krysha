@@ -4,6 +4,7 @@ import {InjectModel} from "@nestjs/mongoose";
 import {Mappers} from "@bigdeal/mappers";
 import {Domain} from "@bigdeal/domain";
 import * as Infra from "../schemas/offer.schema";
+import {BaseOperationResponse} from "@bigdeal/common";
 
 @Injectable()
 export class OfferRepository implements Domain.IOfferRepository {
@@ -17,15 +18,17 @@ export class OfferRepository implements Domain.IOfferRepository {
   }
 
 
-  public async persist(offer: Domain.Offer): Promise<void> {
+  public async persist(offer: Domain.Offer): Promise<BaseOperationResponse> {
 
     try {
       const persistenceViewOffer = Mappers.Offer.fromDomainModelToPersistenceModel(offer)
 
       await this.offers.updateOne({ID: persistenceViewOffer.ID}, persistenceViewOffer, {upsert: true})
+      return {result: true}
     } catch (e) {
       this.logger.error(e.message)
       console.error(e.stack)
+      return {result: false}
     }
   }
 
