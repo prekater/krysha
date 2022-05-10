@@ -5,3 +5,6 @@ export * from './schemas/contract.schema';
 export * from './repositories/offer.repository';
 export * from './repositories/contract.repository';
 export * from './exporter/interfaces/exporter.abstract';
+export * from './exporter/interfaces/transport.abstract';
+export * from './exporter/exporters/pdf.exporter';
+export * from './exporter/transport/local-filesystem.transport';

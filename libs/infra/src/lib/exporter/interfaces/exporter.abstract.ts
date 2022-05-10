@@ -1,17 +1,20 @@
+import {Injectable} from "@nestjs/common";
 import {Domain} from "@bigdeal/domain";
 import {Transport} from "./transport.abstract";
-import {WriteStream} from "fs";
+import {Stream} from "stream";
 
+@Injectable()
 export abstract class Exporter implements Domain.IExporter {
 
-  protected constructor(protected transport: Transport) {
+  constructor(protected transport: Transport) {
   }
 
-  public abstract createDocumentFromContract(contract: Domain.Contract): Promise<WriteStream>;
+  protected abstract createDocumentFromContract(contract: Domain.Contract): Promise<Stream>;
 
   public async export(contract: Domain.Contract) {
 
     const file = await this.createDocumentFromContract(contract)
+
 
     return await this.transport.deliver(file)
   }

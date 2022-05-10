@@ -6,6 +6,24 @@ import {UncompletedTermException} from "../exceptions/uncompleted-term.exception
 
 // 1 per contract
 export class Term implements IEntity {
+  get price() {
+    return this.props.price
+  }
+  get periodUnit() {
+    return this.props.periodUnit
+  }
+  get deposit() {
+    return this.props.deposit
+  }
+  get priceUnit() {
+    return this.props.priceUnit
+  }
+  get periodFrom() {
+    return this.props.periodFrom
+  }
+  get periodTo() {
+    return this.props.periodTo
+  }
 
   ID: UniqueEntityID;
   private props: TermProps;
@@ -19,9 +37,7 @@ export class Term implements IEntity {
     this.props = props
   }
 
-  get price() {
-    return this.props.price
-  }
+
 
   toObject() {
     return {
@@ -48,6 +64,19 @@ export class Term implements IEntity {
 
     Term.validate(props)
     return new Term(props, new UniqueEntityID(ID))
+  }
+
+
+  toString(): string {
+    return `
+      Условия аренды:
+      Стоимость в месяц: ${this.price} ${this.priceUnit}
+      Срок аренды: ______ (${this.periodFrom} - ${this.periodTo}) ${this.periodUnit}
+      Депозит: ${this.deposit.value} ${this.priceUnit}
+      При заезде: ${this.deposit.collectType}
+      В случае разрыва контракта: ${this.deposit.returnType}}
+
+    `
   }
 
 

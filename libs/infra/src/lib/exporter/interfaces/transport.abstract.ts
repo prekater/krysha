@@ -1,6 +1,6 @@
-import {WriteStream} from "fs";
+import {Stream} from "stream";
 
 export abstract class Transport {
 
-  abstract deliver(stream: WriteStream)
+  abstract deliver(stream: Stream)
 }

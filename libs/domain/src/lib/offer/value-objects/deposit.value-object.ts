@@ -23,6 +23,7 @@ export class Deposit implements IValueObject {
     return {...this.props}
   }
 
+
   static create(props: DepositProps) {
     Deposit.validate(props)
     return new Deposit(props)
