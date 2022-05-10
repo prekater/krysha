@@ -5,7 +5,7 @@ import {Mappers} from "@bigdeal/mappers";
 import {AddContractDto} from "../dto/add-contract.dto";
 
 @Injectable()
-export class RetrieveContractDomainModelFromDto implements PipeTransform {
+export class RetrieveContractDomainModelFromOffer implements PipeTransform {
 
 
   constructor(

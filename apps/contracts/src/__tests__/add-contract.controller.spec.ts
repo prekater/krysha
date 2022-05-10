@@ -5,7 +5,7 @@ import {ClientProxy, ClientsModule, MicroserviceOptions, Transport} from "@nestj
 import {CommandBus, CqrsModule} from "@nestjs/cqrs";
 import {Infra} from "@bigdeal/infra";
 import {Domain} from "@bigdeal/domain";
-import {CONVERT_OFFER_COMMAND} from "@bigdeal/messaging";
+import {ADD_CONTRACT_COMMAND} from "@bigdeal/messaging";
 import {makeOffer, MockCommandBus} from "@bigdeal/test-utils";
 
 import {AddContractDto} from "../dto/add-contract.dto";
@@ -102,7 +102,7 @@ describe(AddContractController, () => {
     jest.spyOn(controller['commandBus'], 'execute').mockResolvedValue({result: true})
 
     await client.send(
-      CONVERT_OFFER_COMMAND,
+      ADD_CONTRACT_COMMAND,
       dto
     ).toPromise();
 
@@ -126,7 +126,7 @@ describe(AddContractController, () => {
 
     try {
       await client.send(
-        CONVERT_OFFER_COMMAND,
+        ADD_CONTRACT_COMMAND,
         dto
       ).toPromise();
     } catch (e) {
@@ -151,7 +151,7 @@ describe(AddContractController, () => {
 
     try {
       await client.send(
-        CONVERT_OFFER_COMMAND,
+        ADD_CONTRACT_COMMAND,
         dto
       ).toPromise();
 

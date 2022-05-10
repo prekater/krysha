@@ -1,30 +1,18 @@
-import {INestApplication} from '@nestjs/common';
-import {Test, TestingModule} from '@nestjs/testing';
 import {Exporter} from "../exporter/interfaces/exporter.abstract";
+import * as PDFKit from 'pdfkit'
+import * as fs from "fs";
+import * as MemoryStream from 'memorystream'
 
 describe(Exporter, () => {
-    let app: INestApplication;
 
-    beforeAll(async () => {
-        const moduleFixture: TestingModule = await Test.createTestingModule({
-            imports: [],
-            providers: [],
-            controllers: []
-        }).compile();
 
-        app = moduleFixture.createNestApplication();
+  describe('PDF', () => {
+    it('should correctly export file to pdf', async function () {
 
-        await app.init();
+
+
+
     });
-
-    afterAll(async () => {
-        await app.close();
-    });
-
-    it('should be defined', function () {
-        expect.assertions(1)
-        expect(true).toBeDefined()
-    });
-
+  })
 
 });
