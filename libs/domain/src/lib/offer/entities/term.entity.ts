@@ -67,17 +67,7 @@ export class Term implements IEntity {
   }
 
 
-  toString(): string {
-    return `
-      Условия аренды:
-      Стоимость в месяц: ${this.price} ${this.priceUnit}
-      Срок аренды: ______ (${this.periodFrom} - ${this.periodTo}) ${this.periodUnit}
-      Депозит: ${this.deposit.value} ${this.priceUnit}
-      При заезде: ${this.deposit.collectType}
-      В случае разрыва контракта: ${this.deposit.returnType}}
 
-    `
-  }
 
 
 }
