@@ -3,7 +3,7 @@ import {Domain} from "@bigdeal/domain";
 import * as PDFKit from 'pdfkit'
 import * as MemoryStream from 'memorystream'
 import {Stream} from "stream";
-import {ContractContentAdapter} from "../adapters/contractContentAdapter";
+import {TermAdapter} from "../adapters/term.adapter";
 import {Language} from "@bigdeal/common";
 
 
@@ -12,7 +12,7 @@ export class PdfExporter extends Exporter{
 
   async createDocumentFromContract(contract: Domain.Contract, language: Language = Language.RU): Promise<Stream> {
     const memoryStream = new MemoryStream()
-    const contentAdapter = new ContractContentAdapter(contract, language)
+    const contentAdapter = new TermAdapter(contract, language)
     const document = new PDFKit()
     document.pipe(memoryStream)
 

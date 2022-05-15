@@ -69,5 +69,4 @@ export class Term implements IEntity {
 
 
 
-
 }

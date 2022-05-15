@@ -1,33 +1,7 @@
-import {Language} from "@bigdeal/common";
-import {Domain} from "@bigdeal/domain";
 import * as util from 'util'
-import * as commonTranslates from './tpl/common'
+import {AbstractContentAdapter} from "./interfaces/content.adapter.abstract";
 
-export class ContractContentAdapter {
-
-  constructor(
-    private readonly contract: Domain.Contract,
-    private readonly language: Language
-  ) {
-  }
-
-  getTranslatedPriceUnit(unit: Domain.PriceUnit): string {
-
-    return commonTranslates.priceUnit[this.language][unit]
-  }
-
-  getTranslatedPeriodUnit(unit: Domain.PeriodUnit): string {
-
-    return commonTranslates.periodUnit[this.language][unit]
-  }
-
-  getTranslatedDepositCollectType(type: Domain.DepositCollectType): string {
-    return commonTranslates.depositCollectType[this.language][type]
-  }
-  getTranslatedDepositReturnType(type: Domain.DepositReturnType): string {
-    return commonTranslates.depositReturnType[this.language][type]
-  }
-
+export class TermAdapter extends AbstractContentAdapter{
 
   private makeRentalPeriodContent(tpl): string {
 
@@ -76,9 +50,8 @@ export class ContractContentAdapter {
     )
   }
 
-  public async makeTerms() {
+  public async makeContent(): Promise<Record<string, string>> {
     const {term: termTranslates} = await import(`./tpl/term/${this.language}`)
-
 
     return {
       title: this.makeTermTitle(termTranslates.title),
@@ -89,6 +62,8 @@ export class ContractContentAdapter {
       depositReturnType: this.makeDepositReturnType(termTranslates.depositReturnType)
     }
   }
+
+
 
 
 }

@@ -27,13 +27,8 @@ export class Address implements IValueObject {
     return this.props.street
   }
 
-
-  toString() {
-    return `City: ${this.city}, Street: ${this.street}, House: ${this.house}, Flat: ${this.flat}`
-  }
-
   toObject() {
-    return this.props
+    return { ...this.props }
   }
 
   static create(props: AddressProps) {
