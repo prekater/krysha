@@ -3,4 +3,5 @@
 export type AddContractDto =  {
   offerId: string;
   termId: string;
+  rentalPeriod: number;
 }

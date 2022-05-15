@@ -9,18 +9,23 @@ export class Term implements IEntity {
   get price() {
     return this.props.price
   }
+
   get periodUnit() {
     return this.props.periodUnit
   }
+
   get deposit() {
     return this.props.deposit
   }
+
   get priceUnit() {
     return this.props.priceUnit
   }
+
   get periodFrom() {
     return this.props.periodFrom
   }
+
   get periodTo() {
     return this.props.periodTo
   }
@@ -36,7 +41,6 @@ export class Term implements IEntity {
 
     this.props = props
   }
-
 
 
   toObject() {
@@ -66,7 +70,10 @@ export class Term implements IEntity {
     return new Term(props, new UniqueEntityID(ID))
   }
 
-
-
+  public isRentalPeriodCorrect(rentalPeriod: number): boolean {
+    return typeof rentalPeriod === 'number' &&
+      rentalPeriod >= this.periodFrom &&
+      rentalPeriod <= this.periodTo
+  }
 
 }

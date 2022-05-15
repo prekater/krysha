@@ -186,6 +186,7 @@ export const offerObjectMock = {
 
 export const contractObjectMock =  {
   ID: 'test',
+  rentalPeriod: 2,
   address: { city: 'Москва', flat: '222', house: '56', street: 'улица Свободы' },
   payment: {
     paymentStart: 'START_OF_RENT',
@@ -210,7 +211,7 @@ export const contractObjectMock =  {
     periodUnit: 'MONTH',
     price: 100000,
     priceUnit: 'RUB',
-    ID: 'test'
+    ID: 'test',
   }
 }
 
@@ -220,5 +221,5 @@ export const makeContract = (termId: string = null) => {
   const offer = makeOffer()
   termId = termId || offer.terms[0].ID.toString()
 
-  return Mappers.Contract.fromOfferToDomainModel(offer, termId)
+  return Mappers.Contract.fromOfferToDomainModel(offer, termId, 2)
 }

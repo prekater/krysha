@@ -21,17 +21,18 @@ export class Contract {
       propertyType: model.propertyType,
       authorId: model.authorId,
       options,
-      term
+      term,
+      rentalPeriod: model.rentalPeriod
     }
 
   }
 
-  static fromOfferToDomainModel(offer: Domain.Offer, termId: string) {
+  static fromOfferToDomainModel(offer: Domain.Offer, termId: string, rentalPeriod: number) {
     const term = offer.terms.find(t => t.ID.toString() === termId)
 
     const props: Domain.ContractProps = Object.assign({},
       _.pick(offer, ['authorId', 'options', 'payment', 'propertyType', 'address']),
-      {term}
+      {term, rentalPeriod}
     )
     return Domain.Contract.create(props, termId)
   }
@@ -41,7 +42,6 @@ export class Contract {
     if (!model) return null;
     const options = model.options.map(o => Option.create(o))
 
-    console.log(model.term)
     model.term.deposit = Deposit.create(model.term.deposit);
     const term = Term.create(_.omit(model.term, 'ID'), model.term.ID)
 
@@ -54,6 +54,7 @@ export class Contract {
       propertyType: model.propertyType,
       options,
       term,
+      rentalPeriod: model.rentalPeriod
     }, model.ID)
   }
 }

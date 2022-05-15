@@ -11,7 +11,12 @@ import {Payment} from "../../offer/value-objects/payment.value-object";
 import {UncompletedContractException} from "../exceptions/uncompleted-contract.exception";
 
 
-export class Contract implements IAggregateRoot, IEntity{
+export class Contract implements IAggregateRoot, IEntity {
+
+
+  get rentalPeriod() {
+    return this.props.rentalPeriod
+  }
 
   get authorId() {
     return this.props.authorId
@@ -20,6 +25,7 @@ export class Contract implements IAggregateRoot, IEntity{
   get address() {
     return this.props.address
   }
+
   get term(): Term {
     return this.props.term
   }
@@ -56,6 +62,7 @@ export class Contract implements IAggregateRoot, IEntity{
       !(props.address instanceof Address) ||
       !(Object.values(PropertyType).includes(props.propertyType)) ||
       !(props.term instanceof Term) ||
+      !(props.term.isRentalPeriodCorrect(props.rentalPeriod)) ||
       !(props.options.every(t => t instanceof Option)) ||
       !props.authorId ||
       !(props.payment instanceof Payment)

@@ -11,4 +11,5 @@ export interface ContractProps {
   payment: Payment;
   propertyType: PropertyType;
   address: Address;
+  rentalPeriod: number;
 }

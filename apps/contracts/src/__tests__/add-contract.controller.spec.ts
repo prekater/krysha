@@ -96,7 +96,8 @@ describe(AddContractController, () => {
 
     const dto: AddContractDto = {
       offerId: offer.ID.toString(),
-      termId: offer.terms[0].ID.toString()
+      termId: offer.terms[0].ID.toString(),
+      rentalPeriod: 2
     }
     jest.spyOn(repo, 'getById').mockResolvedValue(offer)
     jest.spyOn(controller['commandBus'], 'execute').mockResolvedValue({result: true})
@@ -117,7 +118,8 @@ describe(AddContractController, () => {
     expect.assertions(2)
     const dto: AddContractDto = {
       offerId: 'wfwefwfwfwfwf',
-      termId: '123'
+      termId: '123',
+      rentalPeriod: 2
     }
 
 
@@ -143,7 +145,8 @@ describe(AddContractController, () => {
 
     const dto: AddContractDto = {
       offerId: offer.ID.toString(),
-      termId: 'wefwefwfwffwe'
+      termId: 'wefwefwfwffwe',
+      rentalPeriod: 2
     }
 
     jest.spyOn(repo, 'getById').mockResolvedValue(offer)
