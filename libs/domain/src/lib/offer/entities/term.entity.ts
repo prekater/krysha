@@ -71,6 +71,7 @@ export class Term implements IEntity {
   }
 
   public isRentalPeriodCorrect(rentalPeriod: number): boolean {
+
     return typeof rentalPeriod === 'number' &&
       rentalPeriod >= this.periodFrom &&
       rentalPeriod <= this.periodTo

@@ -35,7 +35,6 @@ export function makeOptions(): Domain.Option[] {
     }))
 }
 
-
 export const makeOption = (defaults: Partial<Domain.Option> = {}) => Domain.Option.create({
   isEnabled: true,
   title: 'Электричество',
@@ -184,10 +183,10 @@ export const offerObjectMock = {
   type: Domain.OfferType.DRAFT
 }
 
-export const contractObjectMock =  {
+export const contractObjectMock = {
   ID: 'test',
   rentalPeriod: 2,
-  address: { city: 'Москва', flat: '222', house: '56', street: 'улица Свободы' },
+  address: {city: 'Москва', flat: '222', house: '56', street: 'улица Свободы'},
   payment: {
     paymentStart: 'START_OF_RENT',
     penalty: 'ABSENT',
@@ -196,9 +195,9 @@ export const contractObjectMock =  {
   propertyType: 'ONE_ROOM',
   authorId: 'test',
   options: [
-    { isEnabled: true, title: 'Электричество' },
-    { isEnabled: true, title: 'Вода' },
-    { isEnabled: true, title: 'Кондиционер' }
+    {isEnabled: true, title: 'Электричество'},
+    {isEnabled: true, title: 'Вода'},
+    {isEnabled: true, title: 'Кондиционер'}
   ],
   term: {
     deposit: {
@@ -221,5 +220,11 @@ export const makeContract = (termId: string = null) => {
   const offer = makeOffer()
   termId = termId || offer.terms[0].ID.toString()
 
-  return Mappers.Contract.fromOfferToDomainModel(offer, termId, 2)
+  return Mappers.Contract.fromOfferToDomainModel(
+    offer,
+    termId,
+    '12.06.2022',
+    '12.09.2022',
+  )
 }
+

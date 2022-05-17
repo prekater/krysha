@@ -3,6 +3,7 @@ import {Option} from "../../offer/value-objects/option.value-object";
 import {Payment} from "../../offer/value-objects/payment.value-object";
 import {Address} from "../../offer/value-objects/address.value-object";
 import {PropertyType} from "../../offer/interfaces/offer.interface";
+import {RentalPeriod} from "../value-objects/rental-period.value-object";
 
 export interface ContractProps {
   authorId: string;
@@ -11,5 +12,5 @@ export interface ContractProps {
   payment: Payment;
   propertyType: PropertyType;
   address: Address;
-  rentalPeriod: number;
+  rentalPeriod: RentalPeriod;
 }

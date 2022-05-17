@@ -1,5 +1,5 @@
 import {Domain} from "@bigdeal/domain";
-import {contractObjectMock, makeContract} from "@bigdeal/test-utils";
+import {makeContract} from "@bigdeal/test-utils";
 import {UncompletedContractException} from "../contract/exceptions/uncompleted-contract.exception";
 import {IExporter} from "../contract/interfaces/exporter.interface";
 
@@ -25,8 +25,7 @@ describe(Domain.Contract, () => {
       try {
         const contract = makeContract('hello')
         console.debug(contract)
-      }
-      catch (e) {
+      } catch (e) {
         expect(e).toBeInstanceOf(UncompletedContractException)
       }
 

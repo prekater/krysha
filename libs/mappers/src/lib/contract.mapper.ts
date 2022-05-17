@@ -1,13 +1,13 @@
 import {Infra} from "@bigdeal/infra";
 import {Domain} from "@bigdeal/domain";
 import * as _ from 'lodash'
+import * as moment from 'moment'
 
 const {Address, Deposit, Payment, Option, Term} = Domain
 
 export class Contract {
 
   static fromDomainModelToPersistenceModel(model: Domain.Contract): Infra.Contract {
-
 
     if (!model) return null;
 
@@ -22,19 +22,32 @@ export class Contract {
       authorId: model.authorId,
       options,
       term,
-      rentalPeriod: model.rentalPeriod
+      rentalPeriod: model.rentalPeriod.toObject()
     }
 
   }
 
-  static fromOfferToDomainModel(offer: Domain.Offer, termId: string, rentalPeriod: number) {
+  static fromOfferToDomainModel(
+    offer: Domain.Offer,
+    termId: string,
+    rentalStart: string,
+    rentalEnd: string,
+  ) {
     const term = offer.terms.find(t => t.ID.toString() === termId)
 
+    const rentalPeriod = new Domain.RentalPeriod({
+      rentalStart: moment(rentalStart, 'DD-MM-YYYY'),
+      rentalEnd: moment(rentalEnd, 'DD-MM-YYYY')
+    })
     const props: Domain.ContractProps = Object.assign({},
-      _.pick(offer, ['authorId', 'options', 'payment', 'propertyType', 'address']),
+      _.pick(
+        offer,
+        ['authorId', 'options', 'payment', 'propertyType', 'address']
+      ),
       {term, rentalPeriod}
     )
-    return Domain.Contract.create(props, termId)
+
+    return Domain.Contract.create(props)
   }
 
   static fromObjectToDomainModel(model: Infra.Contract): Domain.Contract {
@@ -54,7 +67,10 @@ export class Contract {
       propertyType: model.propertyType,
       options,
       term,
-      rentalPeriod: model.rentalPeriod
+      rentalPeriod: Domain.RentalPeriod.create({
+        rentalStart: moment(model.rentalPeriod.rentalStart, 'MM-DD-YYYY'),
+        rentalEnd: moment(model.rentalPeriod.rentalEnd, 'MM-DD-YYYY')
+      })
     }, model.ID)
   }
 }

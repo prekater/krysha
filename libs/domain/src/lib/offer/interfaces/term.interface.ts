@@ -1,8 +1,8 @@
 import {Deposit} from "../value-objects/deposit.value-object";
 
 export enum PeriodUnit {
-  DAY = 'DAY',
-  MONTH = 'MONTH',
+  DAY = 'days',
+  MONTH = 'months',
   YEAR = 'YEAR'
 
 }

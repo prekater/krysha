@@ -10,8 +10,10 @@ export class Contract {
   @Prop()
   authorId: string;
 
-  @Prop()
-  rentalPeriod: number;
+  @Prop(raw({
+    type: mongoose.Schema.Types.Mixed,
+  }))
+  rentalPeriod: Domain.RentalPeriodProps<string>
 
   @Prop(raw({
     type: mongoose.Schema.Types.Mixed,
