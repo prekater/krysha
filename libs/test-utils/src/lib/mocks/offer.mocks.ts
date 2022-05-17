@@ -185,7 +185,10 @@ export const offerObjectMock = {
 
 export const contractObjectMock = {
   ID: 'test',
-  rentalPeriod: 2,
+  rentalPeriod: {
+    rentalStart: '12.06.2022',
+    rentalEnd: '12.09.2022'
+  },
   address: {city: 'Москва', flat: '222', house: '56', street: 'улица Свободы'},
   payment: {
     paymentStart: 'START_OF_RENT',
@@ -207,7 +210,7 @@ export const contractObjectMock = {
     },
     periodFrom: 1,
     periodTo: 3,
-    periodUnit: 'MONTH',
+    periodUnit: 'months',
     price: 100000,
     priceUnit: 'RUB',
     ID: 'test',

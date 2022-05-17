@@ -2,7 +2,7 @@ import {INestApplication} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
 import {MongooseModule} from "@nestjs/mongoose";
 import {Mappers} from "@bigdeal/mappers";
-import {makeContract} from "@bigdeal/test-utils";
+import {appendContainsObjectsUtil, makeContract} from "@bigdeal/test-utils";
 import {Domain} from "@bigdeal/domain";
 import * as mongoose from "mongoose";
 import {ContractPersistenceModule} from "../modules/contract-persistence.module";
@@ -11,6 +11,8 @@ import {ContractRepository} from "../repositories/contract.repository";
 describe(ContractRepository, () => {
   let app: INestApplication;
   let repo: ContractRepository;
+
+  appendContainsObjectsUtil()
 
 
   const clearDB = async () => await repo['contracts'].deleteMany({})
@@ -64,7 +66,6 @@ describe(ContractRepository, () => {
 
   describe('Commands', () => {
     it('should create if not exists', async function () {
-
       expect.assertions(1)
       const contract = makeContract()
 
@@ -72,9 +73,7 @@ describe(ContractRepository, () => {
 
       const contractFromDb = await repo['contracts'].findOne({ID: contract.ID}).lean().exec()
 
-      const contractFromDbToDomainModel = Mappers.Contract.fromObjectToDomainModel(contractFromDb)
-
-      expect(contractFromDbToDomainModel).toEqual(contract)
+      expect(contractFromDb).toEqual(expect.objectContaining(Mappers.Contract.fromDomainModelToPersistenceModel(contract)))
     });
 
     it('should update if exists', async function () {
@@ -89,10 +88,7 @@ describe(ContractRepository, () => {
 
       const contractFromDb = await repo['contracts'].findOne({ID: createdContract.ID}).lean().exec()
 
-      const contractFromDbToDomainModel = Mappers.Contract.fromObjectToDomainModel(contractFromDb)
-
-      expect(contractFromDbToDomainModel).toEqual(createdContract)
-
+      expect(contractFromDb).toEqual(expect.objectContaining(Mappers.Contract.fromDomainModelToPersistenceModel(createdContract)))
     });
   })
 
@@ -106,7 +102,7 @@ describe(ContractRepository, () => {
 
       const contractFromDb = await repo.getById(createdContract.ID.toString())
 
-      expect(contractFromDb).toEqual(createdContract)
+      expect(Mappers.Contract.fromDomainModelToPersistenceModel(contractFromDb)).toEqual(expect.objectContaining(Mappers.Contract.fromDomainModelToPersistenceModel(createdContract)))
 
     });
 
@@ -119,9 +115,18 @@ describe(ContractRepository, () => {
 
       const contractsFromDb = await repo.getAllByAuthorId(createdContract1.authorId)
 
-
+      const mappedContractsFromDb = contractsFromDb.map(c =>
+        Mappers.Contract.fromDomainModelToPersistenceModel(c)
+      )
       expect(contractsFromDb).toHaveLength(2)
-      expect(contractsFromDb).toEqual(expect.arrayContaining([createdContract1,createdContract2]))
+
+
+      expect(mappedContractsFromDb)
+        .toContainObjects(
+          [createdContract1, createdContract2].map(c =>
+            Mappers.Contract.fromDomainModelToPersistenceModel(c)
+          )
+        )
 
     });
   })

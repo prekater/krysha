@@ -2,6 +2,7 @@ import {Infra} from "@bigdeal/infra";
 import {Domain} from "@bigdeal/domain";
 import * as _ from 'lodash'
 import * as moment from 'moment'
+import {DATE_FORMAT} from "@bigdeal/common";
 
 const {Address, Deposit, Payment, Option, Term} = Domain
 
@@ -36,8 +37,8 @@ export class Contract {
     const term = offer.terms.find(t => t.ID.toString() === termId)
 
     const rentalPeriod = new Domain.RentalPeriod({
-      rentalStart: moment(rentalStart, 'DD-MM-YYYY'),
-      rentalEnd: moment(rentalEnd, 'DD-MM-YYYY')
+      rentalStart: moment(rentalStart, DATE_FORMAT),
+      rentalEnd: moment(rentalEnd, DATE_FORMAT)
     })
     const props: Domain.ContractProps = Object.assign({},
       _.pick(
@@ -68,8 +69,8 @@ export class Contract {
       options,
       term,
       rentalPeriod: Domain.RentalPeriod.create({
-        rentalStart: moment(model.rentalPeriod.rentalStart, 'MM-DD-YYYY'),
-        rentalEnd: moment(model.rentalPeriod.rentalEnd, 'MM-DD-YYYY')
+        rentalStart: moment(model.rentalPeriod.rentalStart, DATE_FORMAT),
+        rentalEnd: moment(model.rentalPeriod.rentalEnd, DATE_FORMAT)
       })
     }, model.ID)
   }

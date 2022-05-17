@@ -18,7 +18,12 @@ export class RetrieveContractDomainModelFromOffer implements PipeTransform {
     if (!offer) throw new NotFoundException()
 
     try {
-      return Mappers.Contract.fromOfferToDomainModel(offer, value.termId, value.rentalPeriod)
+      return Mappers.Contract.fromOfferToDomainModel(
+        offer,
+        value.termId,
+        value.rentalStart,
+        value.rentalEnd
+      )
     } catch (e) {
       console.log(e)
 

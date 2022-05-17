@@ -3,7 +3,7 @@ import {Deposit} from "../value-objects/deposit.value-object";
 export enum PeriodUnit {
   DAY = 'days',
   MONTH = 'months',
-  YEAR = 'YEAR'
+  YEAR = 'years'
 
 }
 export enum PriceUnit {

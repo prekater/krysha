@@ -16,7 +16,6 @@ describe(Domain.Contract, () => {
 
   })
 
-
   describe('Validation', () => {
     it('should throw exception because of incorrect contract', function () {
 

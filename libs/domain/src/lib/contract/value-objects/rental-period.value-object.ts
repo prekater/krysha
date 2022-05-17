@@ -1,9 +1,10 @@
+import {Moment as IMoment} from "moment";
+import * as moment from 'moment'
 import {IValueObject} from "../../core/value-object";
 import {RentalPeriodProps} from "../interfaces/rental-period.interface";
 import {UncompletedRentalPeriodException} from "../exceptions/uncompleted-rental-period.exception";
-import {Moment as IMoment} from "moment";
-import * as moment from 'moment'
 import {PeriodUnit} from "../../offer/interfaces/term.interface";
+import {DATE_FORMAT} from "@bigdeal/common";
 
 export class RentalPeriod implements IValueObject {
 
@@ -38,8 +39,8 @@ export class RentalPeriod implements IValueObject {
 
   toObject(): RentalPeriodProps<string> {
     return {
-      rentalStart: this.rentalStart.toString(),
-      rentalEnd: this.rentalEnd.toString(),
+      rentalStart: this.rentalStart.format(DATE_FORMAT).toString(),
+      rentalEnd: this.rentalEnd.format(DATE_FORMAT).toString(),
     }
   }
 }

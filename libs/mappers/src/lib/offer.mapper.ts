@@ -1,6 +1,7 @@
 import {Infra} from "@bigdeal/infra";
 import {Domain} from "@bigdeal/domain";
 
+
 const {Address, Deposit, Payment, Option, Term} = Domain
 
 export class Offer {

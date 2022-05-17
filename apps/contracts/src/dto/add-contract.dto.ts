@@ -3,5 +3,6 @@
 export type AddContractDto =  {
   offerId: string;
   termId: string;
-  rentalPeriod: number;
+  rentalStart: string;
+  rentalEnd: string;
 }
