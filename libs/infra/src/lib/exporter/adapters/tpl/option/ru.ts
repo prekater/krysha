@@ -1,4 +1,4 @@
 export const option = {
   title: 'Опции: ',
-  option: '%s : %s'
+  option: '%s'
 }

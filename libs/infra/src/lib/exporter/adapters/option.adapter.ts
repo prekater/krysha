@@ -12,12 +12,13 @@ export class OptionAdapter extends AbstractContentAdapter {
 
     return this.contract
       .options
+      .filter( o => o.isEnabled)
       .map(o => util.format(
         tpl,
         o.title,
-        this.getIncludeStatus(o.isEnabled)
+        // this.getIncludeStatus(o.isEnabled)
       ))
-      .join('\n')
+      .join('; ')
   }
 
   public async makeContent(): Promise<Record<string, string>> {

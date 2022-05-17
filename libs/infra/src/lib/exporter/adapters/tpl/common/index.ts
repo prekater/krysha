@@ -52,8 +52,8 @@ export const penaltyType = {
 
 export const paymentStart = {
   ru: {
-    [Domain.PaymentStart.START_OF_MONTH]: 'В начале месяца',
-    [Domain.PaymentStart.START_OF_RENT]: 'В дату начала аренды',
+    [Domain.PaymentStart.START_OF_MONTH]: 'первого числа каждого месяца',
+    [Domain.PaymentStart.START_OF_RENT]: 'в дату начала аренды',
   }
 }
 
