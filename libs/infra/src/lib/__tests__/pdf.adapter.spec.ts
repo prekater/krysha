@@ -6,6 +6,7 @@ import {AbstractContentAdapter} from "../exporter/adapters/interfaces/content.ad
 import {OptionAdapter} from "../exporter/adapters/option.adapter";
 import {PaymentAdapter} from "../exporter/adapters/payment.adapter";
 import {ContractMetaAdapter} from "../exporter/adapters/contract-meta.adapter";
+import {RentalPeriodAdapter} from "../exporter/adapters/rental-period.adapter";
 
 describe(AbstractContentAdapter, () => {
 
@@ -18,15 +19,17 @@ describe(AbstractContentAdapter, () => {
     const optionAdapter = new OptionAdapter(contract, Language.RU)
     const paymentAdapter = new PaymentAdapter(contract, Language.RU)
     const metaAdapter = new ContractMetaAdapter(contract, Language.RU)
+    const rentalPeriodAdapter = new RentalPeriodAdapter(contract, Language.RU)
 
 
     it('should be defined', function () {
-      expect.assertions(5)
+      expect.assertions(6)
       expect(termAdapter).toBeDefined()
       expect(addressAdapter).toBeDefined()
       expect(optionAdapter).toBeDefined()
       expect(paymentAdapter).toBeDefined()
       expect(metaAdapter).toBeDefined()
+      expect(rentalPeriodAdapter).toBeDefined()
     })
 
     it('should correctly create term content', async function () {
@@ -96,6 +99,16 @@ describe(AbstractContentAdapter, () => {
         "propertyType": "Тип жилья: Однокомнатная",
       })
 
+    });
+
+    it('should correctly create rental period content', async function () {
+      expect.assertions(1)
+
+      const content = await rentalPeriodAdapter.makeContent()
+
+      expect(content).toEqual({
+        "rentalPeriod": "Срок аренды составляет 3 месяцев и определяется с 12.06.2022 по 12.09.2022"
+      })
     });
 
   })

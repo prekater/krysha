@@ -1,6 +1,7 @@
 export const address = {
-  flat: `Этаж: %s`,
-  house: `Дом: %s`,
-  city: `Город: %s`,
-  street: `Улица: %s`,
+  flat: `кв. %s`,
+  house: `д. %s`,
+  city: `г. %s`,
+  street: `%s`,
+
 }

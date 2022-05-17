@@ -10,6 +10,7 @@ import {Option} from "../../offer/value-objects/option.value-object";
 import {Payment} from "../../offer/value-objects/payment.value-object";
 import {UncompletedContractException} from "../exceptions/uncompleted-contract.exception";
 import {RentalPeriod} from "../value-objects/rental-period.value-object";
+import {Language} from "@bigdeal/common";
 
 export class Contract implements IAggregateRoot, IEntity {
 
@@ -74,7 +75,7 @@ export class Contract implements IAggregateRoot, IEntity {
     return true;
   }
 
-  async export(exporter: IExporter): Promise<any> {
-    return await exporter.export(this)
+  async export(exporter: IExporter, language: Language = Language.RU): Promise<any> {
+    return await exporter.export(this, language)
   }
 }
