@@ -1,10 +1,11 @@
+import * as _ from 'lodash'
 import {UniqueEntityID} from "../../core/unique-entity";
-import {PeriodUnit, PriceUnit, TermProps} from "../interfaces/term.interface";
+import {PeriodUnit, PriceUnit, TermProps} from "../../core/interfaces/term.interface";
 import {IEntity} from "../../core/entity";
-import {Deposit} from "../value-objects/deposit.value-object";
+import {Deposit} from "../../core/value-objects/deposit.value-object";
 import {UncompletedTermException} from "../exceptions/uncompleted-term.exception";
+import {TerminationRule} from "../../core/value-objects/termination-rule.value-object";
 
-// 1 per contract
 export class Term implements IEntity {
   get price() {
     return this.props.price
@@ -28,6 +29,10 @@ export class Term implements IEntity {
 
   get periodTo() {
     return this.props.periodTo
+  }
+
+  get terminationRules() {
+    return this.props.terminationRules.sort((a, b) => a.value - b.value)
   }
 
   ID: UniqueEntityID;
@@ -58,7 +63,9 @@ export class Term implements IEntity {
       typeof props.price === 'number' &&
       props.price >= 0 &&
       props.periodFrom >= 0 &&
-      props.periodTo >= props.periodFrom
+      props.periodTo >= props.periodFrom &&
+      props.terminationRules.every(r => r instanceof TerminationRule) &&
+      _.uniq(props.terminationRules, 'period').length === props.terminationRules.length
     ) return true
 
     throw new UncompletedTermException()

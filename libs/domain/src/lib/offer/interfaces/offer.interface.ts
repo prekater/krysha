@@ -1,7 +1,8 @@
 import {Term} from "../entities/term.entity";
-import { Option } from '../value-objects/option.value-object'
-import {Payment} from "../value-objects/payment.value-object";
-import {Address} from "../value-objects/address.value-object";
+import { Option } from '../../core/value-objects/option.value-object'
+import {Payment} from "../../core/value-objects/payment.value-object";
+import {Address} from "../../core/value-objects/address.value-object";
+import {TerminationRule} from "../../core/value-objects/termination-rule.value-object";
 
 export enum OfferType {
   PUBLISHED= 'PUBLISHED',

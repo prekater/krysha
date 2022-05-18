@@ -1,6 +1,6 @@
-import {IValueObject} from "../../core/value-object";
+import {IValueObject} from "../value-object";
 import {AddressProps} from "../interfaces/address.interface";
-import {UncompletedAddressException} from "../exceptions/uncompleted-address.exception";
+import {UncompletedAddressException} from "../../offer/exceptions/uncompleted-address.exception";
 
 export class Address implements IValueObject {
 

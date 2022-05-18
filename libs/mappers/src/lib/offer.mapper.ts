@@ -1,5 +1,6 @@
 import {Infra} from "@bigdeal/infra";
 import {Domain} from "@bigdeal/domain";
+import {TerminationRule} from "../../../domain/src/lib/core/value-objects/termination-rule.value-object";
 
 
 const {Address, Deposit, Payment, Option, Term, Penalty} = Domain
@@ -10,7 +11,9 @@ export class Offer {
 
     if (!model) return null;
 
-    const terms = model.terms.map(t => t.toObject())
+    const terms = model.terms.map(t => ({
+      ...(t.toObject()), terminationRules:  t.terminationRules.map(r => r.toObject())
+    }))
     const options = model.options.map(o => o.toObject())
 
     return {
@@ -21,7 +24,8 @@ export class Offer {
       authorId: model.authorId,
       options,
       terms,
-      type: model.type
+      type: model.type,
+
     }
   }
 
@@ -33,6 +37,8 @@ export class Offer {
     ))
     const terms = model.terms.map(({ID, ...props}) => {
       props.deposit = Deposit.create(props.deposit)
+
+      props.terminationRules = props.terminationRules.map(r => TerminationRule.create(r))
 
       return Term.create(props as Domain.TermProps, ID)
     })
@@ -49,7 +55,6 @@ export class Offer {
       options,
       terms,
       type: model.type
-
     }, model.ID)
   }
 }

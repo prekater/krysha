@@ -3,7 +3,7 @@ import {Domain} from "../..";
 import {UncompletedOfferException} from "../offer/exceptions/uncompleted-offer.exception";
 import {OfferType} from "../offer/interfaces/offer.interface";
 import {OfferPublishedEvent} from "../offer/events/offer-published.event";
-import {PaymentStart, PaymentType} from "../offer/interfaces/payment.interface";
+import {PaymentStart, PaymentType} from "../core/interfaces/payment.interface";
 
 jest.mock('../offer/events/offer-published.event')
 describe(Domain.Offer, () => {
@@ -68,7 +68,6 @@ describe(Domain.Offer, () => {
     it('should publish correct contract', function () {
 
       expect.assertions(3)
-
 
       const offer = makeOffer()
 

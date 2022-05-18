@@ -3,6 +3,7 @@ import {Domain} from "@bigdeal/domain";
 import * as _ from 'lodash'
 import * as moment from 'moment'
 import {DATE_FORMAT} from "@bigdeal/common";
+import {TerminationRule} from "../../../domain/src/lib/core/value-objects/termination-rule.value-object";
 
 const {Address, Deposit, Payment, Option, Term, Penalty} = Domain
 
@@ -12,7 +13,7 @@ export class Contract {
 
     if (!model) return null;
 
-    const term = model.term.toObject()
+    const term = {...model.term.toObject(), terminationRules: model.term.terminationRules.map(r => r.toObject())}
     const options = model.options.map(o => o.toObject())
 
     return {
@@ -57,8 +58,8 @@ export class Contract {
     const options = model.options.map(o => Option.create(o))
 
     model.term.deposit = Deposit.create(model.term.deposit);
-    const term = Term.create(_.omit(model.term, 'ID'), model.term.ID)
-
+    const terminationRules = model.term.terminationRules.map(r => TerminationRule.create(r))
+    const term = Term.create({..._.omit(model.term, 'ID'), terminationRules }, model.term.ID)
 
     const penalty = Penalty.create(model.payment.penalty)
 

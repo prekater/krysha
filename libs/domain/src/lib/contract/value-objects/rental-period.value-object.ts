@@ -3,7 +3,7 @@ import * as moment from 'moment'
 import {IValueObject} from "../../core/value-object";
 import {RentalPeriodProps} from "../interfaces/rental-period.interface";
 import {UncompletedRentalPeriodException} from "../exceptions/uncompleted-rental-period.exception";
-import {PeriodUnit} from "../../offer/interfaces/term.interface";
+import {PeriodUnit} from "../../core/interfaces/term.interface";
 import {DATE_FORMAT} from "@bigdeal/common";
 
 export class RentalPeriod implements IValueObject {

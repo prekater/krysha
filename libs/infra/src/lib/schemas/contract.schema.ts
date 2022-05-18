@@ -18,9 +18,14 @@ export class Contract {
   @Prop(raw({
     type: mongoose.Schema.Types.Mixed,
   }))
+
   term: (
-    Omit<Domain.Term['props'], 'deposit'>
-    & { ID: string, deposit: Domain.Deposit['props'] }
+    Omit<Domain.Term['props'], 'deposit' | 'terminationRules'>
+    & {
+    ID: string,
+    deposit: Domain.Deposit['props'],
+    terminationRules: Domain.TerminationRule['props'][]
+  }
     )
 
   @Prop(raw({
@@ -33,7 +38,7 @@ export class Contract {
       type: mongoose.Schema.Types.Mixed
     })
   )
-  payment: Omit<Domain.Payment['props'], 'penalty'> & { penalty: Domain.Penalty['props']};
+  payment: Omit<Domain.Payment['props'], 'penalty'> & { penalty: Domain.Penalty['props'] };
 
   @Prop(
     raw({

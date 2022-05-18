@@ -1,7 +1,7 @@
 import {Term} from "../../offer/entities/term.entity";
-import {Option} from "../../offer/value-objects/option.value-object";
-import {Payment} from "../../offer/value-objects/payment.value-object";
-import {Address} from "../../offer/value-objects/address.value-object";
+import {Option} from "../../core/value-objects/option.value-object";
+import {Payment} from "../../core/value-objects/payment.value-object";
+import {Address} from "../../core/value-objects/address.value-object";
 import {PropertyType} from "../../offer/interfaces/offer.interface";
 import {RentalPeriod} from "../value-objects/rental-period.value-object";
 

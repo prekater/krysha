@@ -21,9 +21,14 @@ export class Offer {
     type: [mongoose.Schema.Types.Mixed]
   }))
   terms: (
-    Omit<Domain.Term['props'], 'deposit'>
-    & { ID: string, deposit: Domain.Deposit['props'] }
+    Omit<Domain.Term['props'], 'deposit' | 'terminationRules'>
+    & { ID: string,
+    deposit: Domain.Deposit['props'],
+    terminationRules: Domain.TerminationRule['props'][]
+    }
     )[]
+
+
 
   @Prop(raw({
     type: [mongoose.Schema.Types.Mixed]

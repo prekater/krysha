@@ -1,4 +1,5 @@
 import {Deposit} from "../value-objects/deposit.value-object";
+import {TerminationRule} from "../value-objects/termination-rule.value-object";
 
 export enum PeriodUnit {
   DAY = 'days',
@@ -6,6 +7,7 @@ export enum PeriodUnit {
   YEAR = 'years'
 
 }
+
 export enum PriceUnit {
   RUB = 'RUB',
   EUR = 'EUR',
@@ -22,5 +24,8 @@ export interface TermProps {
   periodUnit: PeriodUnit;
 
   deposit: Deposit;
+
+  terminationRules: TerminationRule[]
+
 }
 

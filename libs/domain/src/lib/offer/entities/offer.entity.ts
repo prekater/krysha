@@ -3,11 +3,11 @@ import {IEntity} from "../../core/entity";
 import {OfferProps, OfferType, PropertyType} from "../interfaces/offer.interface";
 import {IAggregateRoot} from "../../core/aggregate-root";
 import {UniqueEntityID} from "../../core/unique-entity";
-import {Address} from "../value-objects/address.value-object";
-import {Payment} from "../value-objects/payment.value-object";
+import {Address} from "../../core/value-objects/address.value-object";
+import {Payment} from "../../core/value-objects/payment.value-object";
 import {UncompletedOfferException} from "../exceptions/uncompleted-offer.exception";
 import {OfferPublishedEvent} from "../events/offer-published.event";
-import {Option} from "../value-objects/option.value-object";
+import {Option} from "../../core/value-objects/option.value-object";
 import {Term} from "./term.entity";
 
 

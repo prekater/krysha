@@ -1,7 +1,7 @@
 import * as util from 'util'
 import {AbstractContentAdapter} from "./interfaces/content.adapter.abstract";
 
-export class TermAdapter extends AbstractContentAdapter{
+export class TermAdapter extends AbstractContentAdapter {
 
   private makeRentalPeriodContent(tpl): string {
 
@@ -37,17 +37,32 @@ export class TermAdapter extends AbstractContentAdapter{
       this.getTranslatedPriceUnit(this.contract.term.priceUnit)
     )
   }
+
   private makeDepositCollectType(tpl: string): string {
     return util.format(
       tpl,
       this.getTranslatedDepositCollectType(this.contract.term.deposit.collectType)
     )
   }
+
   private makeDepositReturnType(tpl: string): string {
     return util.format(
       tpl,
       this.getTranslatedDepositReturnType(this.contract.term.deposit.returnType)
     )
+  }
+
+  private makeTerminationRules(tpl: string): string {
+    return this.contract.term.terminationRules.map(r =>
+      util.format(
+        tpl,
+        r.period,
+        this.getTranslatedPeriodUnit(r.periodUnit),
+        r.value,
+        this.getTranslatedPriceUnit(r.currency)
+      )
+    )
+      .join('; ')
   }
 
   private makeDepositReturnPeriod(tpl: string): string {
@@ -70,10 +85,9 @@ export class TermAdapter extends AbstractContentAdapter{
       depositCollectType: this.makeDepositCollectType(termTranslates.depositCollectType),
       depositReturnType: this.makeDepositReturnType(termTranslates.depositReturnType),
       depositReturnPeriod: this.makeDepositReturnPeriod(termTranslates.depositReturnPeriod),
+      terminationRules: this.makeTerminationRules(termTranslates.terminationRule)
     }
   }
-
-
 
 
 }

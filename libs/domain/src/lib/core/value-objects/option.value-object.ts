@@ -1,6 +1,6 @@
-import {IValueObject} from "../../core/value-object";
+import {IValueObject} from "../value-object";
 import {OptionProps} from "../interfaces/option.interface";
-import {UncompletedOptionException} from "../exceptions/uncompleted-option.exception";
+import {UncompletedOptionException} from "../../offer/exceptions/uncompleted-option.exception";
 
 export class Option implements IValueObject {
 
@@ -10,6 +10,7 @@ export class Option implements IValueObject {
   get title() {
     return this.props.title
   }
+
   get isEnabled() {
     return this.props.isEnabled;
   }
@@ -17,13 +18,14 @@ export class Option implements IValueObject {
   toObject() {
     return {...this.props}
   }
+
   static create(props: OptionProps) {
     Option.validate(props)
     return new Option(props)
   }
 
   static validate(props: OptionProps) {
-    if  ( props.title.length > 0  && typeof props.isEnabled === 'boolean') return true;
+    if (props.title.length > 0 && typeof props.isEnabled === 'boolean') return true;
     throw new UncompletedOptionException()
   }
 }

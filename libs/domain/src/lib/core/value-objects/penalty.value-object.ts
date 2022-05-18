@@ -1,6 +1,6 @@
-import {IValueObject} from "../../core/value-object";
+import {IValueObject} from "../value-object";
 import {PenaltyProps, PenaltyType} from "../interfaces/penalty.interface";
-import {UncompletedPenaltyException} from "../exceptions/uncompleted-penalty.exception";
+import {UncompletedPenaltyException} from "../../offer/exceptions/uncompleted-penalty.exception";
 
 export class Penalty implements IValueObject {
 
