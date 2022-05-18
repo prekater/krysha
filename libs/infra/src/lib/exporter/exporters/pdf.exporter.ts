@@ -133,7 +133,7 @@ export class PdfExporter extends Exporter {
     this.writeLine(document, `4.3. При подписании Договора Нанимателем вносится Наймодателю <????? Что это такое?>, а также залоговая сумма ${contentParts.terms.deposit}`)
 
 
-    this.writeLine(document, `4.4. В случае задержки оплаты взимается <ДОРАБОТАТЬ> `)
+    this.writeLine(document, `4.4. ${contentParts.payments.penalty}`)
 
 
     this.writeHeader(document, `5. Срок действия договора найма помещения, порядок изменения, расторжение договора.`)

@@ -1,8 +1,7 @@
 import {IValueObject} from "../../core/value-object";
-import {PaymentProps, PaymentStart, PaymentType, PenaltyType} from "../interfaces/payment.interface";
-import {NotImplementedException} from "../exceptions/not-implemented.exception";
+import {PaymentProps, PaymentStart, PaymentType} from "../interfaces/payment.interface";
 import {UncompletedPaymentException} from "../exceptions/uncompleted-payment.exception";
-import {OfferType} from "../interfaces/offer.interface";
+import {Penalty} from "./penalty.value-object";
 
 export class Payment implements IValueObject {
 
@@ -20,7 +19,7 @@ export class Payment implements IValueObject {
   }
 
   toObject() {
-    return {...this.props}
+    return {...this.props, penalty: this.props.penalty.toObject()}
   }
   static create(props: PaymentProps) {
     Payment.validate(props)
@@ -32,7 +31,7 @@ export class Payment implements IValueObject {
     if (
       (Object.values(PaymentStart).includes(props.paymentStart)) &&
       (Object.values(PaymentType).includes(props.type)) &&
-      (Object.values(PenaltyType).includes(props.penalty))
+      props.penalty instanceof Penalty
     ) return true
 
     throw new UncompletedPaymentException()

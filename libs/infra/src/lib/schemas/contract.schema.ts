@@ -33,7 +33,7 @@ export class Contract {
       type: mongoose.Schema.Types.Mixed
     })
   )
-  payment: Domain.Payment['props'];
+  payment: Omit<Domain.Payment['props'], 'penalty'> & { penalty: Domain.Penalty['props']};
 
   @Prop(
     raw({

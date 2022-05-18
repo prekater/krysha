@@ -35,9 +35,6 @@ export abstract class AbstractContentAdapter {
     return this.translates.depositReturnType[this.language][type]
   }
 
-  protected getTranslatedPenaltyType(type: Domain.PenaltyType): string {
-    return this.translates.penaltyType[this.language][type]
-  }
 
   protected getTranslatedPaymentType(type: Domain.PaymentType): string {
     return this.translates.paymentType[this.language][type]

@@ -2,7 +2,6 @@ import {UniqueEntityID} from "../../core/unique-entity";
 import {IAggregateRoot} from "../../core/aggregate-root";
 import {ContractProps} from "../interfaces/contract.interface";
 import {IEntity} from "../../core/entity";
-import {IExporter} from "../interfaces/exporter.interface";
 import {PropertyType} from "../../offer/interfaces/offer.interface";
 import {Address} from "../../offer/value-objects/address.value-object";
 import {Term} from "../../offer/entities/term.entity";
@@ -10,7 +9,6 @@ import {Option} from "../../offer/value-objects/option.value-object";
 import {Payment} from "../../offer/value-objects/payment.value-object";
 import {UncompletedContractException} from "../exceptions/uncompleted-contract.exception";
 import {RentalPeriod} from "../value-objects/rental-period.value-object";
-import {Language} from "@bigdeal/common";
 
 export class Contract implements IAggregateRoot, IEntity {
 
@@ -73,9 +71,5 @@ export class Contract implements IAggregateRoot, IEntity {
     }
 
     return true;
-  }
-
-  async export(exporter: IExporter, language: Language = Language.RU): Promise<any> {
-    return await exporter.export(this, language)
   }
 }

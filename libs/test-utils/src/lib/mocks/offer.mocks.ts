@@ -1,7 +1,7 @@
-import {
-  Domain,
-} from "@bigdeal/domain";
+import {Domain,} from "@bigdeal/domain";
 import {Mappers} from "@bigdeal/mappers";
+import {PenaltyType} from "../../../../domain/src/lib/offer/interfaces/penalty.interface";
+import {PriceUnit} from "../../../../domain/src/lib/offer/interfaces/term.interface";
 
 export const makeOffer = (defaults: Partial<Domain.OfferProps> = {}) => {
 
@@ -16,7 +16,12 @@ export const makeOffer = (defaults: Partial<Domain.OfferProps> = {}) => {
       options: makeOptions(),
       payment: Domain.Payment.create({
         paymentStart: Domain.PaymentStart.START_OF_RENT,
-        penalty: Domain.PenaltyType.ABSENT,
+        penalty: Domain.Penalty.create({
+          currency: PriceUnit.RUB,
+          start: 1,
+          type: PenaltyType.FIX_FOR_EVERY_DAY,
+          value: 300
+        }),
         type: Domain.PaymentType.ONE_PAYMENT
       }),
       propertyType: Domain.PropertyType.ONE_ROOM,
@@ -50,7 +55,12 @@ export const makeDeposit = (defaults: Partial<Domain.Deposit> = {}) => Domain.De
 
 export const makePayment = (defaults: Partial<Domain.Payment> = {}) => Domain.Payment.create({
   paymentStart: Domain.PaymentStart.START_OF_RENT,
-  penalty: Domain.PenaltyType.ABSENT,
+  penalty: Domain.Penalty.create({
+    currency: PriceUnit.RUB,
+    start: 1,
+    type: PenaltyType.FIX_FOR_EVERY_DAY,
+    value: 300
+  }),
   type: Domain.PaymentType.ONE_PAYMENT,
   ...defaults
 })
@@ -124,7 +134,12 @@ export const offerObjectMock = {
   address: {city: 'Москва', flat: '222', house: '56', street: 'улица Свободы'},
   payment: {
     paymentStart: Domain.PaymentStart.START_OF_RENT,
-    penalty: Domain.PenaltyType.ABSENT,
+    penalty: {
+      currency: Domain.PriceUnit.RUB,
+      start: 1,
+      type: Domain.PenaltyType.FIX_FOR_EVERY_DAY,
+      value: 300
+    },
     type: Domain.PaymentType.ONE_PAYMENT
   },
   propertyType: Domain.PropertyType.ONE_ROOM,
@@ -192,7 +207,13 @@ export const contractObjectMock = {
   address: {city: 'Москва', flat: '222', house: '56', street: 'улица Свободы'},
   payment: {
     paymentStart: 'START_OF_RENT',
-    penalty: 'ABSENT',
+    penalty:
+      {
+        currency: 'RUB',
+        start: 1,
+        type: 'FIX_FOR_EVERY_DAY',
+        value: 300
+      },
     type: 'ONE_PAYMENT'
   },
   propertyType: 'ONE_ROOM',

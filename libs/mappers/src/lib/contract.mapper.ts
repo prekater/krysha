@@ -4,7 +4,7 @@ import * as _ from 'lodash'
 import * as moment from 'moment'
 import {DATE_FORMAT} from "@bigdeal/common";
 
-const {Address, Deposit, Payment, Option, Term} = Domain
+const {Address, Deposit, Payment, Option, Term, Penalty} = Domain
 
 export class Contract {
 
@@ -59,7 +59,10 @@ export class Contract {
     model.term.deposit = Deposit.create(model.term.deposit);
     const term = Term.create(_.omit(model.term, 'ID'), model.term.ID)
 
-    const payment = Payment.create(model.payment)
+
+    const penalty = Penalty.create(model.payment.penalty)
+
+    const payment = Payment.create({...model.payment, penalty } )
 
     return Domain.Contract.create({
       address: Address.create(model.address),

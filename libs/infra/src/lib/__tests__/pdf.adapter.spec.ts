@@ -40,8 +40,8 @@ describe(AbstractContentAdapter, () => {
       expect(content).toEqual({
         title: 'Условия аренды',
         rentalPeriod: 'Период аренды: __1__ (от 1 до 3) месяцев',
-        pricePerMonth: 'Стоимость в месяц: 100000 рублей',
-        deposit: "Депозит: 100000 рублей",
+        pricePerMonth: '100000 рублей',
+        deposit: "100000 рублей",
         depositCollectType: "При заезде: Оплата депозита сразу",
         depositReturnType: "В случае разрыва контракта: Депозит возвращается при уведомлении за 1 месяц",
       })
@@ -54,10 +54,10 @@ describe(AbstractContentAdapter, () => {
       const content = await addressAdapter.makeContent()
 
       expect(content).toEqual({
-        "city": "Город: Москва",
-        "flat": "Этаж: 222",
-        "house": "Дом: 56",
-        "street": "Улица: улица Свободы",
+        "city": "г. Москва",
+        "flat": "кв. 222",
+        "house": "д. 56",
+        "street": "улица Свободы",
       })
 
     });
@@ -69,7 +69,7 @@ describe(AbstractContentAdapter, () => {
       const content = await optionAdapter.makeContent()
 
       expect(content).toEqual({
-        "option": `Электричество : Включено\nВода : Включено\nКондиционер : Включено`,
+        "option": "Электричество; Вода; Кондиционер",
         "title": "Опции: ",
       })
 
@@ -82,9 +82,9 @@ describe(AbstractContentAdapter, () => {
       const content = await paymentAdapter.makeContent()
 
       expect(content).toEqual({
-        "paymentStart": "Дата оплаты: В дату начала аренды",
+        "paymentStart": "в дату начала аренды",
         "paymentType": "Тип оплаты: Одним платежом",
-        "penalty": "Штраф за просрочку платежа: Отсутствует",
+        "penalty": "В случае задержки оплаты взимается 300 RUB в сутки с 1 календарного дня после числа оплаты",
       })
 
     });

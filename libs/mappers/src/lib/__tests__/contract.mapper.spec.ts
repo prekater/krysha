@@ -1,7 +1,7 @@
-import {Mappers} from "../../";
 
 import * as uuid from 'uuid'
 import {makeContract, contractObjectMock} from "@bigdeal/test-utils";
+import {Mappers} from "../../";
 jest.mock('uuid')
 
 describe(Mappers.Contract, () => {

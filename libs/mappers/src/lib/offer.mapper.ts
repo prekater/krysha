@@ -2,7 +2,7 @@ import {Infra} from "@bigdeal/infra";
 import {Domain} from "@bigdeal/domain";
 
 
-const {Address, Deposit, Payment, Option, Term} = Domain
+const {Address, Deposit, Payment, Option, Term, Penalty} = Domain
 
 export class Offer {
 
@@ -37,7 +37,9 @@ export class Offer {
       return Term.create(props as Domain.TermProps, ID)
     })
 
-    const payment = Payment.create(model.payment)
+    const penalty = Penalty.create(model.payment.penalty)
+
+    const payment = Payment.create({...model.payment, penalty } )
 
     return Domain.Offer.create({
       address: Address.create(model.address),
