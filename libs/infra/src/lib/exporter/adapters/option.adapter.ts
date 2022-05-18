@@ -15,8 +15,7 @@ export class OptionAdapter extends AbstractContentAdapter {
       .filter( o => o.isEnabled)
       .map(o => util.format(
         tpl,
-        o.title,
-        // this.getIncludeStatus(o.isEnabled)
+        o.title.toLocaleLowerCase(),
       ))
       .join('; ')
   }

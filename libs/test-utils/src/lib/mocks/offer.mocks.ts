@@ -1,7 +1,5 @@
-import {Domain,} from "@bigdeal/domain";
+import {Domain} from '@bigdeal/domain'
 import {Mappers} from "@bigdeal/mappers";
-import {PenaltyType} from "../../../../domain/src/lib/offer/interfaces/penalty.interface";
-import {PriceUnit} from "../../../../domain/src/lib/offer/interfaces/term.interface";
 
 export const makeOffer = (defaults: Partial<Domain.OfferProps> = {}) => {
 
@@ -17,9 +15,9 @@ export const makeOffer = (defaults: Partial<Domain.OfferProps> = {}) => {
       payment: Domain.Payment.create({
         paymentStart: Domain.PaymentStart.START_OF_RENT,
         penalty: Domain.Penalty.create({
-          currency: PriceUnit.RUB,
+          currency: Domain.PriceUnit.RUB,
           start: 1,
-          type: PenaltyType.FIX_FOR_EVERY_DAY,
+          type: Domain.PenaltyType.FIX_FOR_EVERY_DAY,
           value: 300
         }),
         type: Domain.PaymentType.ONE_PAYMENT
@@ -33,7 +31,7 @@ export const makeOffer = (defaults: Partial<Domain.OfferProps> = {}) => {
 }
 
 export function makeOptions(): Domain.Option[] {
-  return ['Электричество', 'Вода', 'Кондиционер']
+  return ['Электричество', 'Вода', 'Отопление']
     .map((title) => Domain.Option.create({
       isEnabled: true,
       title
@@ -47,6 +45,8 @@ export const makeOption = (defaults: Partial<Domain.Option> = {}) => Domain.Opti
 })
 
 export const makeDeposit = (defaults: Partial<Domain.Deposit> = {}) => Domain.Deposit.create({
+  returnPeriod: 2,
+  returnPeriodUnit: Domain.PeriodUnit.DAY,
   collectType: Domain.DepositCollectType.CONCLUSION,
   returnType: Domain.DepositReturnType.REFOUND_IN_CASE_OF_1_MONTH_NOTICE,
   value: 100000,
@@ -56,9 +56,9 @@ export const makeDeposit = (defaults: Partial<Domain.Deposit> = {}) => Domain.De
 export const makePayment = (defaults: Partial<Domain.Payment> = {}) => Domain.Payment.create({
   paymentStart: Domain.PaymentStart.START_OF_RENT,
   penalty: Domain.Penalty.create({
-    currency: PriceUnit.RUB,
+    currency: Domain.PriceUnit.RUB,
     start: 1,
-    type: PenaltyType.FIX_FOR_EVERY_DAY,
+    type: Domain.PenaltyType.FIX_FOR_EVERY_DAY,
     value: 300
   }),
   type: Domain.PaymentType.ONE_PAYMENT,
@@ -74,11 +74,7 @@ export const makeAddress = (defaults: Partial<Domain.Address> = {}) => Domain.Ad
 })
 
 export const makeTerm = (defaults: Partial<Domain.Term> = {}) => Domain.Term.create({
-  deposit: Domain.Deposit.create({
-    collectType: Domain.DepositCollectType.CONCLUSION,
-    returnType: Domain.DepositReturnType.REFOUND_IN_CASE_OF_1_MONTH_NOTICE,
-    value: 45000
-  }),
+  deposit: makeDeposit(),
   periodFrom: 6,
   periodTo: 12,
   periodUnit: Domain.PeriodUnit.MONTH,
@@ -90,11 +86,7 @@ export const makeTerm = (defaults: Partial<Domain.Term> = {}) => Domain.Term.cre
 export function makeTerms(): Domain.Term[] {
   return [
     Domain.Term.create({
-      deposit: Domain.Deposit.create({
-        collectType: Domain.DepositCollectType.CONCLUSION,
-        returnType: Domain.DepositReturnType.REFOUND_IN_CASE_OF_1_MONTH_NOTICE,
-        value: 100000
-      }),
+      deposit: makeDeposit(),
       periodFrom: 1,
       periodTo: 3,
       periodUnit: Domain.PeriodUnit.MONTH,
@@ -102,11 +94,7 @@ export function makeTerms(): Domain.Term[] {
       priceUnit: Domain.PriceUnit.RUB
     }),
     Domain.Term.create({
-      deposit: Domain.Deposit.create({
-        collectType: Domain.DepositCollectType.CONCLUSION,
-        returnType: Domain.DepositReturnType.REFOUND_IN_CASE_OF_1_MONTH_NOTICE,
-        value: 90000
-      }),
+      deposit: makeDeposit({ value: 90000 }),
       periodFrom: 3,
       periodTo: 6,
       periodUnit: Domain.PeriodUnit.MONTH,
@@ -114,11 +102,7 @@ export function makeTerms(): Domain.Term[] {
       priceUnit: Domain.PriceUnit.RUB
     }),
     Domain.Term.create({
-      deposit: Domain.Deposit.create({
-        collectType: Domain.DepositCollectType.CONCLUSION,
-        returnType: Domain.DepositReturnType.REFOUND_IN_CASE_OF_1_MONTH_NOTICE,
-        value: 45000
-      }),
+      deposit: makeDeposit({ value: 45000 }),
       periodFrom: 6,
       periodTo: 12,
       periodUnit: Domain.PeriodUnit.MONTH,
@@ -149,7 +133,7 @@ export const offerObjectMock = {
   options: [
     {isEnabled: true, title: 'Электричество'},
     {isEnabled: true, title: 'Вода'},
-    {isEnabled: true, title: 'Кондиционер'}
+    {isEnabled: true, title: 'Отопление'}
   ],
   terms: [
     {
@@ -157,6 +141,8 @@ export const offerObjectMock = {
         collectType: Domain.DepositCollectType.CONCLUSION,
         returnType: Domain.DepositReturnType.REFOUND_IN_CASE_OF_1_MONTH_NOTICE,
         value: 100000,
+        returnPeriod: 2,
+        returnPeriodUnit: Domain.PeriodUnit.DAY
       },
       periodFrom: 1,
       periodTo: 3,
@@ -171,6 +157,8 @@ export const offerObjectMock = {
         collectType: Domain.DepositCollectType.CONCLUSION,
         returnType: Domain.DepositReturnType.REFOUND_IN_CASE_OF_1_MONTH_NOTICE,
         value: 90000,
+        returnPeriod: 2,
+        returnPeriodUnit: Domain.PeriodUnit.DAY
       },
       periodFrom: 3,
       periodTo: 6,
@@ -185,6 +173,8 @@ export const offerObjectMock = {
         collectType: Domain.DepositCollectType.CONCLUSION,
         returnType: Domain.DepositReturnType.REFOUND_IN_CASE_OF_1_MONTH_NOTICE,
         value: 45000,
+        returnPeriod: 2,
+        returnPeriodUnit: Domain.PeriodUnit.DAY
       },
       periodFrom: 6,
       periodTo: 12,
@@ -221,13 +211,15 @@ export const contractObjectMock = {
   options: [
     {isEnabled: true, title: 'Электричество'},
     {isEnabled: true, title: 'Вода'},
-    {isEnabled: true, title: 'Кондиционер'}
+    {isEnabled: true, title: 'Отопление'}
   ],
   term: {
     deposit: {
       collectType: 'CONCLUSION',
       returnType: 'REFOUND_IN_CASE_OF_1_MONTH_NOTICE',
-      value: 100000
+      value: 100000,
+      returnPeriod: 2,
+      returnPeriodUnit: "days"
     },
     periodFrom: 1,
     periodTo: 3,

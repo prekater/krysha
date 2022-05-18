@@ -16,7 +16,7 @@ export class PaymentAdapter extends AbstractContentAdapter {
         return util.format(
           tpl.penaltyFix,
           this.contract.payment.penalty.value,
-          this.contract.payment.penalty.currency,
+          this.getTranslatedPriceUnit(this.contract.payment.penalty.currency),
           this.contract.payment.penalty.start
         )
       case Domain.PenaltyType.ABSENT:

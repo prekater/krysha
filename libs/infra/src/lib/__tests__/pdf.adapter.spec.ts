@@ -44,7 +44,9 @@ describe(AbstractContentAdapter, () => {
         deposit: "100000 рублей",
         depositCollectType: "При заезде: Оплата депозита сразу",
         depositReturnType: "В случае разрыва контракта: Депозит возвращается при уведомлении за 1 месяц",
-      })
+        depositReturnPeriod: "в течение 2 календарных дней",
+
+    })
     });
 
     it('should correctly create address content', async function () {
@@ -69,7 +71,7 @@ describe(AbstractContentAdapter, () => {
       const content = await optionAdapter.makeContent()
 
       expect(content).toEqual({
-        "option": "Электричество; Вода; Кондиционер",
+        "option": "электричество; вода; отопление",
         "title": "Опции: ",
       })
 
@@ -84,7 +86,7 @@ describe(AbstractContentAdapter, () => {
       expect(content).toEqual({
         "paymentStart": "в дату начала аренды",
         "paymentType": "Тип оплаты: Одним платежом",
-        "penalty": "В случае задержки оплаты взимается 300 RUB в сутки с 1 календарного дня после числа оплаты",
+        "penalty": "В случае задержки оплаты взимается 300 рублей в сутки с 1 календарного дня после числа оплаты",
       })
 
     });

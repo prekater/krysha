@@ -4833,14 +4833,7 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-pdfkit-table@^0.1.95:
-  version "0.1.95"
-  resolved "https://registry.yarnpkg.com/pdfkit-table/-/pdfkit-table-0.1.95.tgz#7077b62ae3f99396ed397d119c2b68c559164938"
-  integrity sha512-ECGZGadMwzwnp04v408Wqzm1fpeN6wNp9lZ/+ux0dTgi2hO0f/Fdh5IiDec7IV76Pq3nC8mNebTV5xVgQOn3jQ==
-  dependencies:
-    pdfkit latest
-
-pdfkit@^0.13.0, pdfkit@latest:
+pdfkit@^0.13.0:
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/pdfkit/-/pdfkit-0.13.0.tgz#da4c2becd63a129e3aae448fdaed4ee7be790f8f"
   integrity sha512-AW79eHU5eLd2vgRDS9z3bSoi0FA+gYm+100LLosrQQMLUzOBGVOhG7ABcMFpJu7Bpg+MT74XYHi4k9EuU/9EZw==

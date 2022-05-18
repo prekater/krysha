@@ -50,6 +50,15 @@ export class TermAdapter extends AbstractContentAdapter{
     )
   }
 
+  private makeDepositReturnPeriod(tpl: string): string {
+
+    return util.format(
+      tpl,
+      this.contract.term.deposit.returnPeriod.toString(),
+      this.getTranslatedPeriodUnit(this.contract.term.deposit.returnPeriodUnit)
+    )
+  }
+
   public async makeContent(): Promise<Record<string, string>> {
     const {term: termTranslates} = await import(`./tpl/term/${this.language}`)
 
@@ -59,7 +68,8 @@ export class TermAdapter extends AbstractContentAdapter{
       pricePerMonth: this.makePricePerMonth(termTranslates.pricePerMonth),
       deposit: this.makeDeposit(termTranslates.deposit),
       depositCollectType: this.makeDepositCollectType(termTranslates.depositCollectType),
-      depositReturnType: this.makeDepositReturnType(termTranslates.depositReturnType)
+      depositReturnType: this.makeDepositReturnType(termTranslates.depositReturnType),
+      depositReturnPeriod: this.makeDepositReturnPeriod(termTranslates.depositReturnPeriod),
     }
   }
 

@@ -5,6 +5,7 @@ export const term = {
   deposit: `%s %s`,
   depositCollectType: `При заезде: %s`,
   depositReturnType: `В случае разрыва контракта: %s`,
+  depositReturnPeriod: `в течение %s календарных %s`
 
 }
 

@@ -1,3 +1,5 @@
+import {PeriodUnit} from "./term.interface";
+
 export enum DepositCollectType {
   // при заключении контракта
   CONCLUSION = 'CONCLUSION',
@@ -22,9 +24,11 @@ export enum DepositReturnType {
 
 export interface DepositProps {
 
+  returnPeriod: number;
+  returnPeriodUnit: PeriodUnit;
+
   value: number;
 
   collectType: DepositCollectType;
-
   returnType: DepositReturnType;
 }
