@@ -19,6 +19,7 @@ describe(OfferRepository, () => {
     const offer = makeOffer()
     Object.assign(offer['props'], defaults)
     const persistenceOffer = Mappers.Offer.fromDomainModelToPersistenceModel(offer)
+
     await repo['offers'].create(persistenceOffer)
 
     return offer;
@@ -106,6 +107,8 @@ describe(OfferRepository, () => {
 
       const offerFromDb = await repo.getById(createdOffer.ID.toString())
 
+      // console.log(offerFromDb.terms[1]['props'].terminationRules, createdOffer.terms[1]['props'].terminationRules)
+      // console.log('_________-')
       expect(offerFromDb).toEqual(createdOffer)
 
     });

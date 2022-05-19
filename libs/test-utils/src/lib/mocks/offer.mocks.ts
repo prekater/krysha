@@ -1,6 +1,6 @@
 import {Domain} from '@bigdeal/domain'
 import {Mappers} from "@bigdeal/mappers";
-
+import * as _ from 'lodash'
 export const makeOffer = (defaults: Partial<Domain.OfferProps> = {}) => {
 
   return Domain.Offer.create({
@@ -110,7 +110,7 @@ export function makeTerms(): Domain.Term[] {
       terminationRules: [
         makeTerminationRule(),
         makeTerminationRule({value: 50000, period: 6})
-      ],
+      ].sort((a,b) => a.period - b.period),
     }),
     Domain.Term.create({
       deposit: makeDeposit({value: 90000}),
@@ -119,10 +119,10 @@ export function makeTerms(): Domain.Term[] {
       periodUnit: Domain.PeriodUnit.MONTH,
       price: 90000,
       priceUnit: Domain.PriceUnit.RUB,
-      terminationRules: [
+      terminationRules:  _.sortBy([
         makeTerminationRule(),
         makeTerminationRule({value: 30000, period: 9})
-      ],
+      ], 'period')
     }),
     Domain.Term.create({
       deposit: makeDeposit({value: 45000}),
@@ -132,9 +132,9 @@ export function makeTerms(): Domain.Term[] {
       price: 90000,
       priceUnit: Domain.PriceUnit.RUB,
       terminationRules: [
+        makeTerminationRule({value: 40000, period: 2}),
         makeTerminationRule(),
-        makeTerminationRule({value: 40000, period: 2})
-      ],
+      ].sort((a,b) => a.period - b.period),
 
     }),
   ]
@@ -182,7 +182,7 @@ export const offerObjectMock = {
       terminationRules: [
         makeTerminationRule().toObject(),
         makeTerminationRule({value: 50000, period: 6}).toObject()
-      ].sort((a,b) => a.value - b.value),
+      ].sort((a,b) => a.period - b.period),
     },
     {
       deposit: {
@@ -199,10 +199,10 @@ export const offerObjectMock = {
       priceUnit: Domain.PriceUnit.RUB,
       // @ts-ignore
       ID: 'test',
-      terminationRules: [
+      terminationRules: _.sortBy([
         makeTerminationRule().toObject(),
         makeTerminationRule({value: 30000, period: 9}).toObject()
-      ].sort((a,b) => a.value - b.value),
+      ],'period')
     },
     {
       deposit: {
@@ -220,9 +220,9 @@ export const offerObjectMock = {
       // @ts-ignore
       ID: 'test',
       terminationRules: [
-        makeTerminationRule().toObject(),
-        makeTerminationRule({value: 40000, period: 2}).toObject()
-      ].sort((a,b) => a.value - b.value),
+        makeTerminationRule({value: 40000, period: 2}).toObject(),
+        makeTerminationRule().toObject()
+      ].sort((a,b) => a.period - b.period),
     }
   ],
   type: Domain.OfferType.DRAFT

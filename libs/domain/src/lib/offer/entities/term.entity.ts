@@ -32,7 +32,7 @@ export class Term implements IEntity {
   }
 
   get terminationRules() {
-    return this.props.terminationRules.sort((a, b) => a.value - b.value)
+    return this.props.terminationRules.sort((a, b) => a.period - b.period)
   }
 
   ID: UniqueEntityID;

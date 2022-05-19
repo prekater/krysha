@@ -27,6 +27,10 @@ describe(Mappers.Offer, () => {
 
     const domainOffer = Mappers.Offer.fromObjectToDomainModel(offerObjectMock)
 
+    console.log(
+      domainOffer.terms[1]['props'].terminationRules,
+      offer.terms[1]['props'].terminationRules
+    )
     expect(domainOffer).toEqual(offer)
 
   });

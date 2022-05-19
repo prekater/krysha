@@ -29,7 +29,6 @@ export class Offer {
     )[]
 
 
-
   @Prop(raw({
     type: [mongoose.Schema.Types.Mixed]
   }))

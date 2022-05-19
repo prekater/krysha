@@ -1,9 +1,8 @@
 import {Infra} from "@bigdeal/infra";
 import {Domain} from "@bigdeal/domain";
-import {TerminationRule} from "../../../domain/src/lib/core/value-objects/termination-rule.value-object";
+import * as _ from 'lodash'
 
-
-const {Address, Deposit, Payment, Option, Term, Penalty} = Domain
+const {Address, Deposit, Payment, Option, Term, Penalty, TerminationRule} = Domain
 
 export class Offer {
 
@@ -12,8 +11,13 @@ export class Offer {
     if (!model) return null;
 
     const terms = model.terms.map(t => ({
-      ...(t.toObject()), terminationRules:  t.terminationRules.map(r => r.toObject())
+      ...(t.toObject()),
+      terminationRules: _.sortBy(t.terminationRules, 'period')
+        .map(r => r.toObject())
     }))
+
+    console.log(terms[0].terminationRules, terms[1].terminationRules)
+
     const options = model.options.map(o => o.toObject())
 
     return {
@@ -38,14 +42,16 @@ export class Offer {
     const terms = model.terms.map(({ID, ...props}) => {
       props.deposit = Deposit.create(props.deposit)
 
-      props.terminationRules = props.terminationRules.map(r => TerminationRule.create(r))
+      props.terminationRules =
+        _.sortBy(props.terminationRules, 'period')
+        .map(r => TerminationRule.create(r))
 
       return Term.create(props as Domain.TermProps, ID)
     })
 
     const penalty = Penalty.create(model.payment.penalty)
 
-    const payment = Payment.create({...model.payment, penalty } )
+    const payment = Payment.create({...model.payment, penalty})
 
     return Domain.Offer.create({
       address: Address.create(model.address),
