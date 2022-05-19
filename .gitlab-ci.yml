@@ -1,0 +1,15 @@
+run_tests:
+    before_script:
+        - echo "before"
+    script:
+        - echo "running tests"
+    after_script:
+        - echo "after"
+
+build_image:
+    script: 
+        - echo "building"
+
+push_image:
+    script: 
+        - echo "pushing"
