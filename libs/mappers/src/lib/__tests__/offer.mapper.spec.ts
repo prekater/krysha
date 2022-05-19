@@ -18,6 +18,7 @@ describe(Mappers.Offer, () => {
     expect(persistenceOffer).toEqual(offerObjectMock);
   })
 
+
   it('should convert from plain object to domain model', function () {
 
     expect.assertions(1)
