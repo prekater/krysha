@@ -49,11 +49,14 @@ describe(PdfExporter, () => {
     const path = __dirname + '/output.pdf'
     const contract = makeContract()
 
+    console.time()
     await exporter.export(contract)
 
+    console.timeEnd()
     const file = fs.readFileSync(path)
 
     expect(file).toBeDefined()
+
     // fs.unlinkSync(path)
   });
 

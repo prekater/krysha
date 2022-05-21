@@ -2,7 +2,7 @@ import {ArgumentMetadata, BadRequestException, Injectable, NotFoundException, Pi
 import {Domain} from "@bigdeal/domain";
 import {Infra} from "@bigdeal/infra";
 import {Mappers} from "@bigdeal/mappers";
-import {AddContractDto} from "../dto/add-contract.dto";
+import {AddContractDto} from "../../../../libs/application/src/lib/dto/add-contract.dto";
 
 @Injectable()
 export class RetrieveContractDomainModelFromOffer implements PipeTransform {

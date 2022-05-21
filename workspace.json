@@ -1,9 +1,11 @@
 {
   "version": 2,
   "projects": {
+    "application": "libs/application",
     "common": "libs/common",
     "contracts": "apps/contracts",
     "domain": "libs/domain",
+    "gateway": "apps/gateway",
     "infra": "libs/infra",
     "mappers": "libs/mappers",
     "messaging": "libs/messaging",

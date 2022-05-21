@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@bigdeal/application": ["libs/application/src/index.ts"],
       "@bigdeal/common": ["libs/common/src/index.ts"],
       "@bigdeal/domain": ["libs/domain/src/index.ts"],
       "@bigdeal/infra": ["libs/infra/src/index.ts"],

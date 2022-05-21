@@ -5,12 +5,10 @@ import {
   IController,
   BaseOperationResponse,
 } from "@bigdeal/common";
-import {ADD_CONTRACT_COMMAND, EXPORT_CONTRACT_COMMAND} from "@bigdeal/messaging";
-import {AddContractCommand} from "../commands/add-contract.command";
+import {EXPORT_CONTRACT_QUERY} from "@bigdeal/messaging";
 import {Domain} from "@bigdeal/domain";
-
-import {RetrieveContractDomainModelFromOffer} from "../pipes/retrieve-contract-domain-model-by-id.pipe";
 import {RetrieveContractDomainModelById} from "../pipes/retrieve-contract-domain-model-from-dto.pipe";
+import {ExportContractCommand} from "../commands/export-contract.command";
 
 
 @Controller()
@@ -22,9 +20,9 @@ export class ExportContractController implements IController<Domain.Contract, Ba
   }
 
   @UsePipes(RetrieveContractDomainModelById)
-  @MessagePattern(EXPORT_CONTRACT_COMMAND)
+  @MessagePattern(EXPORT_CONTRACT_QUERY)
   async handle(contract: Domain.Contract): Promise<BaseOperationResponse> {
-    return await this.commandBus.execute(new AddContractCommand(contract));
+    return await this.commandBus.execute(new ExportContractCommand(contract));
   }
 
 }

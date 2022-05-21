@@ -8,7 +8,7 @@ import {Domain} from "@bigdeal/domain";
 import {ADD_CONTRACT_COMMAND} from "@bigdeal/messaging";
 import {makeOffer, MockCommandBus} from "@bigdeal/test-utils";
 
-import {AddContractDto} from "../dto/add-contract.dto";
+import {AddContractDto} from "../../../../libs/application/src/lib/dto/add-contract.dto";
 import {AddContractCommand} from "../commands/add-contract.command";
 import {AddContractController} from "../controllers/add-contract.controller";
 jest.mock("../commands/add-contract.command")

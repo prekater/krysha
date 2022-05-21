@@ -1,7 +1,7 @@
 import {ArgumentMetadata, Injectable, NotFoundException, PipeTransform} from "@nestjs/common";
 import {Domain} from "@bigdeal/domain";
 import {Infra} from "@bigdeal/infra";
-import {SearchContractByIdDto} from "../dto/search-contract-by-id.dto";
+import {SearchContractByIdDto} from "../../../../libs/application/src/lib/dto/search-contract-by-id.dto";
 
 @Injectable()
 export class RetrieveContractDomainModelById implements PipeTransform {
