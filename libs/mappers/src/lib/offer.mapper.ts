@@ -16,8 +16,6 @@ export class Offer {
         .map(r => r.toObject())
     }))
 
-    console.log(terms[0].terminationRules, terms[1].terminationRules)
-
     const options = model.options.map(o => o.toObject())
 
     return {

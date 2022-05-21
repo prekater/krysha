@@ -4,6 +4,10 @@ import {Domain} from "@bigdeal/domain";
 
 
 export type PenaltyOptions = { penaltyAbsent: string; penaltyFix: string }
+export type PaymentRulesOptions = {
+  paymentFromMonthStartRules: string;
+  paymentFromRentalStartRules: string;
+}
 
 export class PaymentAdapter extends AbstractContentAdapter {
 
@@ -38,21 +42,48 @@ export class PaymentAdapter extends AbstractContentAdapter {
   }
 
   private makePaymentStart(tpl: string) {
+
+    const date = this.contract.payment.paymentStart === Domain.PaymentStart.START_OF_MONTH
+      ? 1
+      : this.contract.rentalPeriod.rentalStart.format('D')
+
     return util.format(
       tpl,
-      this.getTranslatedPaymentStart(this.contract.payment.paymentStart)
+      date
     )
+  }
+
+  private makePaymentRules(options: PaymentRulesOptions) {
+    const tpl = this.contract.payment.paymentStart === Domain.PaymentStart.START_OF_MONTH
+      ? options.paymentFromMonthStartRules
+      : options.paymentFromRentalStartRules
+
+    return tpl;
+
   }
 
 
   public async makeContent(): Promise<Record<string, string>> {
 
-    const {payment: {paymentStart, paymentType, penaltyFix, penaltyAbsent}} = await import(`./tpl/payment/${this.language}`)
+    const {
+      payment: {
+        paymentStart,
+        paymentType,
+        penaltyFix,
+        penaltyAbsent,
+        paymentFromMonthStartRules,
+        paymentFromRentalStartRules
+      }
+    } = await import(`./tpl/payment/${this.language}`)
 
     return {
       paymentStart: this.makePaymentStart(paymentStart),
       paymentType: this.makeType(paymentType),
       penalty: this.makePenalty({penaltyFix, penaltyAbsent}),
+      paymentRules: this.makePaymentRules({
+        paymentFromMonthStartRules,
+        paymentFromRentalStartRules
+      })
     }
   }
 

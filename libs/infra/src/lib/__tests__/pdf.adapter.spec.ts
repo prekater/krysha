@@ -47,7 +47,7 @@ describe(AbstractContentAdapter, () => {
         depositReturnPeriod: "в течение 2 календарных дней",
         terminationRules: "найм на период 3 месяцев и менее по 45000 рублей в месяц; найм на период 6 месяцев и менее по 50000 рублей в месяц"
 
-    })
+      })
     });
 
     it('should correctly create address content', async function () {
@@ -85,9 +85,10 @@ describe(AbstractContentAdapter, () => {
       const content = await paymentAdapter.makeContent()
 
       expect(content).toEqual({
-        "paymentStart": "в дату начала аренды",
         "paymentType": "Тип оплаты: Одним платежом",
         "penalty": "В случае задержки оплаты взимается 300 рублей в сутки с 1 календарного дня после числа оплаты",
+        "paymentRules": "оплата за первый месяц найма в полном объеме",
+        "paymentStart": "12 числа каждого месяца",
       })
 
     });

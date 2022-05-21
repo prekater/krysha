@@ -40,9 +40,6 @@ export abstract class AbstractContentAdapter {
     return this.translates.paymentType[this.language][type]
   }
 
-  protected getTranslatedPaymentStart(type: Domain.PaymentStart): string {
-    return this.translates.paymentStart[this.language][type]
-  }
 
   protected getTranslatedPropertyType(type: Domain.PropertyType): string {
     return this.translates.propertyType[this.language][type]
