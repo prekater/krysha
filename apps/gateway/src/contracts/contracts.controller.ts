@@ -18,7 +18,10 @@ export class ContractsController {
 
   @Get(':id')
   async findContract(@Param('id') id: Application.SearchContractByIdDto['contractId']): Promise<Infra.Contract> {
-    return await this.contractsService.getById(id);
+
+    const contract =  await this.contractsService.getById(id);
+
+    return contract
   }
 
   @Get(':id/export')

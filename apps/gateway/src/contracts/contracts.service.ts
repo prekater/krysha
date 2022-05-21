@@ -16,6 +16,7 @@ export class ContractsService {
   ) {}
 
   async addContract(addContractDto: Application.AddContractDto) {
+
     return await this.contractsClient.send(ADD_CONTRACT_COMMAND, addContractDto).toPromise();
   }
 
