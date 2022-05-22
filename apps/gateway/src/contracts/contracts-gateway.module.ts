@@ -6,7 +6,6 @@ import {ContractsService} from "./contracts.service";
 @Module({
     imports: [
       ProxyTCPModule,
-
     ],
     providers: [
       ContractsService,

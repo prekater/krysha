@@ -4,7 +4,7 @@ import {OffersService} from "../offers.service";
 import {
   ADD_OFFER_COMMAND,
   ClientProxyTCP,
-  GET_OFFER_QUERY
+  GET_OFFER_BY_ID_QUERY
 } from "@bigdeal/messaging";
 import {ClientTCPMock, proxy} from "@bigdeal/test-utils";
 
@@ -77,7 +77,7 @@ describe(OffersService, () => {
 
     await svc.getById(ID)
 
-    expect(proxy.send).toHaveBeenCalledWith(GET_OFFER_QUERY, {ID})
+    expect(proxy.send).toHaveBeenCalledWith(GET_OFFER_BY_ID_QUERY, {ID})
   });
 
 

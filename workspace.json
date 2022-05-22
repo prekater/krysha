@@ -5,6 +5,7 @@
     "common": "libs/common",
     "contracts": "apps/contracts",
     "domain": "libs/domain",
+    "e2e": "apps/e2e",
     "gateway": "apps/gateway",
     "infra": "libs/infra",
     "mappers": "libs/mappers",

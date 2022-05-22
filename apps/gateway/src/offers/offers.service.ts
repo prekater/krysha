@@ -2,7 +2,7 @@ import {Injectable} from "@nestjs/common"
 import {
   ClientProxyTCP,
   ADD_OFFER_COMMAND,
-  GET_OFFER_QUERY
+  GET_OFFER_BY_ID_QUERY
 } from "@bigdeal/messaging";
 import {Infra} from "@bigdeal/infra";
 
@@ -20,6 +20,6 @@ export class OffersService {
 
 
   async getById(ID: string) {
-    return await this.offersClient.send(GET_OFFER_QUERY, {ID}).toPromise();
+    return await this.offersClient.send(GET_OFFER_BY_ID_QUERY, {ID}).toPromise();
   }
 }

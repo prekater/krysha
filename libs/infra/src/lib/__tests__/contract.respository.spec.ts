@@ -34,8 +34,6 @@ describe(ContractRepository, () => {
         MongooseModule.forRoot(
           `${process.env.MONGO_URL}`,
           {
-            autoIndex: true,
-            autoCreate: true,
             useNewUrlParser: true,
           },
         ),
