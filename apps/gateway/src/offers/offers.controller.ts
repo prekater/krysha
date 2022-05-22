@@ -16,7 +16,7 @@ export class OffersController {
   }
 
   @Get(':id')
-  async findOffer(@Param('id') id: string): Promise<Infra.Contract> {
+  async getOffer(@Param('id') id: string): Promise<Infra.Contract> {
     return await this.offersService.getById(id);
   }
 

@@ -24,8 +24,11 @@ export class AddOfferController implements IController<Domain.Offer, BaseOperati
   )
   @MessagePattern(ADD_OFFER_COMMAND)
   async handle(offer: Domain.Offer): Promise<BaseOperationResponse> {
-    return await this.commandBus.execute(new AddOfferCommand(offer));
+    const response =  await this.commandBus.execute(new AddOfferCommand(offer));
+
+    return response
   }
+
 
 }
 

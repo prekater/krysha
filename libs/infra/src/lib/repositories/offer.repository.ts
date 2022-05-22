@@ -24,7 +24,7 @@ export class OfferRepository implements Domain.IOfferRepository {
       const persistenceViewOffer = Mappers.Offer.fromDomainModelToPersistenceModel(offer)
 
       await this.offers.updateOne({ID: persistenceViewOffer.ID}, persistenceViewOffer, {upsert: true})
-      return {result: true}
+      return {result: true, resourceId: offer.ID.toString()}
     } catch (e) {
       this.logger.error(e.message)
       console.error(e.stack)

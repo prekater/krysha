@@ -4,8 +4,7 @@ import {CqrsModule} from "@nestjs/cqrs";
 import {Infra} from "@bigdeal/infra";
 import {ConfigModule} from "@nestjs/config";
 import {AddContractCommand} from "./commands/add-contract.command";
-import {ExportContractCommand} from "./commands/export-contract.command";
-import {ExportContractController} from "./controllers/export-contract.controller";
+import {AddContractController} from "./controllers/add-contract.controller";
 
 @Module({
     imports: [
@@ -17,15 +16,14 @@ import {ExportContractController} from "./controllers/export-contract.controller
       ),
       CqrsModule,
       Infra.ContractPersistenceModule,
+      Infra.OfferPersistenceModule,
       ConfigModule.forRoot({isGlobal: true})
     ],
     providers: [
       AddContractCommand,
-      ExportContractCommand
     ],
     controllers: [
-      AddContractCommand,
-      ExportContractController
+      AddContractController,
     ],
     exports: [],
 })

@@ -6,6 +6,9 @@ import {AddOfferCommand} from "./commands/add-offer.command";
 import {AddOfferHandler} from "./handlers/add-offer.handler";
 import {MongooseModule} from "@nestjs/mongoose";
 import {CqrsModule} from "@nestjs/cqrs";
+import {GetOfferController} from "./controllers/get-offer.controller";
+import {GetOfferQuery} from "./queries/get-offer.query";
+import {GetOfferHandler} from "./handlers/get-offer.handler";
 
 
 @Module({
@@ -20,10 +23,15 @@ import {CqrsModule} from "@nestjs/cqrs";
     Infra.OfferPersistenceModule,
     ConfigModule.forRoot({isGlobal: true})
   ],
-  controllers: [AddOfferController],
+  controllers: [
+    AddOfferController,
+    GetOfferController
+  ],
   providers: [
     AddOfferCommand,
-    AddOfferHandler
+    AddOfferHandler,
+    GetOfferQuery,
+    GetOfferHandler
   ],
 })
 export class OffersModule {

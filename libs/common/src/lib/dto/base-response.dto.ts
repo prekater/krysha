@@ -1,3 +1,4 @@
 export type BaseOperationResponse  = {
-  result: boolean
+  result: boolean,
+  resourceId?: string | number;
 }
