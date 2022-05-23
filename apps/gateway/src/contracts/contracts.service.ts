@@ -6,7 +6,8 @@ import {
   EXPORT_CONTRACT_QUERY,
 } from "@bigdeal/messaging";
 import * as Stream from "stream";
-import * as fs from 'fs'
+import {interval, lastValueFrom} from 'rxjs';
+
 @Injectable()
 export class ContractsService {
   private readonly contractsClient = this.proxy.getClientProxyContractsInstance()
@@ -21,10 +22,9 @@ export class ContractsService {
     return await this.contractsClient.send(CREATE_CONTRACT_COMMAND, createContractDto).toPromise();
   }
 
-  async exportContract(ID: Application.SearchContractByIdDto['contractId']): Promise<Stream> {
-    const rxjs = await this.contractsClient.send(EXPORT_CONTRACT_QUERY, {contractId: ID})
+  async exportContract(ID: Application.SearchContractByIdDto['contractId']): Promise<Buffer> {
+    const bufferObject = await this.contractsClient.send(EXPORT_CONTRACT_QUERY, {contractId: ID}).toPromise()
 
-
-    return Application.FileTransportAdapter.fromRxJsToStream(rxjs)
+    return Application.FileTransportAdapter.fromObjectToBuffer(bufferObject)
   }
 }

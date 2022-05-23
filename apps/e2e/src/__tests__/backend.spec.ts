@@ -1,7 +1,7 @@
 import {INestApplication} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Transport} from "@nestjs/microservices";
-import {contractObjectMock, injectEnv, makeContract, offerObjectMock} from "@bigdeal/test-utils";
+import { injectEnv, makeContract, offerObjectMock} from "@bigdeal/test-utils";
 import * as request from 'supertest'
 import {AppModule} from "../../../gateway/src/app.module";
 import {OffersModule} from "../../../offers/src/offers.module";
@@ -9,6 +9,7 @@ import {ContractsModule} from "../../../contracts/src/contracts.module";
 import {v4 as uuid} from 'uuid';
 import {Infra} from "@bigdeal/infra";
 import {Application} from "@bigdeal/application";
+import * as pdfParser from 'pdf-parse'
 
 describe('Application e2e', () => {
   let gateway: INestApplication;
@@ -206,16 +207,25 @@ describe('Application e2e', () => {
 
       const contract = makeContract()
 
+      let buffer;
       await repo.persist(contract)
 
       await request(gateway.getHttpServer())
         .get(`/api/contracts/${contract.ID.toString()}/export`)
         .expect(200)
-        .expect('content-type', 'application/octet-stream')
+        .expect('content-type', 'application/pdf')
         .expect(res => {
           expect(res.body).toBeInstanceOf(Buffer)
+
+          buffer = res.body
         })
+      const data = await pdfParser(buffer)
+
+      console.log(data, buffer)
+
+
     });
+
 
   })
 

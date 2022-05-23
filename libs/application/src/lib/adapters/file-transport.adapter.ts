@@ -1,15 +1,22 @@
-import {Observable} from "rxjs";
 import * as Stream from "stream";
-import { rxToStream, streamToStringRx } from 'rxjs-stream';
 
 export class FileTransportAdapter {
 
+  static async fromStreamToBuffer(stream: Stream): Promise<Buffer> {
+    const chunks = [];
+    let buffer;
+    await new Promise(r => {
 
-  static fromStreamToRxJs(stream: Stream): Observable<any> {
-    return streamToStringRx(<NodeJS.ReadableStream>stream)
+      stream.on('data', function(d){ chunks.push(d); });
+      stream.on('end', function(){
+        buffer = Buffer.concat(chunks);
+        r(1)
+      })
+    })
+    return buffer;
   }
 
-  static fromRxJsToStream(rxjs: Observable<any>): Stream {
-    return rxToStream(rxjs)
+  static fromObjectToBuffer({data}: { data: Buffer }): Buffer {
+    return Buffer.from(data)
   }
 }

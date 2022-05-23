@@ -13,7 +13,7 @@ import {Application} from "@bigdeal/application";
 
 
 @Controller()
-export class ExportContractController implements IController<Domain.Contract, Observable<any>> {
+export class ExportContractController implements IController<Domain.Contract, Buffer> {
 
   constructor(
     private readonly queryBus: QueryBus,
@@ -22,11 +22,11 @@ export class ExportContractController implements IController<Domain.Contract, Ob
 
   @UsePipes(RetrieveContractDomainModelById)
   @MessagePattern(EXPORT_CONTRACT_QUERY)
-  async handle(contract: Domain.Contract): Promise<Observable<any>> {
+  async handle(contract: Domain.Contract): Promise<Buffer> {
 
     const stream = await this.queryBus.execute(new ExportContractQuery(contract));
 
-    return Application.FileTransportAdapter.fromStreamToRxJs(stream)
+    return await Application.FileTransportAdapter.fromStreamToBuffer(stream)
   }
 
 }
