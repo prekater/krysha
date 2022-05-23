@@ -1,6 +1,6 @@
 import {Domain} from "@bigdeal/domain";
 
-export class ExportContractCommand {
+export class ExportContractQuery {
   constructor(public contract: Domain.Contract) {
   }
 }

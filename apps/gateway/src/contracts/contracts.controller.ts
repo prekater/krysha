@@ -1,8 +1,8 @@
-import {Body, Controller, Get, Param, Post} from "@nestjs/common";
+import {Body, Controller, Get, Param, Post, Res, StreamableFile, Response} from "@nestjs/common";
 import {BaseOperationResponse} from "@bigdeal/common";
-import {Infra} from "@bigdeal/infra";
 import {Application} from "@bigdeal/application";
 import {ContractsService} from "./contracts.service";
+import {createReadStream} from "fs";
 
 
 @Controller('api/contracts')
@@ -17,12 +17,14 @@ export class ContractsController {
     return await this.contractsService.createContract(createContractDto)
   }
 
-  @Get(':id')
-  async findContract(@Param('id') id: Application.SearchContractByIdDto['contractId']): Promise<Infra.Contract> {
+  @Get(':id/export')
+  async exportContract(
+    @Param('id') id: Application.SearchContractByIdDto['contractId'],
+  ) {
 
-    const contract =  await this.contractsService.getById(id);
+    const file = await this.contractsService.exportContract(id);
 
-    return contract
+    return new StreamableFile(file as any);
   }
 
 

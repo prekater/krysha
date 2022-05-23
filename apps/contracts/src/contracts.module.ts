@@ -6,6 +6,9 @@ import {ConfigModule} from "@nestjs/config";
 import {CreateContractCommand} from "./commands/create-contract.command";
 import {CreateContractController} from "./controllers/create-contract.controller";
 import {CreateContractHandler} from "./handlers/create-contract.handler";
+import {ExportContractController} from "./controllers/export-contract.controller";
+import {ExportContractQuery} from "./queries/export-contract.query";
+import {ExportContractHandler} from "./handlers/export-contract.handler";
 
 @Module({
     imports: [
@@ -22,10 +25,22 @@ import {CreateContractHandler} from "./handlers/create-contract.handler";
     ],
     providers: [
       CreateContractCommand,
-      CreateContractHandler
+      CreateContractHandler,
+      ExportContractQuery,
+      ExportContractHandler,
+
+      {
+        provide: Infra.Exporter,
+        useClass: Infra.PdfExporter
+      },
+      {
+        provide: Infra.Transport,
+        useClass: Infra.StreamTransport
+      }
     ],
     controllers: [
       CreateContractController,
+      ExportContractController
     ],
     exports: [],
 })

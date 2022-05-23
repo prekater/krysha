@@ -1,7 +1,7 @@
 import {INestApplication} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Transport} from "@nestjs/microservices";
-import {injectEnv, offerObjectMock} from "@bigdeal/test-utils";
+import {contractObjectMock, injectEnv, makeContract, offerObjectMock} from "@bigdeal/test-utils";
 import * as request from 'supertest'
 import {AppModule} from "../../../gateway/src/app.module";
 import {OffersModule} from "../../../offers/src/offers.module";
@@ -170,7 +170,7 @@ describe('Application e2e', () => {
     });
 
 
-    it('should correctly export contract', async function () {
+    it('should correctly create contract', async function () {
       expect.assertions(2)
 
       const ID = uuid()
@@ -199,6 +199,22 @@ describe('Application e2e', () => {
       const dbResult = await repo.getById(createdID)
 
       expect(dbResult).toBeDefined()
+    });
+
+    it('should correctly export contract', async function () {
+      expect.assertions(1)
+
+      const contract = makeContract()
+
+      await repo.persist(contract)
+
+      await request(gateway.getHttpServer())
+        .get(`/api/contracts/${contract.ID.toString()}/export`)
+        .expect(200)
+        .expect('content-type', 'application/octet-stream')
+        .expect(res => {
+          expect(res.body).toBeInstanceOf(Buffer)
+        })
     });
 
   })

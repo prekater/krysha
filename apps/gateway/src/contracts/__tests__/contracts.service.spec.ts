@@ -59,7 +59,7 @@ describe(ContractsService, () => {
     expect(proxy.send).toHaveBeenCalledWith(CREATE_CONTRACT_COMMAND, mockPayload)
   });
 
-  it('should correctly get contract', async function () {
+  it('should correctly export contract', async function () {
 
     expect.assertions(1)
     const ID = '1231231'
@@ -67,9 +67,9 @@ describe(ContractsService, () => {
       toPromise: () => Promise.resolve(successResponse)
     }))
 
-    await svc.getById(ID)
+    await svc.exportContract(ID)
 
-    expect(proxy.send).toHaveBeenCalledWith(GET_CONTRACT_BY_ID_QUERY, {ID})
+    expect(proxy.send).toHaveBeenCalledWith(EXPORT_CONTRACT_QUERY, {contractId: ID})
   });
 
   // it('should correctly export contract', async function () {

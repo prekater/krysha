@@ -42,23 +42,24 @@ describe(ContractsController, () => {
     expect(controller).toBeDefined()
   });
 
-
-  it('should correctly find contract by id', async function () {
-
-    expect.assertions(2)
-
-    jest.spyOn(controller['contractsService'], 'getById').mockResolvedValue(contractObjectMock)
-
-    const id = '1231213'
-    await request(app.getHttpServer())
-      .get(`/api/contracts/${id}`)
-      // .send({id: 'john'})
-      .set('Accept', 'application/json')
-      .expect(res => {
-        expect(controller['contractsService'].getById).toHaveBeenCalledWith(id)
-        expect(res.body).toEqual(contractObjectMock)
-      });
-  });
+  //
+  // it('should correctly find contract by id', async function () {
+  //
+  //   expect.assertions(2)
+  //
+  //   jest.spyOn(controller['contractsService'], 'exportContract')
+  //     .mockResolvedValue(contractObjectMock)
+  //
+  //   const id = '1231213'
+  //   await request(app.getHttpServer())
+  //     .get(`/api/contracts/${id}`)
+  //     // .send({id: 'john'})
+  //     .set('Accept', 'application/json')
+  //     .expect(res => {
+  //       expect(controller['contractsService'].exportContract).toHaveBeenCalledWith(id)
+  //       expect(res.body).toEqual(contractObjectMock)
+  //     });
+  // });
 
   // it('should correctly export contract by id', async function () {
   //

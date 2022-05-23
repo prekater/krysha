@@ -1,18 +1,20 @@
-import {CommandHandler, ICommandHandler} from "@nestjs/cqrs";
+import { IQueryHandler, QueryHandler} from "@nestjs/cqrs";
 import {Infra} from "@bigdeal/infra";
 import {BaseOperationResponse} from "@bigdeal/common";
-import {ExportContractCommand} from "../commands/export-contract.command";
+import {ExportContractQuery} from "../queries/export-contract.query";
 
-@CommandHandler(ExportContractCommand)
-export class AddContractHandler implements ICommandHandler<ExportContractCommand> {
+@QueryHandler(ExportContractQuery)
+export class ExportContractHandler implements IQueryHandler<ExportContractQuery> {
   constructor(
     private readonly exporter: Infra.Exporter
   ) {
   }
 
-  async execute(command: ExportContractCommand): Promise<BaseOperationResponse> {
-    const {contract} = command
+  async execute(query: ExportContractQuery): Promise<BaseOperationResponse> {
+    const {contract} = query
 
-    return await this.exporter.export(contract);
+    const stream =  await this.exporter.export(contract);
+
+    return stream
   }
 }
