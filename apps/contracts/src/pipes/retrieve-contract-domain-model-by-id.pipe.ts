@@ -2,7 +2,7 @@ import {ArgumentMetadata, BadRequestException, Injectable, NotFoundException, Pi
 import {Domain} from "@bigdeal/domain";
 import {Infra} from "@bigdeal/infra";
 import {Mappers} from "@bigdeal/mappers";
-import {AddContractDto} from "../../../../libs/application/src/lib/dto/add-contract.dto";
+import {Application} from "@bigdeal/application";
 
 @Injectable()
 export class RetrieveContractDomainModelFromOffer implements PipeTransform {
@@ -12,7 +12,7 @@ export class RetrieveContractDomainModelFromOffer implements PipeTransform {
     private readonly offerRepository: Infra.OfferRepository) {
   }
 
-  async transform(value: AddContractDto, {metatype}: ArgumentMetadata): Promise<Domain.Contract> {
+  async transform(value: Application.CreateContractDto, {metatype}: ArgumentMetadata): Promise<Domain.Contract> {
 
     const offer = await this.offerRepository.getById(value.offerId)
     if (!offer) throw new NotFoundException()

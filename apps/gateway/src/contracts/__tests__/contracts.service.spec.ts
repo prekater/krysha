@@ -2,7 +2,7 @@ import {INestApplication} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
 import {ContractsService} from "../contracts.service";
 import {
-  ADD_CONTRACT_COMMAND,
+  CREATE_CONTRACT_COMMAND,
   ClientProxyTCP,
   EXPORT_CONTRACT_QUERY,
   GET_CONTRACT_BY_ID_QUERY
@@ -49,14 +49,14 @@ describe(ContractsService, () => {
   it('should correctly add contract', async function () {
 
     expect.assertions(1)
-    const mockPayload = {offerId: "", rentalEnd: "", rentalStart: "", termId: ""}
+    const mockPayload = {landlord: "", offerId: "", rentalEnd: "", rentalStart: "", renter: "", termId: ""}
     jest.spyOn(proxy, 'send').mockImplementation(() => ({
       toPromise: () => Promise.resolve(successResponse)
     }))
 
-    await svc.addContract(mockPayload)
+    await svc.createContract(mockPayload)
 
-    expect(proxy.send).toHaveBeenCalledWith(ADD_CONTRACT_COMMAND, mockPayload)
+    expect(proxy.send).toHaveBeenCalledWith(CREATE_CONTRACT_COMMAND, mockPayload)
   });
 
   it('should correctly get contract', async function () {
@@ -72,18 +72,18 @@ describe(ContractsService, () => {
     expect(proxy.send).toHaveBeenCalledWith(GET_CONTRACT_BY_ID_QUERY, {ID})
   });
 
-  it('should correctly export contract', async function () {
-
-    expect.assertions(1)
-    const ID = '1231231'
-    jest.spyOn(proxy, 'send').mockImplementation(() => ({
-      toPromise: () => Promise.resolve(successResponse)
-    }))
-
-    await svc.exportContract(ID)
-
-    expect(proxy.send).toHaveBeenCalledWith(EXPORT_CONTRACT_QUERY, {ID})
-  });
+  // it('should correctly export contract', async function () {
+  //
+  //   expect.assertions(1)
+  //   const ID = '1231231'
+  //   jest.spyOn(proxy, 'send').mockImplementation(() => ({
+  //     toPromise: () => Promise.resolve(successResponse)
+  //   }))
+  //
+  //   await svc.exportContract(ID)
+  //
+  //   expect(proxy.send).toHaveBeenCalledWith(EXPORT_CONTRACT_QUERY, {ID})
+  // });
 
 
 });

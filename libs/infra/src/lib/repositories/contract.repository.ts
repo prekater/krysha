@@ -24,7 +24,7 @@ export class ContractRepository implements Domain.IContractRepository {
       const persistenceViewContract = Mappers.Contract.fromDomainModelToPersistenceModel(contract)
 
       await this.contracts.updateOne({ID: persistenceViewContract.ID}, persistenceViewContract, {upsert: true})
-      return {result: true}
+      return {result: true, resourceId: contract.ID.toString()}
     } catch (e) {
       this.logger.error(e.message)
       console.error(e.stack)

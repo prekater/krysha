@@ -12,8 +12,9 @@ export class ContractsController {
   }
 
   @Post()
-  async addContract(@Body() addContractDto: Application.AddContractDto): Promise<BaseOperationResponse> {
-    return await this.contractsService.addContract(addContractDto)
+  async createContract(@Body() createContractDto: Application.CreateContractDto): Promise<BaseOperationResponse> {
+
+    return await this.contractsService.createContract(createContractDto)
   }
 
   @Get(':id')
@@ -24,9 +25,5 @@ export class ContractsController {
     return contract
   }
 
-  @Get(':id/export')
-  async exportContract(@Param('id') id: Application.SearchContractByIdDto['contractId']): Promise<Infra.Contract> {
-    return await this.contractsService.exportContract(id);
-  }
 
 }

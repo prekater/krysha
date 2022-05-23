@@ -1,5 +1,5 @@
-import {AddContractHandler} from "./add-contract.handler";
+import {CreateContractHandler} from "./create-contract.handler";
 
 export const CommandHandlers = [
-  AddContractHandler
+  CreateContractHandler
 ]

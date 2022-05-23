@@ -5,18 +5,18 @@ import {ClientProxy, ClientsModule, MicroserviceOptions, Transport} from "@nestj
 import {CommandBus, CqrsModule} from "@nestjs/cqrs";
 import {Infra} from "@bigdeal/infra";
 import {Domain} from "@bigdeal/domain";
-import {ADD_CONTRACT_COMMAND} from "@bigdeal/messaging";
+import {CREATE_CONTRACT_COMMAND} from "@bigdeal/messaging";
 import {makeOffer, MockCommandBus} from "@bigdeal/test-utils";
 
-import {AddContractDto} from "../../../../libs/application/src/lib/dto/add-contract.dto";
-import {AddContractCommand} from "../commands/add-contract.command";
-import {AddContractController} from "../controllers/add-contract.controller";
-jest.mock("../commands/add-contract.command")
+import {CreateContractDto} from "../../../../libs/application/src/lib/dto/create-contract.dto";
+import {CreateContractCommand} from "../commands/create-contract.command";
+import {CreateContractController} from "../controllers/create-contract.controller";
+jest.mock("../commands/create-contract.command")
 
-describe(AddContractController, () => {
+describe(CreateContractController, () => {
 
   let app: INestApplication;
-  let controller: AddContractController;
+  let controller: CreateContractController;
   let repo: Infra.OfferRepository;
   let client: ClientProxy;
 
@@ -47,7 +47,7 @@ describe(AddContractController, () => {
       providers: [
         {provide: CommandBus, useClass: MockCommandBus}
       ],
-      controllers: [AddContractController]
+      controllers: [CreateContractController]
     }).compile();
 
 
@@ -60,7 +60,7 @@ describe(AddContractController, () => {
       }
     }, {inheritAppConfig: true})
 
-    controller = moduleFixture.get<AddContractController>(AddContractController)
+    controller = moduleFixture.get<CreateContractController>(CreateContractController)
 
     repo = moduleFixture.get<Infra.OfferRepository>(Infra.OfferRepository)
     client = app.get('Client');
@@ -77,7 +77,7 @@ describe(AddContractController, () => {
 
   beforeEach(() => {
     // @ts-ignore
-    AddContractCommand.mockClear()
+    CreateContractCommand.mockClear()
   })
 
   it('should be defined', function () {
@@ -94,7 +94,8 @@ describe(AddContractController, () => {
     expect.assertions(2)
     const offer = makeOffer()
 
-    const dto: AddContractDto = {
+    const dto: CreateContractDto = {
+      landlord: "", renter: "",
       offerId: offer.ID.toString(),
       termId: offer.terms[0].ID.toString(),
       rentalStart: '12.06.2022',
@@ -104,12 +105,12 @@ describe(AddContractController, () => {
     jest.spyOn(controller['commandBus'], 'execute').mockResolvedValue({result: true})
 
     await client.send(
-      ADD_CONTRACT_COMMAND,
+      CREATE_CONTRACT_COMMAND,
       dto
     ).toPromise();
 
-    expect(controller['commandBus'].execute).toHaveBeenCalledWith(expect.any(AddContractCommand))
-    expect(AddContractCommand).toHaveBeenCalledWith(expect.any(Domain.Contract))
+    expect(controller['commandBus'].execute).toHaveBeenCalledWith(expect.any(CreateContractCommand))
+    expect(CreateContractCommand).toHaveBeenCalledWith(expect.any(Domain.Contract))
 
   });
 
@@ -117,11 +118,12 @@ describe(AddContractController, () => {
   it('should throw not found exception', async function () {
 
     expect.assertions(2)
-    const dto: AddContractDto = {
+    const dto: CreateContractDto = {
+      landlord: "", renter: "",
       offerId: 'wfwefwfwfwfwf',
       termId: '123',
       rentalStart: '12.06.2022',
-      rentalEnd: '12.09.2022',
+      rentalEnd: '12.09.2022'
     }
 
 
@@ -130,12 +132,12 @@ describe(AddContractController, () => {
 
     try {
       await client.send(
-        ADD_CONTRACT_COMMAND,
+        CREATE_CONTRACT_COMMAND,
         dto
       ).toPromise();
     } catch (e) {
       expect(controller['commandBus'].execute).not.toHaveBeenCalled()
-      expect(AddContractCommand).not.toHaveBeenCalled()
+      expect(CreateContractCommand).not.toHaveBeenCalled()
     }
 
   });
@@ -145,11 +147,12 @@ describe(AddContractController, () => {
     expect.assertions(2)
     const offer = makeOffer()
 
-    const dto: AddContractDto = {
+    const dto: CreateContractDto = {
+      landlord: "", renter: "",
       offerId: offer.ID.toString(),
       termId: 'wefwefwfwffwe',
       rentalStart: '12.06.2022',
-      rentalEnd: '12.09.2022',
+      rentalEnd: '12.09.2022'
     }
 
     jest.spyOn(repo, 'getById').mockResolvedValue(offer)
@@ -157,14 +160,14 @@ describe(AddContractController, () => {
 
     try {
       await client.send(
-        ADD_CONTRACT_COMMAND,
+        CREATE_CONTRACT_COMMAND,
         dto
       ).toPromise();
 
     }
     catch (e) {
       expect(controller['commandBus'].execute).not.toHaveBeenCalled()
-      expect(AddContractCommand).not.toHaveBeenCalled()
+      expect(CreateContractCommand).not.toHaveBeenCalled()
     }
 
   });

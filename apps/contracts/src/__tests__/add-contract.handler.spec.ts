@@ -4,10 +4,10 @@ import {CommandBus, CqrsModule,} from "@nestjs/cqrs";
 import {makeContract, MockContractsRepository} from "@bigdeal/test-utils";
 import {Infra} from "@bigdeal/infra";
 import {CommandHandlers} from "../handlers";
-import {AddContractHandler} from "../handlers/add-contract.handler";
-import {AddContractCommand} from "../commands/add-contract.command";
+import {CreateContractHandler} from "../handlers/create-contract.handler";
+import {CreateContractCommand} from "../commands/create-contract.command";
 
-describe(AddContractHandler, () => {
+describe(CreateContractHandler, () => {
   let app: INestApplication;
 
   let repo: Infra.ContractRepository;
@@ -55,7 +55,7 @@ describe(AddContractHandler, () => {
 
     jest.spyOn(repo, 'persist').mockResolvedValue({result: true})
     const contract = makeContract()
-    const {result} = await commandBus.execute(new AddContractCommand(contract))
+    const {result} = await commandBus.execute(new CreateContractCommand(contract))
 
 
     expect(repo.persist).toHaveBeenCalledWith(contract)

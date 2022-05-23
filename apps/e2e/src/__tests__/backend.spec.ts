@@ -8,6 +8,7 @@ import {OffersModule} from "../../../offers/src/offers.module";
 import {ContractsModule} from "../../../contracts/src/contracts.module";
 import {v4 as uuid} from 'uuid';
 import {Infra} from "@bigdeal/infra";
+import {Application} from "@bigdeal/application";
 
 describe('Application e2e', () => {
   let gateway: INestApplication;
@@ -70,7 +71,7 @@ describe('Application e2e', () => {
       await offersMicroservice.close();
     });
 
-    beforeEach(async  () => {
+    beforeEach(async () => {
       await repo['offers'].deleteMany({})
     })
 
@@ -125,6 +126,7 @@ describe('Application e2e', () => {
 
     let contractsMicroservice;
     let repo: Infra.ContractRepository;
+    let offersRepo: Infra.OfferRepository;
 
     beforeAll(async () => {
 
@@ -148,6 +150,7 @@ describe('Application e2e', () => {
       await contractsMicroservice.init();
 
       repo = moduleFixture.get<Infra.ContractRepository>(Infra.ContractRepository)
+      offersRepo = moduleFixture.get<Infra.OfferRepository>(Infra.OfferRepository)
     })
 
     afterAll(async () => {
@@ -155,19 +158,47 @@ describe('Application e2e', () => {
     })
 
 
-    beforeEach(async  () => {
+    beforeEach(async () => {
       await repo['contracts'].deleteMany({})
     })
 
     it('should be defined', function () {
-      expect.assertions(2)
+      expect.assertions(3)
       expect(contractsMicroservice).toBeDefined()
       expect(repo).toBeDefined()
+      expect(offersRepo).toBeDefined()
     });
 
 
     it('should correctly export contract', async function () {
+      expect.assertions(2)
 
+      const ID = uuid()
+      let createdID;
+
+      await offersRepo['offers'].create({...offerObjectMock, ID})
+      const payload: Application.CreateContractDto = {
+        landlord: "Иванов Иван Иванович",
+        renter: "Петров Петр Петрович",
+        offerId: ID,
+        termId: offerObjectMock.terms[0].ID,
+        rentalStart: '12.06.2022',
+        rentalEnd: '12.09.2022'
+      }
+
+      await request(gateway.getHttpServer())
+        .post(`/api/contracts`)
+        .send(payload)
+        .set('Accept', 'application/json')
+        .expect(res => {
+
+          expect(res.body).toEqual({result: true, resourceId: expect.any(String)})
+          createdID = res.body.resourceId
+        });
+
+      const dbResult = await repo.getById(createdID)
+
+      expect(dbResult).toBeDefined()
     });
 
   })

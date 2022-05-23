@@ -3,8 +3,9 @@ import {MongooseModule} from "@nestjs/mongoose";
 import {CqrsModule} from "@nestjs/cqrs";
 import {Infra} from "@bigdeal/infra";
 import {ConfigModule} from "@nestjs/config";
-import {AddContractCommand} from "./commands/add-contract.command";
-import {AddContractController} from "./controllers/add-contract.controller";
+import {CreateContractCommand} from "./commands/create-contract.command";
+import {CreateContractController} from "./controllers/create-contract.controller";
+import {CreateContractHandler} from "./handlers/create-contract.handler";
 
 @Module({
     imports: [
@@ -20,10 +21,11 @@ import {AddContractController} from "./controllers/add-contract.controller";
       ConfigModule.forRoot({isGlobal: true})
     ],
     providers: [
-      AddContractCommand,
+      CreateContractCommand,
+      CreateContractHandler
     ],
     controllers: [
-      AddContractController,
+      CreateContractController,
     ],
     exports: [],
 })

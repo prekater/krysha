@@ -5,15 +5,14 @@ import {
   IController,
   BaseOperationResponse,
 } from "@bigdeal/common";
-import {ADD_CONTRACT_COMMAND} from "@bigdeal/messaging";
-import {AddContractCommand} from "../commands/add-contract.command";
+import {CREATE_CONTRACT_COMMAND} from "@bigdeal/messaging";
 import {Domain} from "@bigdeal/domain";
-
+import {CreateContractCommand} from "../commands/create-contract.command";
 import {RetrieveContractDomainModelFromOffer} from "../pipes/retrieve-contract-domain-model-by-id.pipe";
 
 
 @Controller()
-export class AddContractController implements IController<Domain.Contract, BaseOperationResponse> {
+export class CreateContractController implements IController<Domain.Contract, BaseOperationResponse> {
 
   constructor(
     private readonly commandBus: CommandBus,
@@ -21,9 +20,9 @@ export class AddContractController implements IController<Domain.Contract, BaseO
   }
 
   @UsePipes(RetrieveContractDomainModelFromOffer)
-  @MessagePattern(ADD_CONTRACT_COMMAND)
+  @MessagePattern(CREATE_CONTRACT_COMMAND)
   async handle(contract: Domain.Contract): Promise<BaseOperationResponse> {
-    return await this.commandBus.execute(new AddContractCommand(contract));
+    return await this.commandBus.execute(new CreateContractCommand(contract));
   }
 
 }

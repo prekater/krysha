@@ -60,36 +60,36 @@ describe(ContractsController, () => {
       });
   });
 
-  it('should correctly export contract by id', async function () {
-
-    expect.assertions(2)
-    const successResponse = {result: true}
-
-    jest.spyOn(controller['contractsService'], 'exportContract').mockResolvedValue(successResponse)
-
-    const id = '1231213'
-    await request(app.getHttpServer())
-      .get(`/api/contracts/${id}/export`)
-      // .send({id: 'john'})
-      .set('Accept', 'application/json')
-      .expect(res => {
-        expect(controller['contractsService'].exportContract).toHaveBeenCalledWith(id)
-        expect(res.body).toEqual(successResponse)
-      });
-  });
+  // it('should correctly export contract by id', async function () {
+  //
+  //   expect.assertions(2)
+  //   const successResponse = {result: true}
+  //
+  //   jest.spyOn(controller['contractsService'], 'exportContract').mockResolvedValue(successResponse)
+  //
+  //   const id = '1231213'
+  //   await request(app.getHttpServer())
+  //     .get(`/api/contracts/${id}/export`)
+  //     // .send({id: 'john'})
+  //     .set('Accept', 'application/json')
+  //     .expect(res => {
+  //       expect(controller['contractsService'].exportContract).toHaveBeenCalledWith(id)
+  //       expect(res.body).toEqual(successResponse)
+  //     });
+  // });
 
   it('should correctly add contract', async function () {
     expect.assertions(2)
     const successResponse = {result: true}
 
-    jest.spyOn(controller['contractsService'], 'addContract').mockResolvedValue(successResponse)
+    jest.spyOn(controller['contractsService'], 'createContract').mockResolvedValue(successResponse)
 
     await request(app.getHttpServer())
       .post(`/api/contracts`)
       .send(contractObjectMock)
       .set('Accept', 'application/json')
       .expect(res => {
-        expect(controller['contractsService'].addContract).toHaveBeenCalledWith(contractObjectMock)
+        expect(controller['contractsService'].createContract).toHaveBeenCalledWith(contractObjectMock)
         expect(res.body).toEqual(successResponse)
       });
   });
