@@ -5,8 +5,6 @@ import {
   CREATE_CONTRACT_COMMAND,
   EXPORT_CONTRACT_QUERY,
 } from "@bigdeal/messaging";
-import * as Stream from "stream";
-import {interval, lastValueFrom} from 'rxjs';
 
 @Injectable()
 export class ContractsService {
