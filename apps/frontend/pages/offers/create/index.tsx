@@ -5,22 +5,35 @@ import {useAddress} from "../../../hooks/address.hook";
 import {useOptions} from "../../../hooks/options.hook";
 import {useTerms} from "../../../hooks/terms.hook";
 
-const onSubmit = async values => {
 
-  console.log(values)
-}
 const validate = values => {
   const errors: any = {}
-  if (!values.firstName) {
-    errors.firstName = 'Required'
-  }
-  if (!values.lastName) {
-    errors.lastName = 'Required'
-  }
+  // if (!values.firstName) {
+  //   errors.firstName = 'Required'
+  // }
+  // if (!values.lastName) {
+  //   errors.lastName = 'Required'
+  // }
   return errors
 }
 
 const CreateOffer = () => {
+
+  // terms block
+  const {terms, onAddTerm, onChangeTerm, onAddTerminationRule} = useTerms()
+
+  // options block
+  const {options, onChangeOption, onAddOption} = useOptions()
+
+  const onSubmit = async values => {
+
+    const payload = {
+      ...values,
+      options,
+      terms
+    }
+    console.log(payload)
+  }
   const {form, handleSubmit, values, pristine, submitting} = useForm({
     onSubmit,
     validate
@@ -43,12 +56,8 @@ const CreateOffer = () => {
     penaltyType]
     = usePayments(form)
 
-  // property type
 
   const propertyType = useField('propertyType', form)
-  // options block
-  const {options, onChangeOption, onAddOption} = useOptions()
-  const {terms, onAddTerm, onChangeTerm, onAddTerminationRule} = useTerms()
 
 
   return (
@@ -58,74 +67,65 @@ const CreateOffer = () => {
           <h1><strong>Адрес:</strong></h1>
           <div>
             <label>Город</label>
-            <input {...city.input} placeholder="Введите город"/>
-            {city.meta.touched &&
-              city.meta.error && <span>{city.meta.error}</span>}
+            <input {...city.input} id="city" placeholder="Введите город"/>
+
           </div>
           <div>
             <label>Улица</label>
-            <input {...street.input} placeholder="Введите улицу"/>
-            {street.meta.touched &&
-              street.meta.error && <span>{street.meta.error}</span>}
+            <input {...street.input} id="street" placeholder="Введите улицу"/>
+
           </div>
           <div>
             <label>Дом</label>
-            <input {...house.input} placeholder="Введите дом"/>
-            {house.meta.touched &&
-              house.meta.error && <span>{house.meta.error}</span>}
+            <input {...house.input} id="house" placeholder="Введите дом"/>
+
           </div>
           <div>
             <label>Квартира</label>
-            <input {...flat.input} placeholder="Введите квартиру"/>
-            {flat.meta.touched &&
-              flat.meta.error && <span>{flat.meta.error}</span>}
+            <input {...flat.input} id="flat" placeholder="Введите квартиру"/>
+
           </div>
         </div>
         <div>
           <h1><strong>Оплата:</strong></h1>
           <div>
             <label>Дата платежа</label>
-            <select {...paymentStart.input}>
+            <select id="paymentStart" {...paymentStart.input}>
               <option value={''}>...</option>
               <option value={'START_OF_RENT'}>В дату начала аренды</option>
               <option value={'START_OF_MONTH'}>Первого числа каждого месяца</option>
             </select>
-            {paymentType.meta.touched &&
-              paymentType.meta.error && <span>{paymentType.meta.error}</span>}
           </div>
           <div>
             <label>Способ оплаты</label>
-            <select {...paymentType.input}>
+            <select id="paymentType" {...paymentType.input}>
               <option value={''}>...</option>
               <option value={'ONE_PAYMENT'}>Один платеж в месяц</option>
               <option value={'TWO_PAYMENTS'}>Два платежа в месяц</option>
             </select>
-            {street.meta.touched &&
-              street.meta.error && <span>{street.meta.error}</span>}
+
           </div>
         </div>
         <div>
           <h1><strong>Штраф за неуплату:</strong></h1>
           <div>
             <label>Тип штрафа</label>
-            <select {...penaltyType.input} >
+            <select id="penaltyType" {...penaltyType.input} >
               <option value={''}>Выберите тип штрафа</option>
               <option value={'ABSENT'}>Отсутствует</option>
               <option value={'FIX_FOR_EVERY_DAY'}>fix за каждый день просрочки</option>
             </select>
-            {penaltyCurrency.meta.touched &&
-              penaltyCurrency.meta.error && <span>{penaltyCurrency.meta.error}</span>}
           </div>
           {values.payment?.penalty?.type === 'FIX_FOR_EVERY_DAY' && (
             <>
               <div>
                 <label>Начислять штраф, начиная с</label>
-                <input {...penaltyStart.input} /> дня
+                <input id="penaltyStart" {...penaltyStart.input} /> дня
               </div>
               <div>
                 <label>Сумма штрафа (в день)</label>
-                <input {...penaltyValue.input} />
-                <select {...penaltyCurrency.input} placeholder="Выберите валюту">
+                <input id="penaltyValue" {...penaltyValue.input} />
+                <select id="penaltyCurrency" {...penaltyCurrency.input} placeholder="Выберите валюту">
                   <option value={''}>Выберите валюту</option>
                   <option value={'RUB'}>Рубль</option>
                   <option value={'EUR'}>Евро</option>
@@ -137,7 +137,7 @@ const CreateOffer = () => {
         </div>
         <div>
           <h1><strong>Тип жилья:</strong></h1>
-          <select {...propertyType.input} >
+          <select id="propertyType" {...propertyType.input}>
             <option value={''}>Выберите тип жилья</option>
             <option value={'ONE_ROOM'}>Однокомнатная</option>
             <option value={'TWO_ROOM'}>Двухкомнатная</option>
@@ -151,10 +151,10 @@ const CreateOffer = () => {
           <h1><strong>Съемщик платит за:</strong></h1>
           {options.map((o, i) => (
             <div>
-              <input value={o.title} onChange={onChangeOption(i)}/>
+              <input value={o.title} className={'option'} onChange={onChangeOption(i)}/>
               <hr/>
             </div>))}
-          <button onClick={onAddOption}> Добавить опцию</button>
+          <input type="button" id="add-option-btn" onClick={onAddOption} value={'Добавить опцию'}/>
         </div>
 
         <hr/>
@@ -162,10 +162,10 @@ const CreateOffer = () => {
           <h1><strong>Условия аренды:</strong></h1>
           {terms.map((term, termIndex) => (
             <div>
-              <div>
-                <label>Cтоимость: </label>
-                <input value={term.deposit.value} onChange={onChangeTerm(termIndex, 'price')}/> {term.price}
-                <select onChange={onChangeTerm(termIndex, 'priceUnit')}>
+              <div className={'term'}>
+                <label>Стоимость: </label>
+                <input className={'term-price'} value={term.price} onChange={onChangeTerm(termIndex, 'price')}/> {term.price}
+                <select className={'term-currency'} onChange={onChangeTerm(termIndex, 'priceUnit')}>
                   <option value={''}>Выберите валюту</option>
                   <option value={'RUB'}>Рубль</option>
                   <option value={'EUR'}>Евро</option>
@@ -174,24 +174,23 @@ const CreateOffer = () => {
               </div>
               <div>
                 <h3>Период: </h3>
-
                 <label> от: </label>
-                <input value={term.periodFrom} onChange={onChangeTerm(termIndex, 'periodFrom')}/> {term.price}
+                <input className={'term-period-from'} value={term.periodFrom} onChange={onChangeTerm(termIndex, 'periodFrom')}/> {term.periodFrom}
                 <label> до: </label>
-                <input value={term.periodTo} onChange={onChangeTerm(termIndex, 'periodTo')}/> {term.price}
+                <input className={'term-period-to'} value={term.periodTo} onChange={onChangeTerm(termIndex, 'periodTo')}/> {term.periodTo}
               </div>
               <div>
                 <h3> Депозит: </h3>
                 <h4> При заключении контракта</h4>
-                <div>
+                <div >
                   <label>Сумма</label>
-                  <input value={term.deposit.value}
+                  <input className={'term-deposit-value'} value={term.deposit.value}
                          onChange={onChangeTerm(termIndex, 'deposit.value')}/> {term.priceUnit}
                 </div>
                 <div>
                   <label>Срок возврата</label>
-                  <input value={term.deposit.returnPeriod} onChange={onChangeTerm(termIndex, 'deposit.returnPeriod')}/>
-                  <select onChange={onChangeTerm(termIndex, 'deposit.returnPeriodUnit')}>
+                  <input className={'term-deposit-return-period'} value={term.deposit.returnPeriod} onChange={onChangeTerm(termIndex, 'deposit.returnPeriod')}/>
+                  <select className={'term-deposit-return-period-unit'} onChange={onChangeTerm(termIndex, 'deposit.returnPeriodUnit')}>
                     <option value={''}>Выберите единицы времени для возврата</option>
                     <option value={'days'}>дней</option>
                     <option value={'months'}>месяцев</option>
@@ -199,7 +198,7 @@ const CreateOffer = () => {
                   </select>
                 </div>
                 <div>
-                  <select onChange={onChangeTerm(termIndex, 'deposit.collectType')}>
+                  <select className={'term-deposit-collect-type'} onChange={onChangeTerm(termIndex, 'deposit.collectType')}>
                     <option>....</option>
                     <option value={'CONCLUSION'}> Оплачивается сразу</option>
                     <option value={'PARTIAL'}> Частями</option>
@@ -211,35 +210,46 @@ const CreateOffer = () => {
                   <h3>Условия разрыва контракта</h3>
                   {term.terminationRules.map((rule, ruleIndex) => (
                     <div>
-                      <h4>Найм на периоде менее </h4>
+                      <h4>Найм на период менее </h4>
                       <input
+                        className={'term-termination-rule-period'}
                         type="number"
                         value={term.terminationRules[ruleIndex].period}
                         onChange={onChangeTerm(termIndex, `terminationRules.${ruleIndex}.period`)}
                       />
+                      <select className={'term-termination-rule-period-unit'} onChange={onChangeTerm(termIndex, `terminationRules.${ruleIndex}.periodUnit`)}>
+                        <option value={'months'}>месяцев</option>
+                        <option value={'days'}>дней</option>
+                        <option value={'years'}>лет</option>
+                      </select>
 
+                      <h4>Оплата </h4>
+                      <input
+                        className={'term-termination-rule-value'}
+                        type="number"
+                        value={term.terminationRules[ruleIndex].value}
+                        onChange={onChangeTerm(termIndex, `terminationRules.${ruleIndex}.value`)}
+                      />
+                      <select className={'term-termination-rule-currency'} onChange={onChangeTerm(termIndex, `terminationRules.${ruleIndex}.currency`)}>
+                        <option value={'RUB'}>Рубль</option>
+                        <option value={'EUR'}>Евро</option>
+                        <option value={'USD'}>Доллар</option>
+                      </select> в месяц
                     </div>
                   ))}
 
-                  <button onClick={onAddTerminationRule(termIndex)}> Добавить условие разрыва контракта</button>
+                  <input type="button" className={"add-termination-rule-btn"} onClick={onAddTerminationRule(termIndex)} value={'Добавить условие разрыва контракта'}/>
                 </div>
               </div>
               <hr/>
             </div>
           ))}
-          <button onClick={onAddTerm}> Добавить условие</button>
+          <input type="button" id="add-term-btn" onClick={onAddTerm} value={'Добавить условие'}/>
         </div>
 
         <div className="buttons">
-          <button type="submit" disabled={submitting}>
+          <button type="submit">
             Submit
-          </button>
-          <button
-            type="button"
-            onClick={() => form.reset()}
-            disabled={submitting || pristine}
-          >
-            Reset
           </button>
         </div>
         <pre>{JSON.stringify(values, undefined, 2)}</pre>

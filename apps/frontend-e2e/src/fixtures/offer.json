@@ -1,0 +1,127 @@
+{
+  "ID": "c28ac379-81e7-492b-b974-3e76b39cf203",
+  "address": {
+    "city": "Москва",
+    "flat": "222",
+    "house": "56",
+    "street": "улица Свободы"
+  },
+  "payment": {
+    "paymentStart": "START_OF_RENT",
+    "penalty": {
+      "currency": "RUB",
+      "start": "1",
+      "type": "FIX_FOR_EVERY_DAY",
+      "value": "300"
+    },
+    "type": "ONE_PAYMENT"
+  },
+  "propertyType": "ONE_ROOM",
+  "authorId": "test",
+  "options": [
+    {
+      "isEnabled": true,
+      "title": "Электричество"
+    },
+    {
+      "isEnabled": true,
+      "title": "Вода"
+    },
+    {
+      "isEnabled": true,
+      "title": "Отопление"
+    }
+  ],
+  "terms": [
+    {
+      "deposit":
+        {
+          "collectType": "CONCLUSION",
+          "returnType": "REFOUND_IN_CASE_OF_1_MONTH_NOTICE",
+          "value": "100000",
+          "returnPeriod": "2",
+          "returnPeriodUnit": "days"
+        }
+      ,
+      "periodFrom": "1",
+      "periodTo": "3",
+      "periodUnit": "months",
+      "price": "100000",
+      "priceUnit": "RUB",
+      "ID": "test",
+      "terminationRules": [
+        {
+          "period": "3",
+          "periodUnit": "months",
+          "value": "145000",
+          "currency": "RUB"
+        },
+        {
+          "period": "6",
+          "periodUnit": "months",
+          "value": "150000",
+          "currency": "RUB"
+        }
+      ]
+    },
+    {
+      "deposit": {
+        "collectType": "CONCLUSION",
+        "returnType": "REFOUND_IN_CASE_OF_1_MONTH_NOTICE",
+        "value": "100000",
+        "returnPeriod": "2",
+        "returnPeriodUnit": "days"
+      },
+      "periodFrom": "3",
+      "periodTo": "6",
+      "periodUnit": "months",
+      "price": "90000",
+      "priceUnit": "RUB",
+      "ID": "test",
+      "terminationRules": [
+        {
+          "period": "3",
+          "periodUnit": "months",
+          "value": "160000",
+          "currency": "RUB"
+        },
+        {
+          "period": "6",
+          "periodUnit": "months",
+          "value": "140000",
+          "currency": "RUB"
+        },
+        {
+          "period": "9",
+          "periodUnit": "months",
+          "value": "120000",
+          "currency": "RUB"
+        }
+      ]
+    },
+    {
+      "deposit": {
+        "collectType": "CONCLUSION",
+        "returnType": "REFOUND_IN_CASE_OF_1_MONTH_NOTICE",
+        "value": "100000",
+        "returnPeriod": "2",
+        "returnPeriodUnit": "days"
+      },
+      "periodFrom": "6",
+      "periodTo": "12",
+      "periodUnit": "months",
+      "price": "90000",
+      "priceUnit": "RUB",
+      "ID": "test",
+      "terminationRules": [
+        {
+          "period": "6",
+          "periodUnit": "months",
+          "value": "110000",
+          "currency": "RUB"
+        }
+      ]
+    }
+  ],
+  "type": "DRAFT"
+}

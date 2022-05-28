@@ -24,9 +24,9 @@ export const useTerms = () => {
     const newTerms = [...terms];
 
     newTerms[termIndex].terminationRules.push({
-      currency: '',
+      currency: 'RUB',
       period: '',
-      periodUnit: '',
+      periodUnit: 'months',
       value: ''
     } as any)
 
@@ -60,7 +60,6 @@ export const useTerms = () => {
 
     for ( let i =0; i< path.length -1; i++)  {
 
-      console.log(reference, path[i], reference[path[i]])
       reference =  reference[path[i]]
     }
     reference[path[path.length -1]] = event.target.value

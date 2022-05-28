@@ -6,6 +6,7 @@
     "frontend:serve": "nx serve frontend",
     "build": "nx build",
     "test:all": "nx run-many --target=test --all --skip-nx-cache",
+    "e2e:frontend": "nx e2e frontend-e2e --watch",
     "test:app:offers": "nx run offers:test",
     "test:app:contracts": "nx run contracts:test",
     "test:domain": "nx run domain:test",
