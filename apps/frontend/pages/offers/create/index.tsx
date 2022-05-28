@@ -48,7 +48,7 @@ const CreateOffer = () => {
   const propertyType = useField('propertyType', form)
   // options block
   const {options, onChangeOption, onAddOption} = useOptions()
-  const {terms, onAddTerm, onChangeTerm} = useTerms()
+  const {terms, onAddTerm, onChangeTerm, onAddTerminationRule} = useTerms()
 
 
   return (
@@ -160,11 +160,12 @@ const CreateOffer = () => {
         <hr/>
         <div>
           <h1><strong>Условия аренды:</strong></h1>
-          {terms.map((term, i) => (
+          {terms.map((term, termIndex) => (
             <div>
               <div>
-                <label> Валюта оплаты</label>
-                <select onChange={onChangeTerm(i, 'priceUnit')}>
+                <label>Cтоимость: </label>
+                <input value={term.deposit.value} onChange={onChangeTerm(termIndex, 'price')}/> {term.price}
+                <select onChange={onChangeTerm(termIndex, 'priceUnit')}>
                   <option value={''}>Выберите валюту</option>
                   <option value={'RUB'}>Рубль</option>
                   <option value={'EUR'}>Евро</option>
@@ -172,16 +173,25 @@ const CreateOffer = () => {
                 </select>
               </div>
               <div>
+                <h3>Период: </h3>
+
+                <label> от: </label>
+                <input value={term.periodFrom} onChange={onChangeTerm(termIndex, 'periodFrom')}/> {term.price}
+                <label> до: </label>
+                <input value={term.periodTo} onChange={onChangeTerm(termIndex, 'periodTo')}/> {term.price}
+              </div>
+              <div>
                 <h3> Депозит: </h3>
                 <h4> При заключении контракта</h4>
                 <div>
                   <label>Сумма</label>
-                  <input value={term.deposit.value} onChange={onChangeTerm(i, 'deposit.value')}/> {term.priceUnit}
+                  <input value={term.deposit.value}
+                         onChange={onChangeTerm(termIndex, 'deposit.value')}/> {term.priceUnit}
                 </div>
                 <div>
                   <label>Срок возврата</label>
-                  <input value={term.deposit.returnPeriod} onChange={onChangeTerm(i, 'deposit.returnPeriod')}/>
-                  <select onChange={onChangeTerm(i, 'deposit.returnPeriodUnit')}>
+                  <input value={term.deposit.returnPeriod} onChange={onChangeTerm(termIndex, 'deposit.returnPeriod')}/>
+                  <select onChange={onChangeTerm(termIndex, 'deposit.returnPeriodUnit')}>
                     <option value={''}>Выберите единицы времени для возврата</option>
                     <option value={'days'}>дней</option>
                     <option value={'months'}>месяцев</option>
@@ -189,7 +199,7 @@ const CreateOffer = () => {
                   </select>
                 </div>
                 <div>
-                  <select onChange={onChangeTerm(i, 'deposit.collectType')}>
+                  <select onChange={onChangeTerm(termIndex, 'deposit.collectType')}>
                     <option>....</option>
                     <option value={'CONCLUSION'}> Оплачивается сразу</option>
                     <option value={'PARTIAL'}> Частями</option>
@@ -197,7 +207,22 @@ const CreateOffer = () => {
                     <option value={'ABSENT_WITH_EXTRA_CHARGE'}> Отсутствует с доплатой</option>
                   </select>
                 </div>
+                <div>
+                  <h3>Условия разрыва контракта</h3>
+                  {term.terminationRules.map((rule, ruleIndex) => (
+                    <div>
+                      <h4>Найм на периоде менее </h4>
+                      <input
+                        type="number"
+                        value={term.terminationRules[ruleIndex].period}
+                        onChange={onChangeTerm(termIndex, `terminationRules.${ruleIndex}.period`)}
+                      />
 
+                    </div>
+                  ))}
+
+                  <button onClick={onAddTerminationRule(termIndex)}> Добавить условие разрыва контракта</button>
+                </div>
               </div>
               <hr/>
             </div>

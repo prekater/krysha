@@ -19,6 +19,19 @@ export const useTerms = () => {
 
   const [terms, setTerms] = useState<TermProps[]>([])
 
+  const onAddTerminationRule = (termIndex: number) => () =>  {
+
+    const newTerms = [...terms];
+
+    newTerms[termIndex].terminationRules.push({
+      currency: '',
+      period: '',
+      periodUnit: '',
+      value: ''
+    } as any)
+
+    setTerms(newTerms)
+  }
 
   const onAddTerm = () => {
     setTerms(terms.concat([{
@@ -46,6 +59,8 @@ export const useTerms = () => {
 
 
     for ( let i =0; i< path.length -1; i++)  {
+
+      console.log(reference, path[i], reference[path[i]])
       reference =  reference[path[i]]
     }
     reference[path[path.length -1]] = event.target.value
@@ -55,7 +70,8 @@ export const useTerms = () => {
   return {
     terms,
     onAddTerm,
-    onChangeTerm
+    onChangeTerm,
+    onAddTerminationRule
   }
 
 }
