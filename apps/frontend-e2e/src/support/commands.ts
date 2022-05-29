@@ -12,12 +12,14 @@
 declare namespace Cypress {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Chainable<Subject> {
-    createOffer(): void;
+    createOffer(): string;
   }
 }
 //
 // -- This is a parent command --
 Cypress.Commands.add('createOffer',  () => {
+
+  cy.intercept('POST','api/offers').as('Submit')
 
   cy.fixture('offer.json').then( (offer) => {
 
@@ -28,7 +30,6 @@ Cypress.Commands.add('createOffer',  () => {
     cy.get('#flat').type(offer.address.flat)
 
     // -- Payment Block --
-
     cy.get('#paymentStart').select(offer.payment.paymentStart)
     cy.get('#paymentType').select(offer.payment.type)
     cy.get('#penaltyType').select(offer.payment.penalty.type)
@@ -37,11 +38,9 @@ Cypress.Commands.add('createOffer',  () => {
     cy.get('#penaltyCurrency').select(offer.payment.penalty.currency)
 
     // -- Property type --
-
     cy.get('#propertyType').select(offer.propertyType)
 
     // -- Options Block --
-
     offer.options.forEach( o => {
       cy.get('#add-option-btn').click()
       cy.get('.option').last().type(o.title)
@@ -64,34 +63,24 @@ Cypress.Commands.add('createOffer',  () => {
       cy.get('.term-deposit-collect-type').last().select(t.deposit.collectType)
 
       // -- Termination rules Block --
-
       t.terminationRules.forEach( r => {
-        cy.get('.add-termination-rule-btn').last().click()
 
+        cy.get('.add-termination-rule-btn').last().click()
         cy.get('.term-termination-rule-period').last().type(r.period)
         cy.get('.term-termination-rule-period-unit').last().select(r.periodUnit)
         cy.get('.term-termination-rule-value').last().type(r.value)
         cy.get('.term-termination-rule-currency').last().select(r.currency)
-
       })
 
     })
 
     // -- Submit --
-
     cy.get('form').submit()
+    cy.wait('@Submit').then(i => {
+      cy.wrap(i.response.body.resourceId).as('OfferID');
+    })
+
+
   })
 
-
 });
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
