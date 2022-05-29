@@ -9,6 +9,7 @@ import {UncompletedOfferException} from "../exceptions/uncompleted-offer.excepti
 import {OfferPublishedEvent} from "../events/offer-published.event";
 import {Option} from "../../core/value-objects/option.value-object";
 import {Term} from "./term.entity";
+import {Validator} from "../../core/validator";
 
 
 export class Offer extends AggregateRoot implements IEntity, IAggregateRoot {
@@ -61,16 +62,20 @@ export class Offer extends AggregateRoot implements IEntity, IAggregateRoot {
 
   static validate(props: OfferProps): boolean {
 
-    if (
-      !(Object.values(OfferType).includes(props.type)) ||
-      !(props.address instanceof Address) ||
-      !(Object.values(PropertyType).includes(props.propertyType)) ||
-      props.terms.length === 0 || !props.terms.every(t => t instanceof Term) ||
-      !(props.options.every(t => t instanceof Option)) ||
-      !props.authorId ||
-      !(props.payment instanceof Payment)
-    ) {
-      throw new UncompletedOfferException()
+    const schema = {
+      offerType: Object.values(OfferType).includes(props.type),
+      address: props.address instanceof Address,
+      propertyType: Object.values(PropertyType).includes(props.propertyType),
+      terms: props.terms.length > 0 && props.terms.every(t => t instanceof Term),
+      options: props.options.every(t => t instanceof Option),
+      authorId: !!props.authorId,
+      payment: props.payment instanceof Payment
+    }
+
+    const errors = Validator.validateAgainstSchema(schema)
+
+    if (Object.keys(errors).length > 0) {
+      throw new UncompletedOfferException(JSON.stringify(errors))
     }
     return true;
   }

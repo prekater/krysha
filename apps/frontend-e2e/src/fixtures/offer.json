@@ -38,14 +38,14 @@
         {
           "collectType": "CONCLUSION",
           "returnType": "REFOUND_IN_CASE_OF_1_MONTH_NOTICE",
-          "value": "100000",
+          "value": 100000,
           "returnPeriod": "2",
           "returnPeriodUnit": "days"
         }
       ,
       "periodFrom": "1",
       "periodTo": "3",
-      "periodUnit": "months",
+      "periodUnit": "days",
       "price": "100000",
       "priceUnit": "RUB",
       "ID": "test",
@@ -66,9 +66,9 @@
     },
     {
       "deposit": {
-        "collectType": "CONCLUSION",
+        "collectType": "ABSENT",
         "returnType": "REFOUND_IN_CASE_OF_1_MONTH_NOTICE",
-        "value": "100000",
+        "value": 100000,
         "returnPeriod": "2",
         "returnPeriodUnit": "days"
       },
@@ -101,9 +101,9 @@
     },
     {
       "deposit": {
-        "collectType": "CONCLUSION",
+        "collectType": "PARTIAL",
         "returnType": "REFOUND_IN_CASE_OF_1_MONTH_NOTICE",
-        "value": "100000",
+        "value": 100000,
         "returnPeriod": "2",
         "returnPeriodUnit": "days"
       },

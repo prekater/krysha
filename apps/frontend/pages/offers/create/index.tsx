@@ -1,10 +1,10 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {useForm, useField} from 'react-final-form-hooks'
 import {usePayments} from "../../../hooks/payments.hook";
 import {useAddress} from "../../../hooks/address.hook";
 import {useOptions} from "../../../hooks/options.hook";
 import {useTerms} from "../../../hooks/terms.hook";
-
+import axios from 'axios'
 
 const validate = values => {
   const errors: any = {}
@@ -30,14 +30,18 @@ const CreateOffer = () => {
     const payload = {
       ...values,
       options,
-      terms
+      terms,
+      authorId: 'weofkwpfokw'
     }
-    console.log(payload)
+
+   await axios.post('http://localhost:3333/api/offers', payload)
+
   }
-  const {form, handleSubmit, values, pristine, submitting} = useForm({
+  const {form, handleSubmit, values} = useForm({
     onSubmit,
     validate
   })
+
   // address group
   const [
     city,
@@ -178,13 +182,18 @@ const CreateOffer = () => {
                 <input className={'term-period-from'} value={term.periodFrom} onChange={onChangeTerm(termIndex, 'periodFrom')}/> {term.periodFrom}
                 <label> до: </label>
                 <input className={'term-period-to'} value={term.periodTo} onChange={onChangeTerm(termIndex, 'periodTo')}/> {term.periodTo}
+                <select className={'term-period-unit'} onChange={onChangeTerm(termIndex, 'periodUnit')}>
+                  <option value={'days'}>дней</option>
+                  <option value={'months'}>месяцев</option>
+                </select>
+
               </div>
               <div>
                 <h3> Депозит: </h3>
                 <h4> При заключении контракта</h4>
                 <div >
                   <label>Сумма</label>
-                  <input className={'term-deposit-value'} value={term.deposit.value}
+                  <input className={'term-deposit-value'} type="number" value={term.deposit.value}
                          onChange={onChangeTerm(termIndex, 'deposit.value')}/> {term.priceUnit}
                 </div>
                 <div>
@@ -237,7 +246,6 @@ const CreateOffer = () => {
                       </select> в месяц
                     </div>
                   ))}
-
                   <input type="button" className={"add-termination-rule-btn"} onClick={onAddTerminationRule(termIndex)} value={'Добавить условие разрыва контракта'}/>
                 </div>
               </div>
@@ -248,13 +256,11 @@ const CreateOffer = () => {
         </div>
 
         <div className="buttons">
-          <button type="submit">
-            Submit
-          </button>
+          <button type="submit">Submit</button>
         </div>
-        <pre>{JSON.stringify(values, undefined, 2)}</pre>
-        <pre>{JSON.stringify(options, undefined, 2)}</pre>
-        <pre>{JSON.stringify(terms, undefined, 2)}</pre>
+        {/*<pre>{JSON.stringify(values, undefined, 2)}</pre>*/}
+        {/*<pre>{JSON.stringify(options, undefined, 2)}</pre>*/}
+        {/*<pre>{JSON.stringify(terms, undefined, 2)}</pre>*/}
       </form>
     </>
   )

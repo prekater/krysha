@@ -2,6 +2,9 @@ import {IValueObject} from "../value-object";
 import {PaymentProps, PaymentStart, PaymentType} from "../interfaces/payment.interface";
 import {UncompletedPaymentException} from "../../offer/exceptions/uncompleted-payment.exception";
 import {Penalty} from "./penalty.value-object";
+import {Deposit} from "./deposit.value-object";
+import {TerminationRule} from "./termination-rule.value-object";
+import {Validator} from "../validator";
 
 export class Payment implements IValueObject {
 
@@ -11,9 +14,11 @@ export class Payment implements IValueObject {
   get penalty() {
     return this.props.penalty
   }
+
   get paymentStart() {
     return this.props.paymentStart
   }
+
   get type() {
     return this.props.type
   }
@@ -21,6 +26,7 @@ export class Payment implements IValueObject {
   toObject() {
     return {...this.props, penalty: this.props.penalty.toObject()}
   }
+
   static create(props: PaymentProps) {
     Payment.validate(props)
     return new Payment(props)
@@ -28,12 +34,16 @@ export class Payment implements IValueObject {
 
 
   static validate(props: PaymentProps) {
-    if (
-      (Object.values(PaymentStart).includes(props.paymentStart)) &&
-      (Object.values(PaymentType).includes(props.type)) &&
-      props.penalty instanceof Penalty
-    ) return true
 
-    throw new UncompletedPaymentException()
+    const schema = {
+      paymentStart: Object.values(PaymentStart).includes(props.paymentStart),
+      paymentType: Object.values(PaymentType).includes(props.type),
+      penalty: props.penalty instanceof Penalty
+    }
+    const errors = Validator.validateAgainstSchema(schema)
+
+    if (Object.keys(errors).length === 0) return true
+
+    throw new UncompletedPaymentException(JSON.stringify(errors))
   }
 }

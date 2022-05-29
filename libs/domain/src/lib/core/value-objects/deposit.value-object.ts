@@ -34,17 +34,19 @@ export class Deposit implements IValueObject {
 
 
   static create(props: DepositProps) {
+    props.value = Number(props.value)
+    props.returnPeriod = Number(props.returnPeriod)
+
     Deposit.validate(props)
     return new Deposit(props)
   }
 
   static validate(props: DepositProps) {
 
+
     if (
-      typeof props.value === 'number' &&
-      props.value >= 0 &&
+      props.value >= 0 && props.returnPeriod > 0 &&
       Object.values(PeriodUnit).includes(props.returnPeriodUnit) &&
-      typeof props.returnPeriod === 'number' && props.returnPeriod > 0 &&
       Object.values(DepositReturnType).includes(props.returnType) &&
       Object.values(DepositCollectType).includes(props.collectType)
     ) return true

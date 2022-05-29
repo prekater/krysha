@@ -5,6 +5,11 @@ import {IEntity} from "../../core/entity";
 import {Deposit} from "../../core/value-objects/deposit.value-object";
 import {UncompletedTermException} from "../exceptions/uncompleted-term.exception";
 import {TerminationRule} from "../../core/value-objects/termination-rule.value-object";
+import {OfferType, PropertyType} from "../interfaces/offer.interface";
+import {Address} from "../../core/value-objects/address.value-object";
+import {Option} from "../../core/value-objects/option.value-object";
+import {Payment} from "../../core/value-objects/payment.value-object";
+import {Validator} from "../../core/validator";
 
 export class Term implements IEntity {
   get price() {
@@ -58,21 +63,27 @@ export class Term implements IEntity {
 
   static validate(props: TermProps) {
 
-    if (
-      props.deposit instanceof Deposit &&
-      typeof props.price === 'number' &&
-      props.price >= 0 &&
-      props.periodFrom >= 0 &&
-      props.periodTo >= props.periodFrom &&
-      props.terminationRules.every(r => r instanceof TerminationRule) &&
-      _.uniq(props.terminationRules, 'period').length === props.terminationRules.length
-    ) return true
+    const schema = {
+      deposit: props.deposit instanceof Deposit,
+      price: typeof props.price === 'number' && props.price >= 0,
+      periodUnit: Object.values(PeriodUnit).includes(props.periodUnit),
+      priceUnit: Object.values(PriceUnit).includes(props.priceUnit),
+      periodFrom: props.periodFrom >= 0,
+      periodTo: props.periodTo >= props.periodFrom,
+      terminationRules:    props.terminationRules.every(r => r instanceof TerminationRule) &&
+        _.uniq(props.terminationRules, 'period').length === props.terminationRules.length
+    }
+    const errors = Validator.validateAgainstSchema(schema)
 
-    throw new UncompletedTermException()
+    if (Object.keys(errors).length === 0 ) return true
+
+    throw new UncompletedTermException(JSON.stringify(errors))
   }
 
   static create(props: TermProps, ID: string = null) {
-
+    props.price = Number(props.price)
+    props.periodTo = Number(props.periodTo)
+    props.periodFrom = Number(props.periodFrom)
     Term.validate(props)
     return new Term(props, new UniqueEntityID(ID))
   }

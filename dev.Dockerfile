@@ -1,0 +1,6 @@
+FROM node:16.13.0
+WORKDIR /app
+
+ARG APP_NAME
+ENV APP_NAME=$APP_NAME
+CMD yarn $APP_NAME:serve

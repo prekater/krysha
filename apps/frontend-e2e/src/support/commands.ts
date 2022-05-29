@@ -55,12 +55,13 @@ Cypress.Commands.add('createOffer',  () => {
       cy.get('.term-currency').last().select(t.priceUnit)
       cy.get('.term-period-from').last().type(t.periodFrom)
       cy.get('.term-period-to').last().type(t.periodTo)
+      cy.get('.term-period-unit').last().select(t.periodUnit)
 
       // -- Deposit Block --
       cy.get('.term-deposit-value').last().type(t.deposit.value)
       cy.get('.term-deposit-return-period').last().type(t.deposit.returnPeriod)
       cy.get('.term-deposit-return-period-unit').last().select(t.deposit.returnPeriodUnit)
-      cy.get('.term-deposit-collect-type').last().type(t.deposit.collectType)
+      cy.get('.term-deposit-collect-type').last().select(t.deposit.collectType)
 
       // -- Termination rules Block --
 

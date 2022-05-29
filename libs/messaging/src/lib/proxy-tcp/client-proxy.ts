@@ -14,21 +14,22 @@ export class ClientProxyTCP {
     return ClientProxyFactory.create({
       transport: Transport.TCP,
       options: {
+        host: this.configService.get<string>('CONTRACTS_MICROSERVICE_HOST'),
         port: Number(this.configService.get<string>('CONTRACTS_MICROSERVICE_PORT'))
       }
     })
   }
 
   getClientProxyOffersInstance(): ClientProxy {
+
     return ClientProxyFactory.create({
       transport: Transport.TCP,
       options: {
+        host: this.configService.get<string>('OFFERS_MICROSERVICE_HOST'),
         port: Number(this.configService.get<string>('OFFERS_MICROSERVICE_PORT'))
       }
     })
   }
-
-
 
 
 }

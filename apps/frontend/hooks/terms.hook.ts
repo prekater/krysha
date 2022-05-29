@@ -44,7 +44,7 @@ export const useTerms = () => {
       },
       periodFrom: '',
       periodTo: '',
-      periodUnit: '',
+      periodUnit: 'days',
       price: '',
       priceUnit: '',
       ID: uuid(),
