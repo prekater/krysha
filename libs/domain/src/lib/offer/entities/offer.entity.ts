@@ -14,8 +14,14 @@ import {Validator} from "../../core/validator";
 
 export class Offer extends AggregateRoot implements IEntity, IAggregateRoot {
 
+
+
   get authorId() {
     return this.props.authorId
+  }
+
+  get meta() {
+    return this.props.meta
   }
 
   get address() {
@@ -30,13 +36,12 @@ export class Offer extends AggregateRoot implements IEntity, IAggregateRoot {
     return this.props.options
   }
 
-  // todo: make collection
   get terms(): Term[] {
     return this.props.terms
   }
 
   get propertyType(): PropertyType {
-    return this.props.propertyType
+    return this.props.meta.propertyType
   }
 
   get payment(): Payment {
@@ -65,7 +70,7 @@ export class Offer extends AggregateRoot implements IEntity, IAggregateRoot {
     const schema = {
       offerType: Object.values(OfferType).includes(props.type),
       address: props.address instanceof Address,
-      propertyType: Object.values(PropertyType).includes(props.propertyType),
+      propertyType: Object.values(PropertyType).includes(props.meta.propertyType),
       terms: props.terms.length > 0 && props.terms.every(t => t instanceof Term),
       options: props.options.every(t => t instanceof Option),
       authorId: !!props.authorId,

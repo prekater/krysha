@@ -1,6 +1,7 @@
 import {Prop, raw, Schema as MongooseSchema, SchemaFactory} from "@nestjs/mongoose";
 import {Domain} from "@bigdeal/domain";
 import * as mongoose from "mongoose";
+import {PropertyType} from "../../../../domain/src/lib/offer/interfaces/offer.interface";
 
 @MongooseSchema({versionKey: false, timestamps: true, autoIndex: true, autoCreate: true})
 export class Contract {
@@ -48,11 +49,15 @@ export class Contract {
   address: Domain.Address['props'];
 
   @Prop(raw({
-    type: mongoose.Schema.Types.String,
-    enum: Object.values(Domain.PropertyType),
-    default: Domain.PropertyType.UNDEFINED
+    type: mongoose.Schema.Types.Mixed,
+    validate: {
+      validator: function(v:  Domain.ContractProps['meta']) {
+        return Object.values(PropertyType).includes(v.propertyType)
+      },
+      message: props => `meta is not a valid`
+    },
   }))
-  propertyType: Domain.PropertyType;
+  meta: Domain.ContractProps['meta'];
 }
 
 export const ContractSchema = SchemaFactory.createForClass(Contract);

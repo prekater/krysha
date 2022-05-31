@@ -2,8 +2,6 @@ import {IValueObject} from "../value-object";
 import {PaymentProps, PaymentStart, PaymentType} from "../interfaces/payment.interface";
 import {UncompletedPaymentException} from "../../offer/exceptions/uncompleted-payment.exception";
 import {Penalty} from "./penalty.value-object";
-import {Deposit} from "./deposit.value-object";
-import {TerminationRule} from "./termination-rule.value-object";
 import {Validator} from "../validator";
 
 export class Payment implements IValueObject {

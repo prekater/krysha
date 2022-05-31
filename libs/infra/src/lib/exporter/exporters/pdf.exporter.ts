@@ -1,18 +1,12 @@
-import {Exporter} from "../interfaces/exporter.abstract";
 import {Domain} from "@bigdeal/domain";
+import {Language} from "@bigdeal/common";
 import * as PDFKit from 'pdfkit'
 import * as MemoryStream from 'memorystream'
 import {Stream} from "stream";
-import {TermAdapter} from "../adapters/term.adapter";
-import {Language} from "@bigdeal/common";
-import {AddressAdapter} from "../adapters/address.adapter";
-import {ContractMetaAdapter} from "../adapters/contract-meta.adapter";
-import {OptionAdapter} from "../adapters/option.adapter";
-import {PaymentAdapter} from "../adapters/payment.adapter";
-import {RentalPeriodAdapter} from "../adapters/rental-period.adapter";
 import * as moment from "moment";
 import TextOptions = PDFKit.Mixins.TextOptions;
 import * as PDFTable from 'voilab-pdf-table'
+import {Exporter} from "../interfaces/exporter.abstract";
 
 export class PdfExporter extends Exporter {
 
@@ -71,29 +65,6 @@ export class PdfExporter extends Exporter {
 
   }
 
-  private async getContentParts(contract: Domain.Contract, language: Language) {
-    const [
-      termContent,
-      addressContent,
-      contractMetaContent,
-      optionContent,
-      paymentContent,
-      rentalPeriodContent
-    ] = await Promise.all(
-      [TermAdapter, AddressAdapter, ContractMetaAdapter, OptionAdapter, PaymentAdapter, RentalPeriodAdapter]
-        .map(Adapter => new Adapter(contract, language).makeContent())
-    )
-
-    return {
-      terms: termContent,
-      address: addressContent,
-      meta: contractMetaContent,
-      options: optionContent,
-      payments: paymentContent,
-      rentalPeriod: rentalPeriodContent
-    }
-  }
-
   async createDocumentFromContract(contract: Domain.Contract, language: Language = Language.RU): Promise<Stream> {
     const memoryStream = new MemoryStream()
 
@@ -113,7 +84,7 @@ export class PdfExporter extends Exporter {
 
     this.writeLine(document, `1.1. Наймодателем предоставляет, а Нанимателем получает во временное пользование помещение, расположенную по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat}`)
     this.writeLine(document, `1.2. Наймодателем предоставляет, а Нанимателем получает во временное пользование находящиеся в помещении предметы мебели и бытовую технику. `)
-    this.writeLine(document, `1.3. ${contentParts.rentalPeriod.rentalPeriod}`)
+    this.writeLine(document, `1.3. Срок аренды составляет ${contract.duration} ${contentParts.terms.periodUnit} и определяется ${contentParts.rentalPeriod.rentalPeriod}`)
 
     this.writeHeader(document, '2. Права и обязанности Наймодателя')
 
@@ -130,7 +101,7 @@ export class PdfExporter extends Exporter {
 
     this.writeHeader(document, '4. Порядок расчетов.')
 
-    this.writeLine(document, `4.1. За наемное помещение Нанимателем уплачивается месячная оплата в размере ${contentParts.terms.pricePerMonth} ${contentParts.payments.paymentStart}.`)
+    this.writeLine(document, `4.1. За наемное помещение Нанимателем уплачивается месячная оплата в размере ${contentParts.terms.pricePerMonth} ${contract.paymentDate} числа каждого месяца.`)
     this.writeLine(document, `4.2. Размер оплаты остаётся неизменным в течение срока договора`)
     this.writeLine(document, `4.3. При подписании Договора Нанимателем вносится Наймодателю ${contentParts.payments.paymentRules}, а также залоговая сумма ${contentParts.terms.deposit}`)
     this.writeLine(document, `4.4. ${contentParts.payments.penalty}`)

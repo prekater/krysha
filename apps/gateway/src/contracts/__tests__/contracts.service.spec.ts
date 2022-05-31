@@ -64,8 +64,9 @@ describe(ContractsService, () => {
     expect.assertions(1)
     const ID = '1231231'
     jest.spyOn(proxy, 'send').mockImplementation(() => ({
-      toPromise: () => Promise.resolve(successResponse)
+      toPromise: () => Promise.resolve({data: '12313121'})
     }))
+
 
     await svc.exportContract(ID)
 

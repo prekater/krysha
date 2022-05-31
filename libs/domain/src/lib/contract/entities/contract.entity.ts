@@ -9,6 +9,7 @@ import {Option} from "../../core/value-objects/option.value-object";
 import {Payment} from "../../core/value-objects/payment.value-object";
 import {UncompletedContractException} from "../exceptions/uncompleted-contract.exception";
 import {RentalPeriod} from "../value-objects/rental-period.value-object";
+import {Domain} from "@bigdeal/domain";
 
 export class Contract implements IAggregateRoot, IEntity {
 
@@ -29,7 +30,12 @@ export class Contract implements IAggregateRoot, IEntity {
   }
 
   get propertyType(): PropertyType {
-    return this.props.propertyType
+    return this.props.meta.propertyType
+  }
+
+  get meta(): ContractProps['meta'] {
+
+    return this.props.meta
   }
 
   get payment(): Payment {
@@ -38,6 +44,16 @@ export class Contract implements IAggregateRoot, IEntity {
 
   get options(): Option[] {
     return this.props.options
+  }
+
+  get paymentDate(): number {
+    return this.payment.paymentStart === Domain.PaymentStart.START_OF_MONTH ?
+      1 :
+      Number(this.rentalPeriod.rentalStart.format('D'))
+  }
+
+  get duration(): number {
+    return this.rentalPeriod.duration(this.term.periodUnit)
   }
 
   private constructor(
@@ -59,7 +75,7 @@ export class Contract implements IAggregateRoot, IEntity {
 
     if (
       !(props.address instanceof Address) ||
-      !(Object.values(PropertyType).includes(props.propertyType)) ||
+      !(Object.values(PropertyType).includes(props.meta.propertyType)) ||
       !(props.rentalPeriod instanceof RentalPeriod) ||
       !(props.term instanceof Term) ||
       !(props.term.isRentalPeriodCorrect(props.rentalPeriod.duration(props.term.periodUnit))) ||

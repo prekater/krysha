@@ -84,7 +84,7 @@ describe(OfferRepository, () => {
 
       const createdOffer = await insertOfferIntoDB()
 
-      createdOffer['props'].propertyType = Domain.PropertyType.TWO_ROOM
+      createdOffer['props'].meta.propertyType = Domain.PropertyType.TWO_ROOM
 
       await repo.persist(createdOffer)
 
