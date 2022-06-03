@@ -61,7 +61,7 @@ const CreateOffer = () => {
     = usePayments(form)
 
 
-  const propertyType = useField('propertyType', form)
+  const propertyType = useField('meta.propertyType', form)
 
 
   return (

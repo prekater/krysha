@@ -16,7 +16,9 @@
     },
     "type": "ONE_PAYMENT"
   },
-  "propertyType": "ONE_ROOM",
+  "meta": {
+    "propertyType": "ONE_ROOM"
+  },
   "authorId": "test",
   "options": [
     {
@@ -34,21 +36,18 @@
   ],
   "terms": [
     {
-      "deposit":
-        {
-          "collectType": "CONCLUSION",
-          "returnType": "REFOUND_IN_CASE_OF_1_MONTH_NOTICE",
-          "value": 100000,
-          "returnPeriod": "2",
-          "returnPeriodUnit": "days"
-        }
-      ,
+      "deposit": {
+        "collectType": "CONCLUSION",
+        "returnType": "REFOUND_IN_CASE_OF_1_MONTH_NOTICE",
+        "value": 100000,
+        "returnPeriod": "2",
+        "returnPeriodUnit": "days"
+      },
       "periodFrom": "1",
       "periodTo": "3",
       "periodUnit": "days",
       "price": "100000",
       "priceUnit": "RUB",
-      "ID": "test",
       "terminationRules": [
         {
           "period": "3",
@@ -77,7 +76,6 @@
       "periodUnit": "months",
       "price": "90000",
       "priceUnit": "RUB",
-      "ID": "test",
       "terminationRules": [
         {
           "period": "3",
@@ -112,7 +110,6 @@
       "periodUnit": "months",
       "price": "90000",
       "priceUnit": "RUB",
-      "ID": "test",
       "terminationRules": [
         {
           "period": "6",

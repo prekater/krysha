@@ -5,7 +5,7 @@ describe('frontend', () => {
   it('should display welcome message', () => {
 
     cy.createOffer();
-    cy.get('@OfferID').then(offerId => {
+    cy.get('@OfferID').then((offerId) => {
       cy.visit(`/offers/${offerId}`)
     })
 

@@ -9,7 +9,6 @@ import {CreateContractHandler} from "./handlers/create-contract.handler";
 import {ExportContractController} from "./controllers/export-contract.controller";
 import {ExportContractQuery} from "./queries/export-contract.query";
 import {ExportContractHandler} from "./handlers/export-contract.handler";
-
 @Module({
     imports: [
       MongooseModule.forRoot(

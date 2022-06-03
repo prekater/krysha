@@ -29,7 +29,7 @@ services:
     volumes:
       - ./:/app
     environment:
-      MONGO_URL: 'mongodb://root:root@mongo:27017/contracts?authSource=admin'
+      MONGO_URL: 'mongodb://root:root@mongo:27017/db?authSource=admin'
       PORT: '3002'
       CONTRACTS_MICROSERVICE_HOST: 'contracts'
     depends_on:
@@ -43,7 +43,7 @@ services:
     volumes:
       - ./:/app
     environment:
-      MONGO_URL: 'mongodb://root:root@mongo:27017/offers?authSource=admin'
+      MONGO_URL: 'mongodb://root:root@mongo:27017/db?authSource=admin'
       OFFERS_MICROSERVICE_HOST: 'offers'
       PORT: '3001'
     depends_on:
