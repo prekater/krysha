@@ -5,7 +5,7 @@ import {AddressAdapter} from "../exporter/adapters/address.adapter";
 import {AbstractContentAdapter} from "../exporter/adapters/interfaces/content.adapter.abstract";
 import {OptionAdapter} from "../exporter/adapters/option.adapter";
 import {PaymentAdapter} from "../exporter/adapters/payment.adapter";
-import {ContractMetaAdapter} from "../exporter/adapters/contract-meta.adapter";
+import {MetaAdapter} from "../exporter/adapters/meta.adapter";
 import {RentalPeriodAdapter} from "../exporter/adapters/rental-period.adapter";
 
 describe(AbstractContentAdapter, () => {
@@ -14,12 +14,12 @@ describe(AbstractContentAdapter, () => {
 
   describe(Language.RU, () => {
 
-    const termAdapter = new TermAdapter(contract, Language.RU)
-    const addressAdapter = new AddressAdapter(contract, Language.RU)
-    const optionAdapter = new OptionAdapter(contract, Language.RU)
-    const paymentAdapter = new PaymentAdapter(contract, Language.RU)
-    const metaAdapter = new ContractMetaAdapter(contract, Language.RU)
-    const rentalPeriodAdapter = new RentalPeriodAdapter(contract, Language.RU)
+    const termAdapter = new TermAdapter(contract.term, Language.RU)
+    const addressAdapter = new AddressAdapter(contract.address, Language.RU)
+    const optionAdapter = new OptionAdapter(contract.options, Language.RU)
+    const paymentAdapter = new PaymentAdapter(contract.payment, Language.RU)
+    const metaAdapter = new MetaAdapter(contract.meta, Language.RU)
+    const rentalPeriodAdapter = new RentalPeriodAdapter(contract.rentalPeriod, Language.RU)
 
 
     it('should be defined', function () {
@@ -40,6 +40,7 @@ describe(AbstractContentAdapter, () => {
       expect(content).toEqual({
         title: 'Условия аренды',
         rentalPeriod: 'Период аренды: __1__ (от 1 до 3) месяцев',
+        periodUnit: "месяцев",
         pricePerMonth: '100000 рублей',
         deposit: "100000 рублей",
         depositCollectType: "При заезде: Оплата депозита сразу",
@@ -88,7 +89,6 @@ describe(AbstractContentAdapter, () => {
         "paymentType": "Тип оплаты: Одним платежом",
         "penalty": "В случае задержки оплаты взимается 300 рублей в сутки с 1 календарного дня после числа оплаты",
         "paymentRules": "оплата за первый месяц найма в полном объеме",
-        "paymentStart": "12 числа каждого месяца",
       })
 
     });
@@ -111,7 +111,7 @@ describe(AbstractContentAdapter, () => {
       const content = await rentalPeriodAdapter.makeContent()
 
       expect(content).toEqual({
-        "rentalPeriod": "Срок аренды составляет 3 месяцев и определяется с 12.06.2022 по 12.09.2022"
+        "rentalPeriod": "с 12.06.2022 по 12.09.2022"
       })
     });
 

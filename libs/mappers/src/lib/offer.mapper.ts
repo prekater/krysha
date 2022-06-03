@@ -22,7 +22,7 @@ export class Offer {
       ID: model.ID.toString(),
       address: model.address.toObject(),
       payment: model.payment.toObject(),
-      propertyType: model.propertyType,
+      meta: {propertyType: model.propertyType},
       authorId: model.authorId,
       options,
       terms,
@@ -42,7 +42,7 @@ export class Offer {
 
       props.terminationRules =
         _.sortBy(props.terminationRules, 'period')
-        .map(r => TerminationRule.create(r))
+          .map(r => TerminationRule.create(r))
 
       return Term.create(props as Domain.TermProps, ID)
     })
@@ -55,7 +55,7 @@ export class Offer {
       address: Address.create(model.address),
       authorId: model.authorId,
       payment,
-      propertyType: model.propertyType,
+      meta: {propertyType: model.meta.propertyType},
       options,
       terms,
       type: model.type

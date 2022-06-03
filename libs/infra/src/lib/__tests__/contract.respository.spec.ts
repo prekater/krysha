@@ -80,7 +80,7 @@ describe(ContractRepository, () => {
 
       const createdContract = await insertContractIntoDB()
 
-      createdContract['props'].propertyType = Domain.PropertyType.TWO_ROOM
+      createdContract['props'].meta.propertyType = Domain.PropertyType.TWO_ROOM
 
       await repo.persist(createdContract)
 

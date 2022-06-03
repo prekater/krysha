@@ -3,7 +3,6 @@ import {Domain} from "@bigdeal/domain";
 import * as _ from 'lodash'
 import * as moment from 'moment'
 import {DATE_FORMAT} from "@bigdeal/common";
-import {TerminationRule} from "../../../domain/src/lib/core/value-objects/termination-rule.value-object";
 
 const {Address, Deposit, Payment, Option, Term, Penalty} = Domain
 
@@ -20,7 +19,9 @@ export class Contract {
       ID: model.ID.toString(),
       address: model.address.toObject(),
       payment: model.payment.toObject(),
-      propertyType: model.propertyType,
+      meta: {
+        propertyType: model.propertyType,
+      },
       authorId: model.authorId,
       options,
       term,
@@ -39,12 +40,12 @@ export class Contract {
 
     const rentalPeriod = new Domain.RentalPeriod({
       rentalStart: moment(rentalStart, DATE_FORMAT),
-      rentalEnd: moment(rentalEnd, DATE_FORMAT)
+      rentalEnd: moment(rentalEnd, DATE_FORMAT),
     })
     const props: Domain.ContractProps = Object.assign({},
       _.pick(
         offer,
-        ['authorId', 'options', 'payment', 'propertyType', 'address']
+        ['authorId', 'options', 'payment', 'meta', 'address']
       ),
       {term, rentalPeriod}
     )
@@ -58,23 +59,25 @@ export class Contract {
     const options = model.options.map(o => Option.create(o))
 
     model.term.deposit = Deposit.create(model.term.deposit);
-    const terminationRules = model.term.terminationRules.map(r => TerminationRule.create(r))
-    const term = Term.create({..._.omit(model.term, 'ID'), terminationRules }, model.term.ID)
+    const terminationRules = model.term.terminationRules.map(r => Domain.TerminationRule.create(r))
+    const term = Term.create({..._.omit(model.term, 'ID'), terminationRules}, model.term.ID)
 
     const penalty = Penalty.create(model.payment.penalty)
 
-    const payment = Payment.create({...model.payment, penalty } )
+    const payment = Payment.create({...model.payment, penalty})
 
     return Domain.Contract.create({
       address: Address.create(model.address),
       authorId: model.authorId,
       payment,
-      propertyType: model.propertyType,
+      meta: {
+        propertyType: model.meta.propertyType
+      },
       options,
       term,
       rentalPeriod: Domain.RentalPeriod.create({
         rentalStart: moment(model.rentalPeriod.rentalStart, DATE_FORMAT),
-        rentalEnd: moment(model.rentalPeriod.rentalEnd, DATE_FORMAT)
+        rentalEnd: moment(model.rentalPeriod.rentalEnd, DATE_FORMAT),
       })
     }, model.ID)
   }

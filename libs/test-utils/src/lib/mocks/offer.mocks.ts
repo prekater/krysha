@@ -1,6 +1,7 @@
 import {Domain} from '@bigdeal/domain'
 import {Mappers} from "@bigdeal/mappers";
 import * as _ from 'lodash'
+
 export const makeOffer = (defaults: Partial<Domain.OfferProps> = {}) => {
 
   return Domain.Offer.create({
@@ -22,7 +23,9 @@ export const makeOffer = (defaults: Partial<Domain.OfferProps> = {}) => {
         }),
         type: Domain.PaymentType.ONE_PAYMENT
       }),
-      propertyType: Domain.PropertyType.ONE_ROOM,
+      meta: {
+        propertyType: Domain.PropertyType.ONE_ROOM,
+      },
       terms: makeTerms(),
       type: Domain.OfferType.DRAFT,
       ...defaults
@@ -110,7 +113,7 @@ export function makeTerms(): Domain.Term[] {
       terminationRules: [
         makeTerminationRule(),
         makeTerminationRule({value: 50000, period: 6})
-      ].sort((a,b) => a.period - b.period),
+      ].sort((a, b) => a.period - b.period),
     }),
     Domain.Term.create({
       deposit: makeDeposit({value: 90000}),
@@ -119,7 +122,7 @@ export function makeTerms(): Domain.Term[] {
       periodUnit: Domain.PeriodUnit.MONTH,
       price: 90000,
       priceUnit: Domain.PriceUnit.RUB,
-      terminationRules:  _.sortBy([
+      terminationRules: _.sortBy([
         makeTerminationRule(),
         makeTerminationRule({value: 30000, period: 9})
       ], 'period')
@@ -134,7 +137,7 @@ export function makeTerms(): Domain.Term[] {
       terminationRules: [
         makeTerminationRule({value: 40000, period: 2}),
         makeTerminationRule(),
-      ].sort((a,b) => a.period - b.period),
+      ].sort((a, b) => a.period - b.period),
 
     }),
   ]
@@ -154,9 +157,10 @@ export const offerObjectMock = {
     },
     type: Domain.PaymentType.ONE_PAYMENT
   },
-  propertyType: Domain.PropertyType.ONE_ROOM,
+  meta: {
+    propertyType: Domain.PropertyType.ONE_ROOM,
+  },
   // @ts-ignore
-
   authorId: 'test',
   options: [
     {isEnabled: true, title: 'Электричество'},
@@ -182,7 +186,7 @@ export const offerObjectMock = {
       terminationRules: [
         makeTerminationRule().toObject(),
         makeTerminationRule({value: 50000, period: 6}).toObject()
-      ].sort((a,b) => a.period - b.period),
+      ].sort((a, b) => a.period - b.period),
     },
     {
       deposit: {
@@ -202,7 +206,7 @@ export const offerObjectMock = {
       terminationRules: _.sortBy([
         makeTerminationRule().toObject(),
         makeTerminationRule({value: 30000, period: 9}).toObject()
-      ],'period')
+      ], 'period')
     },
     {
       deposit: {
@@ -222,7 +226,7 @@ export const offerObjectMock = {
       terminationRules: [
         makeTerminationRule({value: 40000, period: 2}).toObject(),
         makeTerminationRule().toObject()
-      ].sort((a,b) => a.period - b.period),
+      ].sort((a, b) => a.period - b.period),
     }
   ],
   type: Domain.OfferType.DRAFT
@@ -246,7 +250,9 @@ export const contractObjectMock = {
       },
     type: 'ONE_PAYMENT'
   },
-  propertyType: 'ONE_ROOM',
+  meta: {
+    propertyType: "ONE_ROOM",
+  },
   authorId: 'test',
   options: [
     {isEnabled: true, title: 'Электричество'},

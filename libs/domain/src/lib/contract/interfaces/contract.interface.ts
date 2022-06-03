@@ -10,7 +10,9 @@ export interface ContractProps {
   term: Term
   options: Option[]
   payment: Payment;
-  propertyType: PropertyType;
+  meta: {
+    propertyType: PropertyType;
+  }
   address: Address;
   rentalPeriod: RentalPeriod;
 }

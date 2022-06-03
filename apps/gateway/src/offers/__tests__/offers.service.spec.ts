@@ -48,13 +48,15 @@ describe(OffersService, () => {
   it('should correctly add offer', async function () {
 
     expect.assertions(1)
-    const mockPayload ={
+    const mockPayload = {
       ID: "",
       address: undefined,
       authorId: "",
       options: [],
       payment: undefined,
-      propertyType: undefined,
+      meta: {
+        propertyType: undefined,
+      },
       terms: [],
       type: undefined
     }
@@ -79,7 +81,6 @@ describe(OffersService, () => {
 
     expect(proxy.send).toHaveBeenCalledWith(GET_OFFER_BY_ID_QUERY, {ID})
   });
-
 
 
 });

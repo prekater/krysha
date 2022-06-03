@@ -26,6 +26,9 @@ export type OfferProps =  {
   terms: Term[]
   options: Option[]
   payment: Payment;
-  propertyType: PropertyType;
+
   address: Address;
+  meta: {
+    propertyType: PropertyType;
+  }
 }

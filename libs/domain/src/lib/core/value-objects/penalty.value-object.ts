@@ -10,6 +10,7 @@ export class Penalty implements IValueObject {
   get value() {
     return this.props.value
   }
+
   get currency() {
     return this.props.currency
   }
@@ -18,25 +19,28 @@ export class Penalty implements IValueObject {
     return this.props.start
   }
 
-  get type () {
+  get type() {
     return this.props.type
   }
 
   toObject() {
     return {...this.props}
   }
+
   static create(props: PenaltyProps) {
+    props.value = Number(props.value)
+    props.start = Number(props.start)
+
     Penalty.validate(props)
     return new Penalty(props)
   }
 
-
   static validate(props: PenaltyProps) {
 
     if (
-      typeof  props.value === 'number' && props.value >=0 &&
+      typeof props.value === 'number' && props.value >= 0 &&
       (Object.values(PenaltyType).includes(props.type)) &&
-      props.start > 0
+      typeof props.value === 'number' && props.start > 0
     ) return true;
 
     throw new UncompletedPenaltyException()

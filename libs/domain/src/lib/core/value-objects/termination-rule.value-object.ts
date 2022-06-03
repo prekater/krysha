@@ -26,6 +26,7 @@ export class TerminationRule implements IValueObject {
   }
 
   static validate(props: TerminationRuleProps) {
+
     if (
       typeof props.value !== 'number' ||
       typeof props.period !== 'number' ||
@@ -40,6 +41,9 @@ export class TerminationRule implements IValueObject {
   }
 
   static create(props: TerminationRuleProps) {
+    props.value = Number(props.value)
+    props.period = Number(props.period)
+
     TerminationRule.validate(props)
     return new TerminationRule(props)
   }

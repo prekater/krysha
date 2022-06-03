@@ -39,7 +39,7 @@ describe(Domain.Offer, () => {
       const cases = {
         incorrectOfferType: {type: 'incorrect'},
         incorrectAddress: {address: {flat: 'helloWorld'}},
-        incorrectPropertyType: {propertyType: 'incorrect'},
+        incorrectPropertyType: { meta: { propertyType: 'incorrect' } },
         emptyTerms: {terms: [{price: 100}]},
         incorrectTerms: {terms: [{price: 100}]},
         incorrectOptions: {options: [{title: 'hello', isEnabled: true}]},
@@ -53,7 +53,7 @@ describe(Domain.Offer, () => {
       for (const testCase of casesList) {
         try {
           const offer = makeOffer(testCase as any)
-          console.log(offer)
+          console.log(offer, testCase)
 
         } catch (e) {
           expect(e).toBeInstanceOf(UncompletedOfferException)

@@ -1,8 +1,13 @@
+import {Domain} from "@bigdeal/domain";
 import * as util from 'util'
 import {AbstractContentAdapter} from "./interfaces/content.adapter.abstract";
-import {Domain} from "@bigdeal/domain";
 
 
+export type PaymentContent = {
+  paymentRules: string;
+  paymentType: string;
+  penalty: string;
+}
 export type PenaltyOptions = { penaltyAbsent: string; penaltyFix: string }
 export type PaymentRulesOptions = {
   paymentFromMonthStartRules: string;
@@ -11,17 +16,19 @@ export type PaymentRulesOptions = {
 
 export class PaymentAdapter extends AbstractContentAdapter {
 
+  protected readonly resource: Domain.Payment;
+
   private makePenalty(tpl: PenaltyOptions): string {
 
-    switch (this.contract.payment.penalty.type) {
+    switch (this.resource.penalty.type) {
 
       case Domain.PenaltyType.FIX_FOR_EVERY_DAY:
 
         return util.format(
           tpl.penaltyFix,
-          this.contract.payment.penalty.value,
-          this.getTranslatedPriceUnit(this.contract.payment.penalty.currency),
-          this.contract.payment.penalty.start
+          this.resource.penalty.value,
+          this.getTranslatedPriceUnit(this.resource.penalty.currency),
+          this.resource.penalty.start
         )
       case Domain.PenaltyType.ABSENT:
         return util.format(
@@ -37,24 +44,13 @@ export class PaymentAdapter extends AbstractContentAdapter {
   private makeType(tpl: string) {
     return util.format(
       tpl,
-      this.getTranslatedPaymentType(this.contract.payment.type)
+      this.getTranslatedPaymentType(this.resource.type)
     )
   }
 
-  private makePaymentStart(tpl: string) {
-
-    const date = this.contract.payment.paymentStart === Domain.PaymentStart.START_OF_MONTH
-      ? 1
-      : this.contract.rentalPeriod.rentalStart.format('D')
-
-    return util.format(
-      tpl,
-      date
-    )
-  }
 
   private makePaymentRules(options: PaymentRulesOptions) {
-    const tpl = this.contract.payment.paymentStart === Domain.PaymentStart.START_OF_MONTH
+    const tpl = this.resource.paymentStart === Domain.PaymentStart.START_OF_MONTH
       ? options.paymentFromMonthStartRules
       : options.paymentFromRentalStartRules
 
@@ -63,11 +59,10 @@ export class PaymentAdapter extends AbstractContentAdapter {
   }
 
 
-  public async makeContent(): Promise<Record<string, string>> {
+  public async makeContent(): Promise<PaymentContent> {
 
     const {
       payment: {
-        paymentStart,
         paymentType,
         penaltyFix,
         penaltyAbsent,
@@ -77,7 +72,6 @@ export class PaymentAdapter extends AbstractContentAdapter {
     } = await import(`./tpl/payment/${this.language}`)
 
     return {
-      paymentStart: this.makePaymentStart(paymentStart),
       paymentType: this.makeType(paymentType),
       penalty: this.makePenalty({penaltyFix, penaltyAbsent}),
       paymentRules: this.makePaymentRules({

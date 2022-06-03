@@ -1,15 +1,15 @@
 import {INestApplication} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Transport} from "@nestjs/microservices";
-import { injectEnv, makeContract, offerObjectMock} from "@bigdeal/test-utils";
+import {injectEnv, makeContract, offerObjectMock} from "@bigdeal/test-utils";
+import {Infra} from "@bigdeal/infra";
+import {Application} from "@bigdeal/application";
 import * as request from 'supertest'
+import {v4 as uuid} from 'uuid';
+import * as pdfParser from 'pdf-parse'
 import {AppModule} from "../../../gateway/src/app.module";
 import {OffersModule} from "../../../offers/src/offers.module";
 import {ContractsModule} from "../../../contracts/src/contracts.module";
-import {v4 as uuid} from 'uuid';
-import {Infra} from "@bigdeal/infra";
-import {Application} from "@bigdeal/application";
-import * as pdfParser from 'pdf-parse'
 
 describe('Application e2e', () => {
   let gateway: INestApplication;
@@ -95,7 +95,65 @@ describe('Application e2e', () => {
         .set('Accept', 'application/json')
         .expect(res => {
 
-          expect(res.body).toEqual(payload)
+          expect(res.body).toEqual({
+            ID: expect.any(String),
+            payment: {
+              "paymentRules": "оплата за первый месяц найма в полном объеме",
+              "paymentType": "Тип оплаты: Одним платежом",
+              "penalty": "В случае задержки оплаты взимается 300 рублей в сутки с 1 календарного дня после числа оплаты"
+            },
+            "address": {
+              "city": "г. Москва",
+              "flat": "кв. 222",
+              "house": "д. 56",
+              "street": "улица Свободы",
+            },
+            "meta": {
+              "propertyType": "Тип жилья: Однокомнатная",
+            },
+            "options": {
+              "option": "электричество; вода; отопление",
+              "title": "Опции: ",
+            },
+            "terms": [
+              {
+                "ID": "test",
+                "deposit": "100000 рублей",
+                "depositCollectType": "При заезде: Оплата депозита сразу",
+                "depositReturnPeriod": "в течение 2 календарных дней",
+                "depositReturnType": "В случае разрыва контракта: Депозит возвращается при уведомлении за 1 месяц",
+                "periodUnit": "месяцев",
+                "pricePerMonth": "100000 рублей",
+                "rentalPeriod": "Период аренды: __1__ (от 1 до 3) месяцев",
+                "terminationRules": "найм на период 3 месяцев и менее по 45000 рублей в месяц; найм на период 6 месяцев и менее по 50000 рублей в месяц",
+                "title": "Условия аренды",
+              },
+              {
+                "ID": "test",
+                "deposit": "90000 рублей",
+                "depositCollectType": "При заезде: Оплата депозита сразу",
+                "depositReturnPeriod": "в течение 2 календарных дней",
+                "depositReturnType": "В случае разрыва контракта: Депозит возвращается при уведомлении за 1 месяц",
+                "periodUnit": "месяцев",
+                "pricePerMonth": "90000 рублей",
+                "rentalPeriod": "Период аренды: __3__ (от 3 до 6) месяцев",
+                "terminationRules": "найм на период 3 месяцев и менее по 45000 рублей в месяц; найм на период 9 месяцев и менее по 30000 рублей в месяц",
+                "title": "Условия аренды",
+              },
+              {
+                "ID": "test",
+                "deposit": "45000 рублей",
+                "depositCollectType": "При заезде: Оплата депозита сразу",
+                "depositReturnPeriod": "в течение 2 календарных дней",
+                "depositReturnType": "В случае разрыва контракта: Депозит возвращается при уведомлении за 1 месяц",
+                "periodUnit": "месяцев",
+                "pricePerMonth": "90000 рублей",
+                "rentalPeriod": "Период аренды: __6__ (от 6 до 12) месяцев",
+                "terminationRules": "найм на период 2 месяцев и менее по 40000 рублей в месяц; найм на период 3 месяцев и менее по 45000 рублей в месяц",
+                "title": "Условия аренды",
+              },
+            ],
+          })
         });
     });
 

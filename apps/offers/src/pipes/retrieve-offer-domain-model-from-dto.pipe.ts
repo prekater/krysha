@@ -14,7 +14,8 @@ export class RetrieveOfferDomainModelFromDtoPipe implements PipeTransform{
       return domainOffer
     }
     catch (e) {
-      throw new BadRequestException()
+      console.error(e.message, e)
+      throw new BadRequestException(e.message)
     }
 
   }

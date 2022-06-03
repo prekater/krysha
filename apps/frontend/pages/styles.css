@@ -1,0 +1,8 @@
+.term {
+
+  border: 1px solid black;
+}
+
+.term.picked {
+  border: 2px solid red;
+}

@@ -6,6 +6,8 @@
     "contracts": "apps/contracts",
     "domain": "libs/domain",
     "e2e": "apps/e2e",
+    "frontend": "apps/frontend",
+    "frontend-e2e": "apps/frontend-e2e",
     "gateway": "apps/gateway",
     "infra": "libs/infra",
     "mappers": "libs/mappers",

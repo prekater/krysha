@@ -1,17 +1,23 @@
+import {Domain} from "@bigdeal/domain";
 import * as util from 'util'
 import {AbstractContentAdapter} from "./interfaces/content.adapter.abstract";
 
+export type OptionsContent = {
+  title: string;
+  option: string;
+
+}
 export class OptionAdapter extends AbstractContentAdapter {
 
+  protected readonly resource: Domain.Option[]
 
   public makeTitle(tpl: string): string {
     return util.format(tpl)
   }
 
   public makeOptions(tpl: string): string {
-
-    return this.contract
-      .options
+    return this
+      .resource
       .filter( o => o.isEnabled)
       .map(o => util.format(
         tpl,
@@ -20,7 +26,7 @@ export class OptionAdapter extends AbstractContentAdapter {
       .join('; ')
   }
 
-  public async makeContent(): Promise<Record<string, string>> {
+  public async makeContent(): Promise<OptionsContent> {
 
     const {option: {title, option}} = await import(`./tpl/option/${this.language}`)
 

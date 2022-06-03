@@ -6,8 +6,8 @@ import {
 } from "@bigdeal/common";
 import {GET_OFFER_BY_ID_QUERY} from "@bigdeal/messaging";
 import {GetOfferQuery} from "../queries/get-offer.query";
-import {Infra} from "@bigdeal/infra";
-import {Mappers} from "@bigdeal/mappers";
+import {OfferWebPresentator} from "../presentators/offer-web.presentator";
+import {Application} from "@bigdeal/application";
 
 
 type Payload = {
@@ -15,16 +15,16 @@ type Payload = {
 }
 
 @Controller()
-export class GetOfferController implements IController<Payload, Infra.Offer> {
+export class GetOfferController implements IController<Payload, Application.GetOfferResponseDto> {
 
   constructor(private readonly queryBus: QueryBus) {
   }
 
   @MessagePattern(GET_OFFER_BY_ID_QUERY)
-  async handle(payload: Payload): Promise<Infra.Offer> {
+  async handle(payload: Payload): Promise<Application.GetOfferResponseDto> {
     const response = await this.queryBus.execute(new GetOfferQuery(payload.ID));
 
-    return Mappers.Offer.fromDomainModelToPersistenceModel(response)
+    return OfferWebPresentator.map(response)
   }
 
 }

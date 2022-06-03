@@ -7,7 +7,7 @@ export abstract class AbstractContentAdapter {
   protected translates = commonTranslates;
 
   constructor(
-    protected readonly contract: Domain.Contract,
+    protected readonly resource:  any,
     protected readonly language: Language
   ) {
   }
