@@ -7,6 +7,7 @@ run_unit_tests:
   stage: test
   before_script:
     - echo "before"
+    - chmod +x prepare-tests.sh
     - ./prepare-tests.sh
   script:
     - echo "running tests"
