@@ -26,5 +26,12 @@ build_image:
 
 push_image:
   stage: build
+  needs:
+    - build_image
+  script:
+    - echo "pushing"
+
+deploy_image:
+  stage: deploy
   script:
     - echo "pushing"
