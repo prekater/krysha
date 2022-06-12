@@ -5,60 +5,17 @@ stages:
   - deploy
   
 run_unit_tests:
-  image: node:17-alpine3.14
+  image: node:16.13.0
   tags:
     - "ec2"
     - "docker"
     - "remote"
   stage: test
   before_script:
-    - echo "before"
-    - chmod +x prepare-test.sh
-    - ./prepare-test.sh
+    - cd app
+    - yarn
   script:
-    - echo "running tests"
-    - npm version
-  after_script:
-    - echo "after"
+    - nx run-many --target=test --all --skip-nx-cache
 
-run_lint_tests:
-  tags:
-    - "ec2"
-    - "shell"
-    - "remote"
-  stage: test
-  before_script:
-    - echo "before"
-  script:
-    - echo "running tests"
-  after_script:
-    - echo "after"
 
-build_image:
-  tags:
-    - "ec2"
-    - "shell"
-    - "remote"
-  stage: build
-  script:
-    - echo "building 1"
 
-push_image:
-  tags:
-    - "ec2"
-    - "shell"
-    - "remote"
-  stage: build
-  needs:
-    - build_image
-  script:
-    - echo "pushing"
-
-deploy_image:
-  tags:
-    - "ec2"
-    - "shell"
-    - "remote"
-  stage: deploy
-  script:
-    - echo "pushing"
