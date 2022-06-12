@@ -1,6 +1,6 @@
 workflow:
   rules:
-    - if: branch is not main
+    - if: $CI_COMMIT_BRANCH != "main"
       when: never
     - when: always
 
