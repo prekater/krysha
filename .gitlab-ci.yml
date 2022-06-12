@@ -1,28 +1,29 @@
-workflow:
-  rules:
-    - if: $CI_COMMIT_BRANCH != "main" && $CI_PIPELINE_SOURCE !="merge_request_event"
-      when: never
-    - when: always
-variables:
-  image_repository: docker.io/my-docker-id/myapp
-  image_tag: "v1.0"
+image: alpine:3.15.1
 stages:
   - test
   - build
   - deploy
   
 run_unit_tests:
+  tags:
+    - "ec2"
+    - "aws"
+    - "remote"
   stage: test
   before_script:
     - echo "before"
     - chmod +x prepare-test.sh
     - ./prepare-test.sh
   script:
-    - echo "running tests for $MICRO_SERVICE_NAME"
+    - echo "running tests"
   after_script:
     - echo "after"
 
 run_lint_tests:
+  tags:
+    - "ec2"
+    - "aws"
+    - "remote"
   stage: test
   before_script:
     - echo "before"
@@ -32,17 +33,19 @@ run_lint_tests:
     - echo "after"
 
 build_image:
-
-  only:
-    - main
+  tags:
+    - "ec2"
+    - "aws"
+    - "remote"
   stage: build
   script:
     - echo "building 1"
-    - echo "tagging the odcker image $image_repository:$image_tag"
 
 push_image:
-  only:
-    - main
+  tags:
+    - "ec2"
+    - "aws"
+    - "remote"
   stage: build
   needs:
     - build_image
@@ -50,9 +53,10 @@ push_image:
     - echo "pushing"
 
 deploy_image:
-  only:
-    - main
+  tags:
+    - "ec2"
+    - "aws"
+    - "remote"
   stage: deploy
   script:
-    - echo "Deploying new docker image useing configuration file $PROPERTIES_FILES ..."
-    - echo cat $PROPERTIES_FILES
+    - echo "pushing"
