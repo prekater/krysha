@@ -3,7 +3,7 @@ stages:
   - test
   - build
   - deploy
-  
+
 run_unit_tests:
   image: node:16.13.0
   tags:
@@ -15,7 +15,7 @@ run_unit_tests:
     - ls
     - yarn
   script:
-    - nx run-many --target=test --all --skip-nx-cache
-
-
-
+    - yarn test:all
+  artifacts:
+    reports:
+      junit: junit.xml

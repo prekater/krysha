@@ -3,13 +3,15 @@ import axios from 'axios'
 import {useRouter} from "next/router";
 
 
+// Арендодатель указывает, что ему подоходят варианты оплаты ( в дату начала месяца/контракта)
+// поднять тип жилья выше
 function Index(props) {
 
 
   const router = useRouter()
 
   router.query.slug && axios.get(
-   ` http://localhost:3333/api/contracts/${router.query.slug}/export`,
+   `http://localhost:3333/api/contracts/${router.query.slug}/export`,
     {responseType: 'blob'} // !!!
   ).then((response) => {
     window.open(URL.createObjectURL(response.data));

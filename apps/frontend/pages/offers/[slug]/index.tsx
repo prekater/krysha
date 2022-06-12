@@ -1,5 +1,6 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import axios from 'axios'
+import {useRouter} from "next/router";
 
 export async function getServerSideProps({params: {slug}}) {
   const res = await fetch(`http://localhost:3333/api/offers/${slug}`)
@@ -12,6 +13,7 @@ export async function getServerSideProps({params: {slug}}) {
 
 const Offer = ({data: offer}) => {
 
+  const router = useRouter()
   const [termId, setTermId] = useState(null)
 
 
@@ -22,13 +24,12 @@ const Offer = ({data: offer}) => {
   }
 
 
-
   const [period, setPeriod] = useState(initalPeriod)
 
   const onChangeRentalPeriod = key => (e) => {
 
     setPeriod(prevState => {
-      return  ({...prevState, [key]: e.target.value})
+      return ({...prevState, [key]: e.target.value})
     })
   }
 
@@ -41,7 +42,12 @@ const Offer = ({data: offer}) => {
       rentalEnd: reverseDate(period.endDate),
     }
 
-    await axios.post('http://localhost:3333/api/contracts', payload)
+    const {data} = await axios.post('http://localhost:3333/api/contracts', payload)
+
+
+
+    router.push(`http://localhost:4200/contracts/${data.resourceId}`)
+
 
   }
   return (
