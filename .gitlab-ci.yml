@@ -5,7 +5,7 @@ stages:
   - deploy
   
 run_unit_tests:
-  image: node:17-apline3.14
+  image: node:17-alpine3.14
   tags:
     - "ec2"
     - "docker"
