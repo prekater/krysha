@@ -5,9 +5,10 @@ stages:
   - deploy
   
 run_unit_tests:
+  image: node:17-apline3.14
   tags:
     - "ec2"
-    - "aws"
+    - "docker"
     - "remote"
   stage: test
   before_script:
@@ -16,13 +17,14 @@ run_unit_tests:
     - ./prepare-test.sh
   script:
     - echo "running tests"
+    - npm version
   after_script:
     - echo "after"
 
 run_lint_tests:
   tags:
     - "ec2"
-    - "aws"
+    - "shell"
     - "remote"
   stage: test
   before_script:
@@ -35,7 +37,7 @@ run_lint_tests:
 build_image:
   tags:
     - "ec2"
-    - "aws"
+    - "shell"
     - "remote"
   stage: build
   script:
@@ -44,7 +46,7 @@ build_image:
 push_image:
   tags:
     - "ec2"
-    - "aws"
+    - "shell"
     - "remote"
   stage: build
   needs:
@@ -55,7 +57,7 @@ push_image:
 deploy_image:
   tags:
     - "ec2"
-    - "aws"
+    - "shell"
     - "remote"
   stage: deploy
   script:
