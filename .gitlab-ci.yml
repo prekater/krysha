@@ -7,9 +7,8 @@ stages:
 run_unit_tests:
   image: node:16.13.0
   tags:
-    - "ec2"
-    - "docker"
-    - "remote"
+    - "local"
+    - "macos"
   stage: test
   before_script:
     - ls
