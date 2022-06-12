@@ -50,4 +50,5 @@ deploy_image:
     - main
   stage: deploy
   script:
-    - echo "pushing"
+    - echo "Deploying new docker image useing configuration file $PROPERTIES_FILE ..."
+    - echo cat $PROPERTIES_FILE
