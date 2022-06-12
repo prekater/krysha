@@ -16,7 +16,7 @@ run_unit_tests:
     - chmod +x prepare-test.sh
     - ./prepare-test.sh
   script:
-    - echo "running tests"
+    - echo "running tests for $MICRO_SERVICE_NAME"
   after_script:
     - echo "after"
 
