@@ -6,6 +6,7 @@
 /out-tsc
 
 # tests artifacts
+/junit
 junit.xml
 libs/infra/src/lib/__tests__/output.pdf
 

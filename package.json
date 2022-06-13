@@ -19,7 +19,8 @@
     "test:app:contracts": "nx run contracts:test",
     "test:domain": "nx run domain:test",
     "test:infra": "nx run infra:test",
-    "test:mappers": "nx run mappers:test --skip-nx-cache"
+    "test:mappers": "nx run mappers:test --skip-nx-cache  --reporters=\"jest-junit\"",
+    "merge-reports": "jrm junit.xml \"junit/*.xml\""
   },
   "private": true,
   "dependencies": {
@@ -96,6 +97,7 @@
     "eslint-plugin-react-hooks": "4.4.0",
     "jest": "27.5.1",
     "jest-junit": "^13.2.0",
+    "junit-report-merger": "^3.0.5",
     "nx": "14.0.2",
     "pdf-parse": "^1.1.1",
     "prettier": "^2.5.1",
@@ -104,5 +106,13 @@
     "ts-jest": "27.1.4",
     "ts-node": "9.1.1",
     "typescript": "~4.6.2"
+  },
+  "jest-junit": {
+    "outputDirectory": "./junit",
+    "uniqueOutputName": "true",
+    "classNameTemplate": "{classname}-{title}",
+    "titleTemplate": "{classname}-{title}",
+    "ancestorSeparator": " › ",
+    "usePathForSuiteName": "true"
   }
 }
