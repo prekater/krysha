@@ -5,6 +5,10 @@
 /tmp
 /out-tsc
 
+# tests artifacts
+junit.xml
+libs/infra/src/lib/__tests__/output.pdf
+
 # dependencies
 node_modules
 

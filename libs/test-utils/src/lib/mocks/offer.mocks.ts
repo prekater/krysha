@@ -235,8 +235,8 @@ export const offerObjectMock = {
 export const contractObjectMock = {
   ID: 'test',
   rentalPeriod: {
-    rentalStart: '12.06.2022',
-    rentalEnd: '12.09.2022',
+    rentalStart: '12.06.2025',
+    rentalEnd: '12.09.2025',
   },
   address: {city: 'Москва', flat: '222', house: '56', street: 'улица Свободы'},
   payment: {
@@ -299,8 +299,8 @@ export const makeContract = (termId: string = null) => {
   return Mappers.Contract.fromOfferToDomainModel(
     offer,
     termId,
-    '12.06.2022',
-    '12.09.2022',
+    '12.06.2025',
+    '12.09.2025',
   )
 }
 

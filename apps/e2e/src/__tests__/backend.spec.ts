@@ -241,8 +241,8 @@ describe('Application e2e', () => {
         renter: "Петров Петр Петрович",
         offerId: ID,
         termId: offerObjectMock.terms[0].ID,
-        rentalStart: '12.06.2022',
-        rentalEnd: '12.09.2022'
+        rentalStart: '12.06.2025',
+        rentalEnd: '12.09.2025'
       }
 
       await request(gateway.getHttpServer())

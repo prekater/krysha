@@ -98,8 +98,8 @@ describe(CreateContractController, () => {
       landlord: "", renter: "",
       offerId: offer.ID.toString(),
       termId: offer.terms[0].ID.toString(),
-      rentalStart: '12.06.2022',
-      rentalEnd: '12.09.2022'
+      rentalStart: '12.06.2025',
+      rentalEnd: '12.09.2025'
     }
     jest.spyOn(repo, 'getById').mockResolvedValue(offer)
     jest.spyOn(controller['commandBus'], 'execute').mockResolvedValue({result: true})
@@ -122,8 +122,8 @@ describe(CreateContractController, () => {
       landlord: "", renter: "",
       offerId: 'wfwefwfwfwfwf',
       termId: '123',
-      rentalStart: '12.06.2022',
-      rentalEnd: '12.09.2022'
+      rentalStart: '12.06.2025',
+      rentalEnd: '12.09.2025'
     }
 
 
@@ -151,8 +151,8 @@ describe(CreateContractController, () => {
       landlord: "", renter: "",
       offerId: offer.ID.toString(),
       termId: 'wefwefwfwffwe',
-      rentalStart: '12.06.2022',
-      rentalEnd: '12.09.2022'
+      rentalStart: '12.06.2025',
+      rentalEnd: '12.09.2025'
     }
 
     jest.spyOn(repo, 'getById').mockResolvedValue(offer)

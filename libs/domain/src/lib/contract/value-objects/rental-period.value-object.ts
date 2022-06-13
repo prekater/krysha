@@ -26,6 +26,8 @@ export class RentalPeriod implements IValueObject {
   }
 
   static validate(props: RentalPeriodProps<IMoment>) {
+
+    console.log(moment().diff(props.rentalStart), props.rentalEnd.diff(props.rentalStart))
     if (moment().diff(props.rentalStart) <= 0 &&
       props.rentalEnd.diff(props.rentalStart) > 0) return true
 

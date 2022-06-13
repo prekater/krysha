@@ -111,7 +111,7 @@ describe(AbstractContentAdapter, () => {
       const content = await rentalPeriodAdapter.makeContent()
 
       expect(content).toEqual({
-        "rentalPeriod": "с 12.06.2022 по 12.09.2022"
+        "rentalPeriod": "с 12.06.2025 по 12.09.2025"
       })
     });
 
