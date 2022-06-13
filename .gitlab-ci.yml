@@ -1,3 +1,8 @@
+workflow:
+  rules: 
+    - if: $CI_COMMIT_BRANCH != "main" && $CI_PIPELINE_SOURCE != "merge_request_event"
+      when: never
+    - when: always
 image: alpine:3.15.1
 stages:
   - test
@@ -21,3 +26,24 @@ run_unit_tests:
     when: always
     reports:
       junit: junit.xml
+
+build_image:
+  stage: build
+  tags:
+    - "local"
+    - "macos"
+  script:
+    - docker build -t registry.gitlab.com/alexanderkir1994/contracts-svc:1.0 .
+
+push_image: 
+  stage: build
+  needs:
+    - build_image
+  tags:
+    - "local"
+    - "macos"
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD registry.gitlab.com
+  script:
+    - docker push registry.gitlab.com/alexanderkir1994/contracts-svc:1.0
+
