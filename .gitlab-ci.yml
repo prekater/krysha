@@ -1,8 +1,9 @@
 workflow:
   rules: 
-    - if: $CI_COMMIT_BRANCH != "main" && $CI_PIPELINE_SOURCE != "merge_request_event"
-      when: never
-    - when: always
+    # - if: $CI_COMMIT_BRANCH != "main" && $CI_PIPELINE_SOURCE != "merge_request_event"
+      # when: never
+    # - when: always
+    - when: never
 image: alpine:3.15.1
 stages:
   - test
