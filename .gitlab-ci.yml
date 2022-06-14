@@ -13,6 +13,7 @@ stages:
 variables:
   IMAGE_NAME: $CI_REGISTRY_IMAGE/microservice/$MICRO_SERVICE
   IMAGE_TAG: "1.0"
+  DEV_SERVER_HOST: "ec2-44-200-125-244.compute-1.amazonaws.com"
 run_unit_tests:
   image: node:16.13.0
   tags:
@@ -50,4 +51,18 @@ push_image:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - docker push $IMAGE_NAME:$IMAGE_TAG
+
+
+deploy_to_dev: 
+  stage: deploy
+  tags: 
+    - "local"
+    - "macos"
+  before_script:
+    - chmod 400 $SSH_PRIVATE_KEY
+  script:
+    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY  ubuntu@$DEV_SERVER_HOST "
+      docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && 
+      docker run -d -p 3000:3000 $IMAGE_NAME:$IMAGE_TAG"
+
 
