@@ -9,7 +9,6 @@ stages:
   # - test
   - build
   - deploy
-
 variables:
   # IMAGE_NAME: $CI_REGISTRY_IMAGE/microservice/$MICRO_SERVICE
   # IMAGE_TAG: "1.0"
