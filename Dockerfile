@@ -5,6 +5,6 @@ RUN yarn
 COPY ./ ./
 ARG APP_NAME
 ENV APP_NAME=$APP_NAME
-RUN yarn build:$APP_NAME
+RUN yarn $APP_NAME:build
 CMD yarn start:$APP_NAME
 
