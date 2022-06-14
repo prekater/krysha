@@ -3,7 +3,7 @@ import axios from 'axios'
 import {useRouter} from "next/router";
 
 export async function getServerSideProps({params: {slug}}) {
-  const res = await fetch(`http://localhost:3333/api/offers/${slug}`)
+  const res = await fetch(`${process.env.BACKEND_URL}/offers/${slug}`)
   const data = await res.json()
 
   return {
@@ -42,7 +42,7 @@ const Offer = ({data: offer}) => {
       rentalEnd: reverseDate(period.endDate),
     }
 
-    const {data} = await axios.post('http://localhost:3333/api/contracts', payload)
+    const {data} = await axios.post(`${process.env.BACKEND_URL}/contracts`, payload)
 
 
 

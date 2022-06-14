@@ -4,6 +4,8 @@
   "license": "MIT",
   "scripts": {
     "frontend:serve": "nx serve frontend",
+    "frontend:build": "nx build frontend --configuration=production",
+    "frontend:start": "node apps/frontend/server.js",
     "contracts:serve": "nx serve contracts",
     "contracts:build": "nx build contracts --configuration=production",
     "contracts:start": "node ./dist/apps/contracts/main.js",

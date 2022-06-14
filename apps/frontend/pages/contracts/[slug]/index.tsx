@@ -11,7 +11,7 @@ function Index(props) {
   const router = useRouter()
 
   router.query.slug && axios.get(
-   `http://localhost:3333/api/contracts/${router.query.slug}/export`,
+   `${process.env.BACKEND_URL}/contracts/${router.query.slug}/export`,
     {responseType: 'blob'} // !!!
   ).then((response) => {
     window.open(URL.createObjectURL(response.data));

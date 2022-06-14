@@ -6,5 +6,6 @@ COPY ./ ./
 ARG APP_NAME
 ENV APP_NAME=$APP_NAME
 RUN yarn $APP_NAME:build
-CMD yarn start:$APP_NAME
+COPY ./libs/infra/src/lib/exporter/fonts ./dist/apps/fonts
+CMD yarn $APP_NAME:start
 

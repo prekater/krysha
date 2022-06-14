@@ -34,7 +34,7 @@ const CreateOffer = () => {
       authorId: 'weofkwpfokw'
     }
 
-   await axios.post('http://localhost:3333/api/offers', payload)
+   await axios.post(`${process.env.BACKEND_URL}/api/offers`, payload)
 
   }
   const {form, handleSubmit, values} = useForm({
