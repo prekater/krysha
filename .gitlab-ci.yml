@@ -6,7 +6,7 @@ workflow:
     # - when: never
 image: alpine:3.15.1
 stages:
-  - test
+  # - test
   - build
   - deploy
 
@@ -15,23 +15,23 @@ variables:
   # IMAGE_TAG: "1.0"
   DEV_SERVER_HOST: "ec2-44-200-125-244.compute-1.amazonaws.com"
   DEV_ENDPOINT: "http://ec2-44-200-125-244.compute-1.amazonaws.com:3000"
-run_unit_tests:
-  image: node:16.13.0
-  tags:
-    - "local"
-    - "macos"
-  stage: test
-  before_script:
-    - ls
-    - yarn
-  script:
-    - yarn test:all
-  after_script:
-    - yarn merge-reports
-  artifacts:
-    when: always
-    reports:
-      junit: junit.xml
+# run_unit_tests:
+#   image: node:16.13.0
+#   tags:
+#     - "local"
+#     - "macos"
+#   stage: test
+#   before_script:
+#     - ls
+#     - yarn
+#   script:
+#     - yarn test:all
+#   after_script:
+#     - yarn merge-reports
+#   artifacts:
+#     when: always
+#     reports:
+#       junit: junit.xml
 
 build_offers:
   stage: build
