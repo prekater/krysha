@@ -14,6 +14,7 @@ variables:
   IMAGE_NAME: $CI_REGISTRY_IMAGE/microservice/$MICRO_SERVICE
   IMAGE_TAG: "1.0"
   DEV_SERVER_HOST: "ec2-44-200-125-244.compute-1.amazonaws.com"
+  DEV_ENDPOINT: "http://ec2-44-200-125-244.compute-1.amazonaws.com:3000"
 run_unit_tests:
   image: node:16.13.0
   tags:
