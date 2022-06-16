@@ -41,8 +41,7 @@ services:
     image: registry.gitlab.com/alexanderkir1994/contracts-svc/microservice/monorepo:1.0
     networks:
       - micro_service
-    command:
-      - yarn run gateway:start
+    entrypoint: ["yarn", "run", "gateway:start"]
     environment:
       PORT: '3333'
       CONTRACTS_MICROSERVICE_PORT: '3002'
