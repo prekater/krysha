@@ -38,7 +38,7 @@ services:
 #      - mongo
 
   gateway:
-    image: ${DC_IMAGE_NAME}:${DC_IMAGE_TAG}
+    image: registry.gitlab.com/alexanderkir1994/contracts-svc/microservice/monorepo:1.0
     command:
       - yarn gateway:start
     networks:
