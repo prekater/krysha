@@ -43,8 +43,8 @@ stages:
     - export IMAGE_NAME=$CI_REGISTRY_IMAGE/microservice/monorepo
     - export IMAGE_TAG=1.0
   script: 
-    - scp -o StrictHostKeyChecking=no i $SSH_PRIVATE_KEY ./docker-compose.yml ubuntu@DEPLOYMENT_SERVER_HOST:/home/ubuntu
-    - ssh -o StrictHostKeyChecking=no i $SSH_PRIVATE_KEY ubuntu@$DEPLOYMENT_SERVER_HOST "
+    - scp -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY ./docker-compose.yml ubuntu@DEPLOYMENT_SERVER_HOST:/home/ubuntu
+    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY ubuntu@$DEPLOYMENT_SERVER_HOST "
       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
       
       export DC_IMAGE_NAME=monorepo && 
@@ -78,11 +78,11 @@ stages:
 #       junit: junit.xml
 
 
-build_monorepo:
-  extends: .build
-  variables: 
-    MICRO_SERVICE: "monorepo" 
-    SERVICE_VERSION: "1.0"
+# build_monorepo:
+#   extends: .build
+#   variables: 
+#     MICRO_SERVICE: "monorepo" 
+#     SERVICE_VERSION: "1.0"
 
 
 deploy_monorepo:
