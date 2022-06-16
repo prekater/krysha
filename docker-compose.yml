@@ -50,7 +50,6 @@ services:
       OFFERS_MICROSERVICE_HOST: 'offers'
     ports:
       - 3333:3333
-
   offers:
     image: registry.gitlab.com/alexanderkir1994/contracts-svc/microservice/monorepo:1.0
     networks:
