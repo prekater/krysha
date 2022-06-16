@@ -51,6 +51,11 @@ services:
       OFFERS_MICROSERVICE_HOST: 'offers'
     ports:
       - 3333:3333
+    deploy:
+      resources:
+        limits:
+          memory: 3000M
+
 
 networks:
   micro_service:
