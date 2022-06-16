@@ -32,7 +32,6 @@ services:
       PORT: '3001'
     ports:
       - 3001:3001
-      -
   contracts:
     image: registry.gitlab.com/alexanderkir1994/contracts-svc/microservice/monorepo:1.0
     networks:
