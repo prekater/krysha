@@ -49,6 +49,7 @@ stages:
       export DC_IMAGE_NAME=monorepo &&
       export DC_IMAGE_TAG=$IMAGE_TAG &&
       export DC_APP_PORT=$APP_PORT &&
+      export DC_MONGO_URL=$MONGO_URL &&
 
       docker network create micro_service || true &&
 

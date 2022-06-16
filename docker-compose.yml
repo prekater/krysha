@@ -51,6 +51,18 @@ services:
     ports:
       - 3333:3333
 
+  offers:
+    image: registry.gitlab.com/alexanderkir1994/contracts-svc/microservice/monorepo:1.0
+    networks:
+      - micro_service
+    entrypoint: ["yarn", "run", "offers:start"]
+    environment:
+      MONGO_URL: ${DC_MONGO_URL}
+      OFFERS_MICROSERVICE_HOST: 'offers'
+      PORT: '3001'
+    ports:
+      - 3001:3001
+
 networks:
   micro_service:
     external:
