@@ -7,35 +7,6 @@ services:
 #    command:
 #      - yarn ${COMPOSE_PROJECT_NAME} start
 #
-#
-#  contracts:
-#    build:
-#      context: .
-#      dockerfile: dev.Dockerfile
-#      args:
-#        APP_NAME: contracts
-#    volumes:
-#      - ./:/app
-#    environment:
-#      MONGO_URL: 'mongodb://root:root@mongo:27017/db?authSource=admin'
-#      PORT: '3002'
-#      CONTRACTS_MICROSERVICE_HOST: 'contracts'
-#    depends_on:
-#      - mongo
-#  offers:
-#    build:
-#      context: .
-#      dockerfile: dev.Dockerfile
-#      args:
-#        APP_NAME: offers
-#    volumes:
-#      - ./:/app
-#    environment:
-#      MONGO_URL: 'mongodb://root:root@mongo:27017/db?authSource=admin'
-#      OFFERS_MICROSERVICE_HOST: 'offers'
-#      PORT: '3001'
-#    depends_on:
-#      - mongo
 
   gateway:
     image: registry.gitlab.com/alexanderkir1994/contracts-svc/microservice/monorepo:1.0
@@ -61,6 +32,25 @@ services:
       PORT: '3001'
     ports:
       - 3001:3001
+  contracts:
+    image: registry.gitlab.com/alexanderkir1994/contracts-svc/microservice/monorepo:1.0
+    networks:
+      - micro_service
+    entrypoint: [ "yarn", "run", "contracts:start" ]
+    environment:
+      MONGO_URL: "mongodb://mongodbuser:NlNTuLEcHZlY@docdb-2022-06-16-18-17-51.cluster-cyl9g3y6spqu.us-east-1.docdb.amazonaws.com:27017/?replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
+      PORT: '3002'
+      CONTRACTS_MICROSERVICE_HOST: 'contracts'
+  frontend:
+    image: registry.gitlab.com/alexanderkir1994/contracts-svc/microservice/monorepo:1.0
+    networks:
+      - micro_service
+    entrypoint: [ "yarn", "run", "frontend:start" ]
+    environment:
+      BACKEND_URL: 'http://localhost:3333/api'
+      PORT: '3000'
+    ports:
+      - 3000:3000
 
 networks:
   micro_service:
