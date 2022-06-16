@@ -1,0 +1,75 @@
+version: '3'
+services:
+#  mongo:
+#    image: mongo
+#    restart: always
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: root
+#    ports:
+#      - 27017:27017
+#  mongo-express:
+#    image: mongo-express:0.54
+#    restart: always
+#    ports:
+#      - 8081:8081
+#    environment:
+#      ME_CONFIG_MONGODB_SERVER: mongo
+#      ME_CONFIG_MONGODB_PORT: 27017
+#      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+#      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+#    depends_on:
+#      - mongo
+#  contracts:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#      args:
+#        APP_NAME: contracts
+#
+#    environment:
+#      MONGO_URL: 'mongodb://root:root@mongo:27017/contracts?authSource=admin'
+#      PORT: '3002'
+#    depends_on:
+#      - mongo
+#  offers:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#      args:
+#        APP_NAME: offers
+#
+#    environment:
+#      MONGO_URL: 'mongodb://root:root@mongo:27017/offers?authSource=admin'
+#      PORT: '3001'
+#    depends_on:
+#      - mongo
+#
+#  gateway:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#      args:
+#        APP_NAME: gateway
+#    environment:
+#      PORT: '3333'
+#      CONTRACTS_MICROSERVICE_PORT: '3002'
+#      OFFERS_MICROSERVICE_PORT: '3001'
+#      CONTRACTS_MICROSERVICE_HOST: 'contracts'
+#      OFFERS_MICROSERVICE_HOST: 'offers'
+#    ports:
+#      - 3333:3333
+#    depends_on:
+#      - contracts
+#      - offers
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_NAME: frontend
+    environment:
+      BACKEND_URL: 'http://localhost:3333/api'
+      PORT: '3000'
+    ports:
+      - 3000:3000
