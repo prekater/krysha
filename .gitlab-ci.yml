@@ -77,11 +77,11 @@ stages:
 #       junit: junit.xml
 
 
-build_monorepo:
-  extends: .build
-  variables: 
-    MICRO_SERVICE: "monorepo" 
-    SERVICE_VERSION: "1.0"
+# build_monorepo:
+#   extends: .build
+#   variables: 
+#     MICRO_SERVICE: "monorepo" 
+#     SERVICE_VERSION: "1.0"
 
 
 deploy_monorepo:
