@@ -44,7 +44,7 @@ stages:
     - export IMAGE_TAG=1.0
   script: 
     - scp -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY ./docker-compose.yml ubuntu@$APP_ENDPOINT:/home/ubuntu
-    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY ubuntu@$$APP_ENDPOINT "
+    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY ubuntu@$APP_ENDPOINT "
       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
       
       export DC_IMAGE_NAME=monorepo && 
