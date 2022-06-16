@@ -37,10 +37,7 @@ stages:
   tags:
     - "local"
     - "macos"
-  variables:
-    MICRO_SERVICE: ""
-    SERVICE_VERSION: ""
-    APP_PORT: ""
+
   before_script:
     - chmod 400 $SSH_PRIVATE_KEY
     - export IMAGE_NAME=$CI_REGISTRY_IMAGE/microservice/monorepo
@@ -88,15 +85,8 @@ build_monorepo:
     SERVICE_VERSION: "1.0"
 
 
-deploy_gateway:
+deploy_monorepo:
   extends: .deploy
-
-
-
-
-
-
-
 
 
 # build_offers:
