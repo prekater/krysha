@@ -27,7 +27,7 @@ services:
       - micro_service
     entrypoint: ["yarn", "run", "offers:start"]
     environment:
-      MONGO_URL: "mongodb://mongodbuser:NlNTuLEcHZlY@docdb-2022-06-16-18-17-51.cluster-cyl9g3y6spqu.us-east-1.docdb.amazonaws.com:27017/?replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
+      MONGO_URL: "mongodb://mongodbuser:NlNTuLEcHZlY>@docdb-2022-06-16-18-17-51.cyl9g3y6spqu.us-east-1.docdb.amazonaws.com:27017/?retryWrites=false"
       OFFERS_MICROSERVICE_HOST: 'offers'
       PORT: '3001'
     ports:
@@ -38,7 +38,7 @@ services:
       - micro_service
     entrypoint: [ "yarn", "run", "contracts:start" ]
     environment:
-      MONGO_URL: "mongodb://mongodbuser:NlNTuLEcHZlY@docdb-2022-06-16-18-17-51.cluster-cyl9g3y6spqu.us-east-1.docdb.amazonaws.com:27017/?replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
+      MONGO_URL: "mongodb://mongodbuser:NlNTuLEcHZlY>@docdb-2022-06-16-18-17-51.cyl9g3y6spqu.us-east-1.docdb.amazonaws.com:27017/?retryWrites=false"
       PORT: '3002'
       CONTRACTS_MICROSERVICE_HOST: 'contracts'
   frontend:
