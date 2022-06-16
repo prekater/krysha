@@ -40,7 +40,7 @@ services:
   gateway:
     image: registry.gitlab.com/alexanderkir1994/contracts-svc/microservice/monorepo:1.0
     command:
-      - yarn gateway:start
+      - yarn run gateway:start
     networks:
       - micro_service
     environment:
