@@ -35,7 +35,7 @@ const CreateOffer = () => {
     }
 
 
-   await axios.post(`http://ec2-44-200-125-244.compute-1.amazonaws.com:3333/api/api/offers`, payload)
+   await axios.post(`http://ec2-44-200-125-244.compute-1.amazonaws.com:3333/api/offers`, payload)
 
   }
   const {form, handleSubmit, values} = useForm({
