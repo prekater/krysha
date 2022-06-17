@@ -47,7 +47,7 @@ services:
       - micro_service
     entrypoint: [ "yarn", "run", "frontend:start" ]
     environment:
-      BACKEND_URL: 'http://localhost:3333/api'
+      BACKEND_URL: 'http://ec2-44-200-125-244.compute-1.amazonaws.com:3333/api'
       PORT: '3000'
     ports:
       - 3000:3000
