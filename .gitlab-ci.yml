@@ -54,7 +54,7 @@ stages:
       docker network create micro_service || true &&
 
       docker-compose down &&
-      docker image remove registry.gitlab.com/alexanderkir1994/contracts-svc/microservice/monorepo:1.0 &&
+      docker image remove registry.gitlab.com/alexanderkir1994/contracts-svc/microservice/monorepo:1.0 --force &&
       docker-compose up -d"
   environment:
     name: development
