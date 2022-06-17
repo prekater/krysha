@@ -260,9 +260,9 @@ const CreateOffer = () => {
         <div className="buttons">
           <button type="submit">Submit</button>
         </div>
-        {/*<pre>{JSON.stringify(values, undefined, 2)}</pre>*/}
-        {/*<pre>{JSON.stringify(options, undefined, 2)}</pre>*/}
-        {/*<pre>{JSON.stringify(terms, undefined, 2)}</pre>*/}
+        <pre>{JSON.stringify(values, undefined, 2)}</pre>
+        <pre>{JSON.stringify(options, undefined, 2)}</pre>
+        <pre>{JSON.stringify(terms, undefined, 2)}</pre>
       </form>
     </>
   )
