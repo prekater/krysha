@@ -34,6 +34,8 @@ const CreateOffer = () => {
       authorId: 'weofkwpfokw'
     }
 
+    console.log(`${process.env.BACKEND_URL}/api/offers`, payload)
+
    await axios.post(`${process.env.BACKEND_URL}/api/offers`, payload)
 
   }
