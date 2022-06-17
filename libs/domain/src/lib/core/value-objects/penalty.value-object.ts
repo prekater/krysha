@@ -38,9 +38,9 @@ export class Penalty implements IValueObject {
   static validate(props: PenaltyProps) {
 
     if (
-      typeof props.value === 'number' && props.value >= 0 &&
+      props.type === PenaltyType.ABSENT || (typeof props.value === 'number' && props.value >= 0 &&
       (Object.values(PenaltyType).includes(props.type)) &&
-      typeof props.value === 'number' && props.start > 0
+      typeof props.value === 'number' && props.start > 0)
     ) return true;
 
     throw new UncompletedPenaltyException()
