@@ -46,7 +46,7 @@ const Offer = ({data: offer}) => {
 
 
 
-    router.push(`http://localhost:4200/contracts/${data.resourceId}`)
+    router.push(`http://ec2-44-200-125-244.compute-1.amazonaws.com:3000/contracts/${data.resourceId}`)
 
 
   }
