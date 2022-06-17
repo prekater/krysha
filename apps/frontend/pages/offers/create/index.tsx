@@ -5,6 +5,7 @@ import {useAddress} from "../../../hooks/address.hook";
 import {useOptions} from "../../../hooks/options.hook";
 import {useTerms} from "../../../hooks/terms.hook";
 import axios from 'axios'
+import {useRouter} from "next/router";
 
 const validate = values => {
   const errors: any = {}
@@ -18,6 +19,8 @@ const validate = values => {
 }
 
 const CreateOffer = () => {
+
+  const router = useRouter()
 
   // terms block
   const {terms, onAddTerm, onChangeTerm, onAddTerminationRule} = useTerms()
@@ -35,7 +38,10 @@ const CreateOffer = () => {
     }
 
 
-   await axios.post(`http://ec2-44-200-125-244.compute-1.amazonaws.com:3333/api/offers`, payload)
+    const {data} = await axios.post(`http://ec2-44-200-125-244.compute-1.amazonaws.com:3333/api/offers`, payload)
+
+
+    router.push(`http://ec2-44-200-125-244.compute-1.amazonaws.com:3000/offers/${data.resourceId}`)
 
   }
   const {form, handleSubmit, values} = useForm({
