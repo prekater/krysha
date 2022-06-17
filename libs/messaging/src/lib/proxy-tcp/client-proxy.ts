@@ -10,6 +10,7 @@ export class ClientProxyTCP {
   ) {
   }
 
+
   getClientProxyContractsInstance(): ClientProxy {
     return ClientProxyFactory.create({
       transport: Transport.TCP,
