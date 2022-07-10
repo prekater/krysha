@@ -47,7 +47,7 @@
     "framer-motion": "^6",
     "get-stream": "^6.0.1",
     "memorystream": "^0.3.1",
-    "moment": "^2.29.3",
+    "moment": "2.29.3",
     "mongoose": "6.3.1",
     "next": "12.1.5",
     "pdfkit": "^0.13.0",
