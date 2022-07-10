@@ -30,8 +30,8 @@ describe(Domain.Deposit, () => {
       const cases = {
         incorrectValue1: {value: 'wefew'},
         incorrectValue2: {value: -1},
-        incorrectRT: {returnType: 'hello' },
-        incorrectCT: {collectType: 'hello' }
+        // incorrectRT: {returnType: 'hello' },
+        incorrectCT: {collectOptions: ['hello'] }
       }
       const casesList = Object.values(cases)
       expect.assertions(casesList.length)
@@ -39,6 +39,7 @@ describe(Domain.Deposit, () => {
       for (const testCase of casesList) {
         try {
           const deposit = makeDeposit(testCase as any)
+          console.debug(testCase)
 
         } catch (e) {
           expect(e).toBeInstanceOf(UncompletedDepositException)

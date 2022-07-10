@@ -11,6 +11,8 @@ import {makeOffer, MockCommandBus} from "@bigdeal/test-utils";
 import {CreateContractDto} from "../../../../libs/application/src/lib/dto/create-contract.dto";
 import {CreateContractCommand} from "../commands/create-contract.command";
 import {CreateContractController} from "../controllers/create-contract.controller";
+import {DepositCollectOptionType} from "../../../../libs/domain/src/lib/core/interfaces/deposit.interface";
+
 jest.mock("../commands/create-contract.command")
 
 describe(CreateContractController, () => {
@@ -99,7 +101,10 @@ describe(CreateContractController, () => {
       offerId: offer.ID.toString(),
       termId: offer.terms[0].ID.toString(),
       rentalStart: '12.06.2025',
-      rentalEnd: '12.09.2025'
+      rentalEnd: '12.09.2025',
+      depositOption: offer.terms[0].deposit.collectOptions[0].type,
+      paymentStartOption: Domain.PaymentStart.START_OF_RENT,
+      paymentTypeOption: Domain.PaymentType.TWO_PAYMENTS,
     }
     jest.spyOn(repo, 'getById').mockResolvedValue(offer)
     jest.spyOn(controller['commandBus'], 'execute').mockResolvedValue({result: true})
@@ -123,7 +128,10 @@ describe(CreateContractController, () => {
       offerId: 'wfwefwfwfwfwf',
       termId: '123',
       rentalStart: '12.06.2025',
-      rentalEnd: '12.09.2025'
+      rentalEnd: '12.09.2025',
+      depositOption: DepositCollectOptionType.ABSENT,
+      paymentStartOption: Domain.PaymentStart.START_OF_RENT,
+      paymentTypeOption: Domain.PaymentType.TWO_PAYMENTS,
     }
 
 
@@ -152,7 +160,10 @@ describe(CreateContractController, () => {
       offerId: offer.ID.toString(),
       termId: 'wefwefwfwffwe',
       rentalStart: '12.06.2025',
-      rentalEnd: '12.09.2025'
+      rentalEnd: '12.09.2025',
+      depositOption: DepositCollectOptionType.ABSENT,
+      paymentStartOption: Domain.PaymentStart.START_OF_RENT,
+      paymentTypeOption: Domain.PaymentType.TWO_PAYMENTS,
     }
 
     jest.spyOn(repo, 'getById').mockResolvedValue(offer)

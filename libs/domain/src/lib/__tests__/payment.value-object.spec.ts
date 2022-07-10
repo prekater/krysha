@@ -30,9 +30,9 @@ describe(Domain.Payment, () => {
 
     it('should throw exception when fields not filled(check all)', async function () {
       const cases = {
-        incorrectPaymentStart: {paymentStart: 'wefew'},
-        incorrectType: {type: 'wefew'},
-        incorrectPenalty: {penalty: 'wefew'},
+        incorrectPaymentStartOptions: {paymentStartOptions: [{type: 'wefew'}]},
+        incorrectPaymentTypeOptions: {paymentTypeOptions: [{type: 'wefew', priceAffect: 1000}]},
+        incorrectPaymentTypeOptions2: {paymentTypeOptions: [{type: 'START_OF_MONTH'}]},
       }
       const casesList = Object.values(cases)
       expect.assertions(casesList.length)
@@ -40,6 +40,7 @@ describe(Domain.Payment, () => {
       for (const testCase of casesList) {
         try {
           const payment = makePayment(testCase as any)
+          console.debug(testCase)
 
         } catch (e) {
           expect(e).toBeInstanceOf(UncompletedPaymentException)

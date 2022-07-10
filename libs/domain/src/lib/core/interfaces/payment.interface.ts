@@ -1,6 +1,5 @@
 import {Penalty} from "../value-objects/penalty.value-object";
 
-
 export enum PaymentStart {
   START_OF_MONTH = 'START_OF_MONTH',
   START_OF_RENT = 'START_OF_RENT',
@@ -11,8 +10,21 @@ export enum PaymentType {
   TWO_PAYMENTS = 'TWO_PAYMENTS',
 }
 
-export interface PaymentProps {
+export type PaymentStartOption = {
+  type: PaymentStart;
+  isEnabled: boolean;
+  label?: string;
+}
+
+export type PaymentTypeOption = {
   type: PaymentType;
-  paymentStart: PaymentStart;
-  penalty: Penalty;
+  isEnabled: boolean;
+  priceAffect: number;
+  label?: string;
+}
+
+export interface PaymentProps {
+  paymentStartOptions: PaymentStartOption[];
+  paymentTypeOptions: PaymentTypeOption[];
+  penalty?: Penalty;
 }

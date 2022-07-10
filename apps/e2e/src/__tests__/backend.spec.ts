@@ -10,10 +10,14 @@ import * as pdfParser from 'pdf-parse'
 import {AppModule} from "../../../gateway/src/app.module";
 import {OffersModule} from "../../../offers/src/offers.module";
 import {ContractsModule} from "../../../contracts/src/contracts.module";
+import {createOfferPayload1} from "./mocks/create-offer-payload";
+import {Domain} from "@bigdeal/domain";
 
 describe('Application e2e', () => {
   let gateway: INestApplication;
 
+  process.env.OFFERS_MICROSERVICE_HOST = 'localhost'
+  process.env.CONTRACTS_MICROSERVICE_HOST = 'localhost'
 
   beforeAll(async () => {
 
@@ -82,101 +86,220 @@ describe('Application e2e', () => {
       expect(repo).toBeDefined()
     });
 
-    it('should correctly get offer', async function () {
-
-      expect.assertions(1)
-      const payload = {...offerObjectMock, ID: uuid()}
-
-      await repo['offers'].create(payload)
-
-      await request(gateway.getHttpServer())
-        .get(`/api/offers/${payload.ID}`)
-        .send(payload)
-        .set('Accept', 'application/json')
-        .expect(res => {
-
-          expect(res.body).toEqual({
-            ID: expect.any(String),
-            payment: {
-              "paymentRules": "оплата за первый месяц найма в полном объеме",
-              "paymentType": "Тип оплаты: Одним платежом",
-              "penalty": "В случае задержки оплаты взимается 300 рублей в сутки с 1 календарного дня после числа оплаты"
-            },
-            "address": {
-              "city": "г. Москва",
-              "flat": "кв. 222",
-              "house": "д. 56",
-              "street": "улица Свободы",
-            },
-            "meta": {
-              "propertyType": "Тип жилья: Однокомнатная",
-            },
-            "options": {
-              "option": "электричество; вода; отопление",
-              "title": "Опции: ",
-            },
-            "terms": [
-              {
-                "ID": "test",
-                "deposit": "100000 рублей",
-                "depositCollectType": "При заезде: Оплата депозита сразу",
-                "depositReturnPeriod": "в течение 2 календарных дней",
-                "depositReturnType": "В случае разрыва контракта: Депозит возвращается при уведомлении за 1 месяц",
-                "periodUnit": "месяцев",
-                "pricePerMonth": "100000 рублей",
-                "rentalPeriod": "Период аренды: __1__ (от 1 до 3) месяцев",
-                "terminationRules": "найм на период 3 месяцев и менее по 45000 рублей в месяц; найм на период 6 месяцев и менее по 50000 рублей в месяц",
-                "title": "Условия аренды",
-              },
-              {
-                "ID": "test",
-                "deposit": "90000 рублей",
-                "depositCollectType": "При заезде: Оплата депозита сразу",
-                "depositReturnPeriod": "в течение 2 календарных дней",
-                "depositReturnType": "В случае разрыва контракта: Депозит возвращается при уведомлении за 1 месяц",
-                "periodUnit": "месяцев",
-                "pricePerMonth": "90000 рублей",
-                "rentalPeriod": "Период аренды: __3__ (от 3 до 6) месяцев",
-                "terminationRules": "найм на период 3 месяцев и менее по 45000 рублей в месяц; найм на период 9 месяцев и менее по 30000 рублей в месяц",
-                "title": "Условия аренды",
-              },
-              {
-                "ID": "test",
-                "deposit": "45000 рублей",
-                "depositCollectType": "При заезде: Оплата депозита сразу",
-                "depositReturnPeriod": "в течение 2 календарных дней",
-                "depositReturnType": "В случае разрыва контракта: Депозит возвращается при уведомлении за 1 месяц",
-                "periodUnit": "месяцев",
-                "pricePerMonth": "90000 рублей",
-                "rentalPeriod": "Период аренды: __6__ (от 6 до 12) месяцев",
-                "terminationRules": "найм на период 2 месяцев и менее по 40000 рублей в месяц; найм на период 3 месяцев и менее по 45000 рублей в месяц",
-                "title": "Условия аренды",
-              },
-            ],
-          })
-        });
-    });
-
     it('should correctly add offer', async function () {
 
       expect.assertions(2)
 
-      const payload = {...offerObjectMock, ID: uuid()}
+      let resourceId;
+
       await request(gateway.getHttpServer())
         .post(`/api/offers`)
-        .send(payload)
+        .send(createOfferPayload1)
         .set('Accept', 'application/json')
         .expect(res => {
 
           expect(res.body).toEqual({
             result: true,
-            resourceId: payload.ID
+            resourceId: expect.any(String)
           })
+          resourceId = res.body.resourceId
+        });
+      await request(gateway.getHttpServer())
+        .get(`/api/offers/${resourceId}`)
+        .set('Accept', 'application/json')
+        .expect(res => {
+          expect(res.body).toEqual(
+            {
+              "ID": expect.any(String),
+              "payment": {
+                "paymentStartOptions": [{
+                  "type": "START_OF_RENT",
+                  "isEnabled": true
+                }, {"type": "START_OF_MONTH", "isEnabled": true}],
+                "paymentTypeOptions": [{
+                  "type": "TWO_PAYMENTS",
+                  "priceAffect": 2000,
+                  "isEnabled": true
+                }, {"type": "ONE_PAYMENT", "priceAffect": 0, "isEnabled": true}],
+                "penalty": null
+              },
+              "paymentContent": {
+                "paymentTypeOnePayment": "Одним платежом",
+                "paymentTypeTwoPayments": "Двумя платежами за дополнительные 2000 рублей в месяц к сумме аренды",
+                "paymentType": "Тип оплаты: Двумя платежами",
+                "penalty": "В случае задержки оплаты оплата не взимается",
+                "paymentRules": "оплата за первый месяц найма в полном объеме"
+              },
+              "address": {"house": "д. 56", "flat": "кв. 222", "street": "улица Свободы", "city": "г. Москва"},
+              "meta": {"propertyType": "Тип жилья: Однокомнатная"},
+              "options": [{"title": "Электричество", "isEnabled": false}, {
+                "title": "Кондиционер",
+                "isEnabled": true
+              }, {"title": "Телевизор", "isEnabled": true}, {"title": "Интернет", "isEnabled": false}],
+              "optionsContent": {"title": "Опции: ", "option": "кондиционер; телевизор"},
+              "termsContent": [{
+                "title": "Условия аренды",
+                "periodUnit": "дней",
+                "rentalPeriod": "Период аренды: __1__ (от 1 до 3) дней",
+                "pricePerMonth": "100000 рублей",
+                "deposit": "100000 рублей",
+                "depositCollectType": "При заезде: Без депозита, каждый месяц стоит дороже на 10000 рублей",
+                "depositCollectTypeOptions": [{
+                  "type": "ABSENT_WITH_EXTRA_CHARGE",
+                  "priceAffect": "10000",
+                  "isEnabled": true,
+                  "label": "При заезде: Без депозита, каждый месяц стоит дороже на 10000 рублей"
+                }, {
+                  "type": "PARTIAL",
+                  "priceAffect": "2000",
+                  "isEnabled": true,
+                  "label": "При заезде: депозит частями: 2 раза в месяц"
+                }],
+                "depositReturnType": "В случае разрыва контракта: Стоимость месяца пересчитывается",
+                "depositReturnPeriod": "в течение 0 календарных undefined",
+                "terminationRules": "найм на период 3 месяцев и менее по 145000 рублей в месяц; найм на период 6 месяцев и менее по 150000 рублей в месяц",
+                "ID": "4578b396-cd7a-4e2c-8c1e-ac83eb1d030d"
+              }, {
+                "title": "Условия аренды",
+                "periodUnit": "месяцев",
+                "rentalPeriod": "Период аренды: __3__ (от 3 до 6) месяцев",
+                "pricePerMonth": "90000 рублей",
+                "deposit": "100000 рублей",
+                "depositCollectType": "При заезде: депозит частями: 2 раза в месяц",
+                "depositCollectTypeOptions": [{
+                  "type": "ABSENT_WITH_EXTRA_CHARGE",
+                  "priceAffect": 0,
+                  "isEnabled": false,
+                  "label": "При заезде: Без депозита, каждый месяц стоит дороже на 0 рублей"
+                }, {
+                  "type": "PARTIAL",
+                  "priceAffect": "2000",
+                  "isEnabled": true,
+                  "label": "При заезде: депозит частями: 2 раза в месяц"
+                }],
+                "depositReturnType": "В случае разрыва контракта: Стоимость месяца пересчитывается",
+                "depositReturnPeriod": "в течение 0 календарных undefined",
+                "terminationRules": "найм на период 3 месяцев и менее по 160000 рублей в месяц; найм на период 6 месяцев и менее по 140000 рублей в месяц; найм на период 9 месяцев и менее по 120000 рублей в месяц",
+                "ID": "0aef4f7b-eb11-418c-8224-bb78b448f4df"
+              }, {
+                "title": "Условия аренды",
+                "periodUnit": "месяцев",
+                "rentalPeriod": "Период аренды: __6__ (от 6 до 12) месяцев",
+                "pricePerMonth": "90000 рублей",
+                "deposit": "100000 рублей",
+                "depositCollectType": "При заезде: Оплата депозита сразу",
+                "depositCollectTypeOptions": [{
+                  "type": "ABSENT_WITH_EXTRA_CHARGE",
+                  "priceAffect": 0,
+                  "isEnabled": false,
+                  "label": "При заезде: Без депозита, каждый месяц стоит дороже на 0 рублей"
+                }, {
+                  "type": "PARTIAL",
+                  "priceAffect": 0,
+                  "isEnabled": false,
+                  "label": "При заезде: депозит частями: 2 раза в месяц"
+                }],
+                "depositReturnType": "В случае разрыва контракта: Стоимость месяца пересчитывается",
+                "depositReturnPeriod": "в течение 0 календарных undefined",
+                "terminationRules": "найм на период 6 месяцев и менее по 110000 рублей в месяц",
+                "ID": "e46775d9-58f2-4ca1-9ab9-65e6754939c0"
+              }],
+              "terms": [{
+                "deposit": {
+                  "returnPeriod": 0,
+                  "isEnabled": true,
+                  "returnPeriodUnit": "",
+                  "value": 100000,
+                  "returnType": "RECALCULATE_PRICE",
+                  "collectOptions": [{
+                    "type": "ABSENT_WITH_EXTRA_CHARGE",
+                    "priceAffect": "10000",
+                    "isEnabled": true
+                  }, {"type": "PARTIAL", "priceAffect": "2000", "isEnabled": true}]
+                },
+                "periodFrom": 1,
+                "periodTo": 3,
+                "periodUnit": "days",
+                "price": 100000,
+                "priceUnit": "RUB",
+                "terminationRules": [{
+                  "props": {
+                    "currency": "RUB",
+                    "period": 3,
+                    "periodUnit": "months",
+                    "value": 145000
+                  }
+                }, {"props": {"currency": "RUB", "period": 6, "periodUnit": "months", "value": 150000}}],
+                "ID": "4578b396-cd7a-4e2c-8c1e-ac83eb1d030d"
+              }, {
+                "deposit": {
+                  "returnPeriod": 0,
+                  "isEnabled": true,
+                  "returnPeriodUnit": "",
+                  "value": 100000,
+                  "returnType": "RECALCULATE_PRICE",
+                  "collectOptions": [{
+                    "type": "ABSENT_WITH_EXTRA_CHARGE",
+                    "priceAffect": 0,
+                    "isEnabled": false
+                  }, {"type": "PARTIAL", "priceAffect": "2000", "isEnabled": true}]
+                },
+                "periodFrom": 3,
+                "periodTo": 6,
+                "periodUnit": "months",
+                "price": 90000,
+                "priceUnit": "RUB",
+                "terminationRules": [{
+                  "props": {
+                    "currency": "RUB",
+                    "period": 3,
+                    "periodUnit": "months",
+                    "value": 160000
+                  }
+                }, {
+                  "props": {
+                    "currency": "RUB",
+                    "period": 6,
+                    "periodUnit": "months",
+                    "value": 140000
+                  }
+                }, {"props": {"currency": "RUB", "period": 9, "periodUnit": "months", "value": 120000}}],
+                "ID": "0aef4f7b-eb11-418c-8224-bb78b448f4df"
+              }, {
+                "deposit": {
+                  "returnPeriod": 0,
+                  "isEnabled": true,
+                  "returnPeriodUnit": "",
+                  "value": 100000,
+                  "returnType": "RECALCULATE_PRICE",
+                  "collectOptions": [{
+                    "type": "ABSENT_WITH_EXTRA_CHARGE",
+                    "priceAffect": 0,
+                    "isEnabled": false
+                  }, {"type": "PARTIAL", "priceAffect": 0, "isEnabled": false}]
+                },
+                "periodFrom": 6,
+                "periodTo": 12,
+                "periodUnit": "months",
+                "price": 90000,
+                "priceUnit": "RUB",
+                "terminationRules": [{
+                  "props": {
+                    "currency": "RUB",
+                    "period": 6,
+                    "periodUnit": "months",
+                    "value": 110000
+                  }
+                }],
+                "ID": "e46775d9-58f2-4ca1-9ab9-65e6754939c0"
+              }]
+            }
+          )
         });
 
-      const dbResult = await repo.getById(payload.ID)
-
-      expect(dbResult).toBeDefined()
+      // const dbResult = await repo.getById(resourceId)
+      //
+      // expect(dbResult).toBeDefined()
     });
 
   })
@@ -235,14 +358,17 @@ describe('Application e2e', () => {
       const ID = uuid()
       let createdID;
 
-      await offersRepo['offers'].create({...offerObjectMock, ID})
+      await offersRepo['offers'].create({...createOfferPayload1, ID})
       const payload: Application.CreateContractDto = {
         landlord: "Иванов Иван Иванович",
         renter: "Петров Петр Петрович",
         offerId: ID,
-        termId: offerObjectMock.terms[0].ID,
-        rentalStart: '12.06.2025',
-        rentalEnd: '12.09.2025'
+        termId: createOfferPayload1.terms[0].ID,
+        depositOption: Domain.DepositCollectOptionType.CONCLUSION,
+        paymentStartOption: Domain.PaymentStart.START_OF_RENT,
+        paymentTypeOption: Domain.PaymentType.TWO_PAYMENTS,
+        rentalEnd: "23.07.2022",
+        rentalStart: "20.07.2022",
       }
 
       await request(gateway.getHttpServer())

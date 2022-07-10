@@ -2,6 +2,7 @@ import * as util from 'util'
 import {AbstractContentAdapter} from "./interfaces/content.adapter.abstract";
 import {Domain} from "@bigdeal/domain";
 import {Language} from "@bigdeal/common";
+import {DepositCollectOptionType} from "../../../../../domain/src/lib/core/interfaces/deposit.interface";
 
 export type TermContent = {
   title: string;
@@ -10,10 +11,12 @@ export type TermContent = {
   pricePerMonth: string;
   deposit: string;
   depositCollectType: string;
+  depositCollectTypeOptions: Domain.DepositCollectOption[];
   depositReturnType: string;
   depositReturnPeriod: string;
   terminationRules: string;
 }
+
 export class TermAdapter extends AbstractContentAdapter {
 
   protected readonly resource: Domain.Term;
@@ -21,6 +24,7 @@ export class TermAdapter extends AbstractContentAdapter {
   constructor(resource: Domain.Term, language: Language) {
     super(resource, language);
   }
+
   private makeRentalPeriodContent(tpl): string {
 
     return util.format(
@@ -56,10 +60,35 @@ export class TermAdapter extends AbstractContentAdapter {
   }
 
   private makeDepositCollectType(tpl: string): string {
-    return util.format(
-      tpl,
-      this.getTranslatedDepositCollectType(this.resource.deposit.collectType)
-    )
+
+    let type = this.resource.deposit.isEnabled ? Domain.DepositCollectOptionType.CONCLUSION : Domain.DepositCollectOptionType.ABSENT
+    let value = 0
+    let args: any[] = [tpl]
+
+    const option = this.resource.deposit.collectOptions.find(o => o.isEnabled)
+    if (option) {
+      type = option.type
+      value = option.priceAffect
+    }
+    args.push (this.getTranslatedDepositCollectType(type))
+    if (type === DepositCollectOptionType.ABSENT_WITH_EXTRA_CHARGE) {
+      args = args.concat([value, this.getTranslatedPriceUnit(this.resource.priceUnit)])
+    }
+    return util.format(...args)
+  }
+
+  private makeDepositCollectTypeOptions(tpl: string) {
+
+    return this.resource.deposit.collectOptions.map(o => ({
+      ...o, label: util.format(
+        tpl,
+        this.getTranslatedDepositCollectType(o.type),
+        ...(o.type === DepositCollectOptionType.ABSENT_WITH_EXTRA_CHARGE ?
+            [o.priceAffect, this.getTranslatedPriceUnit(this.resource.priceUnit)] :
+            []
+        )
+      )
+    }))
   }
 
   private makeDepositReturnType(tpl: string): string {
@@ -105,6 +134,7 @@ export class TermAdapter extends AbstractContentAdapter {
       pricePerMonth: this.makePricePerMonth(termTranslates.pricePerMonth),
       deposit: this.makeDeposit(termTranslates.deposit),
       depositCollectType: this.makeDepositCollectType(termTranslates.depositCollectType),
+      depositCollectTypeOptions: this.makeDepositCollectTypeOptions(termTranslates.depositCollectType),
       depositReturnType: this.makeDepositReturnType(termTranslates.depositReturnType),
       depositReturnPeriod: this.makeDepositReturnPeriod(termTranslates.depositReturnPeriod),
       terminationRules: this.makeTerminationRules(termTranslates.terminationRule)

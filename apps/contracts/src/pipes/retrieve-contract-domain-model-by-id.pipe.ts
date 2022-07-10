@@ -7,7 +7,6 @@ import {Application} from "@bigdeal/application";
 @Injectable()
 export class RetrieveContractDomainModelFromOffer implements PipeTransform {
 
-
   constructor(
     private readonly offerRepository: Infra.OfferRepository) {
   }
@@ -22,7 +21,10 @@ export class RetrieveContractDomainModelFromOffer implements PipeTransform {
         offer,
         value.termId,
         value.rentalStart,
-        value.rentalEnd
+        value.rentalEnd,
+        value.depositOption,
+        value.paymentStartOption,
+        value.paymentTypeOption,
       )
     } catch (e) {
       console.log(e)

@@ -4,6 +4,8 @@ import {AbstractContentAdapter} from "./interfaces/content.adapter.abstract";
 
 
 export type PaymentContent = {
+  paymentTypeOnePayment: string;
+  paymentTypeTwoPayments: string;
   paymentRules: string;
   paymentType: string;
   penalty: string;
@@ -20,7 +22,7 @@ export class PaymentAdapter extends AbstractContentAdapter {
 
   private makePenalty(tpl: PenaltyOptions): string {
 
-    switch (this.resource.penalty.type) {
+    switch (this.resource.penalty?.type) {
 
       case Domain.PenaltyType.FIX_FOR_EVERY_DAY:
 
@@ -30,14 +32,9 @@ export class PaymentAdapter extends AbstractContentAdapter {
           this.getTranslatedPriceUnit(this.resource.penalty.currency),
           this.resource.penalty.start
         )
-      case Domain.PenaltyType.ABSENT:
-        return util.format(
-          tpl.penaltyAbsent,
-        )
-        break;
+      default:
+        return util.format(tpl.penaltyAbsent)
     }
-
-
   }
 
 
@@ -55,6 +52,14 @@ export class PaymentAdapter extends AbstractContentAdapter {
       : options.paymentFromRentalStartRules
 
     return tpl;
+  }
+
+  private makePaymentTypeOptions(tplOnePayment: string, tplTwoPayment: string, priceForTwoPayments: number) {
+
+    return {
+      paymentTypeOnePayment: util.format(tplOnePayment),
+      paymentTypeTwoPayments: util.format(tplTwoPayment, priceForTwoPayments),
+    }
 
   }
 
@@ -67,11 +72,14 @@ export class PaymentAdapter extends AbstractContentAdapter {
         penaltyFix,
         penaltyAbsent,
         paymentFromMonthStartRules,
-        paymentFromRentalStartRules
+        paymentFromRentalStartRules,
+        paymentTypeTwoPayments,
+        paymentTypeOnePayment
       }
     } = await import(`./tpl/payment/${this.language}`)
 
     return {
+      ...this.makePaymentTypeOptions(paymentTypeOnePayment, paymentTypeTwoPayments, this.resource.priceAffect),
       paymentType: this.makeType(paymentType),
       penalty: this.makePenalty({penaltyFix, penaltyAbsent}),
       paymentRules: this.makePaymentRules({

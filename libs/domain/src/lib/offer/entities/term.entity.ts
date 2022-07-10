@@ -5,10 +5,6 @@ import {IEntity} from "../../core/entity";
 import {Deposit} from "../../core/value-objects/deposit.value-object";
 import {UncompletedTermException} from "../exceptions/uncompleted-term.exception";
 import {TerminationRule} from "../../core/value-objects/termination-rule.value-object";
-import {OfferType, PropertyType} from "../interfaces/offer.interface";
-import {Address} from "../../core/value-objects/address.value-object";
-import {Option} from "../../core/value-objects/option.value-object";
-import {Payment} from "../../core/value-objects/payment.value-object";
 import {Validator} from "../../core/validator";
 
 export class Term implements IEntity {
@@ -71,7 +67,7 @@ export class Term implements IEntity {
       periodFrom: props.periodFrom >= 0,
       periodTo: props.periodTo >= props.periodFrom,
       terminationRules:    props.terminationRules.every(r => r instanceof TerminationRule) &&
-        _.uniq(props.terminationRules, 'period').length === props.terminationRules.length
+        _.uniqBy(props.terminationRules, 'period').length === props.terminationRules.length
     }
     const errors = Validator.validateAgainstSchema(schema)
 

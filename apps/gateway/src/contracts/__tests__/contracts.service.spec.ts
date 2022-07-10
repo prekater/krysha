@@ -8,6 +8,7 @@ import {
   GET_CONTRACT_BY_ID_QUERY
 } from "@bigdeal/messaging";
 import {ClientTCPMock, proxy} from "@bigdeal/test-utils";
+import {Domain} from "@bigdeal/domain";
 
 describe(ContractsService, () => {
   let app: INestApplication;
@@ -49,7 +50,8 @@ describe(ContractsService, () => {
   it('should correctly add contract', async function () {
 
     expect.assertions(1)
-    const mockPayload = {landlord: "", offerId: "", rentalEnd: "", rentalStart: "", renter: "", termId: ""}
+    const mockPayload = {landlord: "", offerId: "", rentalEnd: "", rentalStart: "", renter: "", termId: "", depositOption: Domain.DepositCollectOptionType.CONCLUSION,  paymentStartOption: Domain.PaymentStart.START_OF_RENT,
+      paymentTypeOption: Domain.PaymentType.TWO_PAYMENTS}
     jest.spyOn(proxy, 'send').mockImplementation(() => ({
       toPromise: () => Promise.resolve(successResponse)
     }))
@@ -72,19 +74,6 @@ describe(ContractsService, () => {
 
     expect(proxy.send).toHaveBeenCalledWith(EXPORT_CONTRACT_QUERY, {contractId: ID})
   });
-
-  // it('should correctly export contract', async function () {
-  //
-  //   expect.assertions(1)
-  //   const ID = '1231231'
-  //   jest.spyOn(proxy, 'send').mockImplementation(() => ({
-  //     toPromise: () => Promise.resolve(successResponse)
-  //   }))
-  //
-  //   await svc.exportContract(ID)
-  //
-  //   expect(proxy.send).toHaveBeenCalledWith(EXPORT_CONTRACT_QUERY, {ID})
-  // });
 
 
 });

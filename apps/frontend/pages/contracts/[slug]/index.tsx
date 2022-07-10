@@ -3,8 +3,6 @@ import axios from 'axios'
 import {useRouter} from "next/router";
 
 
-// Арендодатель указывает, что ему подоходят варианты оплаты ( в дату начала месяца/контракта)
-// поднять тип жилья выше
 function Index(props) {
 
 
