@@ -43,7 +43,21 @@ describe(AbstractContentAdapter, () => {
         periodUnit: "месяцев",
         pricePerMonth: '100000 рублей',
         deposit: "100000 рублей",
-        depositCollectType: "При заезде: Оплата депозита сразу",
+        depositCollectType: "При заезде: Без депозита, каждый месяц стоит дороже на 10000 рублей",
+        depositCollectTypeOptions: [
+          {
+            "isEnabled": true,
+            "label": "При заезде: Без депозита, каждый месяц стоит дороже на 10000 рублей",
+            "priceAffect": 10000,
+            "type": "ABSENT_WITH_EXTRA_CHARGE",
+          },
+          {
+            "isEnabled": false,
+            "label": "При заезде: депозит частями: 2 раза в месяц",
+            "priceAffect": 2000,
+            "type": "PARTIAL",
+          },
+        ],
         depositReturnType: "В случае разрыва контракта: Депозит возвращается при уведомлении за 1 месяц",
         depositReturnPeriod: "в течение 2 календарных дней",
         terminationRules: "найм на период 3 месяцев и менее по 45000 рублей в месяц; найм на период 6 месяцев и менее по 50000 рублей в месяц"
@@ -86,8 +100,10 @@ describe(AbstractContentAdapter, () => {
       const content = await paymentAdapter.makeContent()
 
       expect(content).toEqual({
-        "paymentType": "Тип оплаты: Одним платежом",
-        "penalty": "В случае задержки оплаты взимается 300 рублей в сутки с 1 календарного дня после числа оплаты",
+        "paymentTypeOnePayment": "Одним платежом",
+        "paymentTypeTwoPayments": "Двумя платежами за дополнительные 2000 рублей в месяц к сумме аренды",
+        "paymentType": "Тип оплаты: Двумя платежами",
+        "penalty": "В случае задержки оплаты оплата не взимается",
         "paymentRules": "оплата за первый месяц найма в полном объеме",
       })
 

@@ -27,7 +27,7 @@ export abstract class AbstractContentAdapter {
     return this.translates.periodUnit[this.language][unit]
   }
 
-  protected getTranslatedDepositCollectType(type: Domain.DepositCollectType): string {
+  protected getTranslatedDepositCollectType(type: Domain.DepositCollectOptionType): string {
     return this.translates.depositCollectType[this.language][type]
   }
 
@@ -46,7 +46,7 @@ export abstract class AbstractContentAdapter {
   }
 
 
-  abstract makeContent(): Promise<Record<string, string>>
+  abstract makeContent(): Promise<Record<string, any>>
 
 
 }

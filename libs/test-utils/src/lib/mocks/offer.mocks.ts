@@ -1,6 +1,7 @@
 import {Domain} from '@bigdeal/domain'
 import {Mappers} from "@bigdeal/mappers";
 import * as _ from 'lodash'
+import {PaymentType} from "../../../../domain/src/lib/core/interfaces/payment.interface";
 
 export const makeOffer = (defaults: Partial<Domain.OfferProps> = {}) => {
 
@@ -13,16 +14,7 @@ export const makeOffer = (defaults: Partial<Domain.OfferProps> = {}) => {
       }),
       authorId: new Domain.UniqueEntityID().toString(),
       options: makeOptions(),
-      payment: Domain.Payment.create({
-        paymentStart: Domain.PaymentStart.START_OF_RENT,
-        penalty: Domain.Penalty.create({
-          currency: Domain.PriceUnit.RUB,
-          start: 1,
-          type: Domain.PenaltyType.FIX_FOR_EVERY_DAY,
-          value: 300
-        }),
-        type: Domain.PaymentType.ONE_PAYMENT
-      }),
+      payment: makePayment(),
       meta: {
         propertyType: Domain.PropertyType.ONE_ROOM,
       },
@@ -48,23 +40,60 @@ export const makeOption = (defaults: Partial<Domain.Option> = {}) => Domain.Opti
 })
 
 export const makeDeposit = (defaults: Partial<Domain.Deposit> = {}) => Domain.Deposit.create({
+  isEnabled: true,
   returnPeriod: 2,
   returnPeriodUnit: Domain.PeriodUnit.DAY,
-  collectType: Domain.DepositCollectType.CONCLUSION,
+  collectOptions: [
+    {
+      type: Domain.DepositCollectOptionType.ABSENT_WITH_EXTRA_CHARGE,
+      priceAffect: 10000,
+      isEnabled: false
+    },
+    {
+      type: Domain.DepositCollectOptionType.PARTIAL,
+      priceAffect: 2000,
+      isEnabled: false
+    },
+
+  ],
   returnType: Domain.DepositReturnType.REFOUND_IN_CASE_OF_1_MONTH_NOTICE,
   value: 100000,
   ...defaults
 })
 
 export const makePayment = (defaults: Partial<Domain.Payment> = {}) => Domain.Payment.create({
-  paymentStart: Domain.PaymentStart.START_OF_RENT,
-  penalty: Domain.Penalty.create({
-    currency: Domain.PriceUnit.RUB,
-    start: 1,
-    type: Domain.PenaltyType.FIX_FOR_EVERY_DAY,
-    value: 300
-  }),
-  type: Domain.PaymentType.ONE_PAYMENT,
+  // paymentStart: Domain.PaymentStart.START_OF_RENT,
+  // priceAffect: 2000,
+  // penalty: Domain.Penalty.create({
+  //   currency: Domain.PriceUnit.RUB,
+  //   start: 1,
+  //   type: Domain.PenaltyType.FIX_FOR_EVERY_DAY,
+  //   value: 300
+  // }),
+  // type: Domain.PaymentType.ONE_PAYMENT,
+  penalty: null,
+  "paymentStartOptions": [
+    {
+      "type": Domain.PaymentStart.START_OF_RENT,
+      "isEnabled": true
+    },
+    {
+      "type": Domain.PaymentStart.START_OF_MONTH,
+      "isEnabled": false
+    }
+  ],
+  "paymentTypeOptions": [
+    {
+      "type": PaymentType.TWO_PAYMENTS,
+      "priceAffect": 2000,
+      "isEnabled": true
+    },
+    {
+      "type": PaymentType.ONE_PAYMENT,
+      "priceAffect": 0,
+      "isEnabled": false
+    },
+  ],
   ...defaults
 })
 
@@ -147,16 +176,7 @@ export const offerObjectMock = {
   // @ts-ignore
   ID: 'test',
   address: {city: 'Москва', flat: '222', house: '56', street: 'улица Свободы'},
-  payment: {
-    paymentStart: Domain.PaymentStart.START_OF_RENT,
-    penalty: {
-      currency: Domain.PriceUnit.RUB,
-      start: 1,
-      type: Domain.PenaltyType.FIX_FOR_EVERY_DAY,
-      value: 300
-    },
-    type: Domain.PaymentType.ONE_PAYMENT
-  },
+  payment: makePayment().toObject(),
   meta: {
     propertyType: Domain.PropertyType.ONE_ROOM,
   },
@@ -170,7 +190,19 @@ export const offerObjectMock = {
   terms: [
     {
       deposit: {
-        collectType: Domain.DepositCollectType.CONCLUSION,
+        isEnabled: true,
+        collectOptions: [
+          {
+            type: Domain.DepositCollectOptionType.ABSENT_WITH_EXTRA_CHARGE,
+            priceAffect: 10000,
+            isEnabled: false
+          },
+          {
+            type: Domain.DepositCollectOptionType.PARTIAL,
+            priceAffect: 2000,
+            isEnabled: false
+          },
+        ],
         returnType: Domain.DepositReturnType.REFOUND_IN_CASE_OF_1_MONTH_NOTICE,
         value: 100000,
         returnPeriod: 2,
@@ -190,7 +222,19 @@ export const offerObjectMock = {
     },
     {
       deposit: {
-        collectType: Domain.DepositCollectType.CONCLUSION,
+        isEnabled: true,
+        collectOptions: [
+          {
+            type: Domain.DepositCollectOptionType.ABSENT_WITH_EXTRA_CHARGE,
+            priceAffect: 10000,
+            isEnabled: false
+          },
+          {
+            type: Domain.DepositCollectOptionType.PARTIAL,
+            priceAffect: 2000,
+            isEnabled: false
+          },
+        ],
         returnType: Domain.DepositReturnType.REFOUND_IN_CASE_OF_1_MONTH_NOTICE,
         value: 90000,
         returnPeriod: 2,
@@ -210,7 +254,19 @@ export const offerObjectMock = {
     },
     {
       deposit: {
-        collectType: Domain.DepositCollectType.CONCLUSION,
+        isEnabled: true,
+        collectOptions: [
+          {
+            type: Domain.DepositCollectOptionType.ABSENT_WITH_EXTRA_CHARGE,
+            priceAffect: 10000,
+            isEnabled: false
+          },
+          {
+            type: Domain.DepositCollectOptionType.PARTIAL,
+            priceAffect: 2000,
+            isEnabled: false
+          },
+        ],
         returnType: Domain.DepositReturnType.REFOUND_IN_CASE_OF_1_MONTH_NOTICE,
         value: 45000,
         returnPeriod: 2,
@@ -239,17 +295,7 @@ export const contractObjectMock = {
     rentalEnd: '12.09.2025',
   },
   address: {city: 'Москва', flat: '222', house: '56', street: 'улица Свободы'},
-  payment: {
-    paymentStart: 'START_OF_RENT',
-    penalty:
-      {
-        currency: 'RUB',
-        start: 1,
-        type: 'FIX_FOR_EVERY_DAY',
-        value: 300
-      },
-    type: 'ONE_PAYMENT'
-  },
+  payment: makePayment().toObject(),
   meta: {
     propertyType: "ONE_ROOM",
   },
@@ -261,7 +307,19 @@ export const contractObjectMock = {
   ],
   term: {
     deposit: {
-      collectType: 'CONCLUSION',
+      isEnabled: true,
+      collectOptions: [
+        {
+          type: Domain.DepositCollectOptionType.ABSENT_WITH_EXTRA_CHARGE,
+          priceAffect: 10000,
+          isEnabled: true
+        },
+        {
+          type: Domain.DepositCollectOptionType.PARTIAL,
+          priceAffect: 2000,
+          isEnabled: false
+        },
+      ],
       returnType: 'REFOUND_IN_CASE_OF_1_MONTH_NOTICE',
       value: 100000,
       returnPeriod: 2,
@@ -301,6 +359,9 @@ export const makeContract = (termId: string = null) => {
     termId,
     '12.06.2025',
     '12.09.2025',
+    Domain.DepositCollectOptionType.ABSENT_WITH_EXTRA_CHARGE,
+    Domain.PaymentStart.START_OF_RENT,
+    Domain.PaymentType.TWO_PAYMENTS,
   )
 }
 

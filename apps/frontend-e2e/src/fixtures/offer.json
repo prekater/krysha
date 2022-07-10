@@ -7,14 +7,28 @@
     "street": "улица Свободы"
   },
   "payment": {
-    "paymentStart": "START_OF_RENT",
-    "penalty": {
-      "currency": "RUB",
-      "start": "1",
-      "type": "FIX_FOR_EVERY_DAY",
-      "value": "300"
-    },
-    "type": "ONE_PAYMENT"
+    "paymentStartOptions": [
+      {
+        "type": "START_OF_RENT",
+        "isEnabled": true
+      },
+      {
+        "type": "START_OF_MONTH",
+        "isEnabled": true
+      }
+    ],
+    "paymentTypeOptions": [
+      {
+        "type": "TWO_PAYMENTS",
+        "priceAffect": 2000,
+        "isEnabled": true
+      },
+      {
+        "type": "ONE_PAYMENT",
+        "priceAffect": 0,
+        "isEnabled": true
+      }
+    ]
   },
   "meta": {
     "propertyType": "ONE_ROOM"
@@ -22,22 +36,39 @@
   "authorId": "test",
   "options": [
     {
-      "isEnabled": true,
+      "isEnabled": false,
       "title": "Электричество"
     },
     {
       "isEnabled": true,
-      "title": "Вода"
+      "title": "Кондиционер"
     },
     {
       "isEnabled": true,
-      "title": "Отопление"
+      "title": "Телевизор"
+    },
+    {
+      "isEnabled": false,
+      "title": "Интернет"
     }
+
   ],
   "terms": [
     {
       "deposit": {
-        "collectType": "CONCLUSION",
+        "isEnabled": true,
+        "collectOptions": [
+          {
+            "type": "ABSENT_WITH_EXTRA_CHARGE",
+            "priceAffect": 10000,
+            "isEnabled": true
+          },
+          {
+            "type": "PARTIAL",
+            "priceAffect": 2000,
+            "isEnabled": true
+          }
+        ],
         "returnType": "REFOUND_IN_CASE_OF_1_MONTH_NOTICE",
         "value": 100000,
         "returnPeriod": "2",
@@ -65,7 +96,19 @@
     },
     {
       "deposit": {
-        "collectType": "ABSENT",
+        "isEnabled": true,
+        "collectOptions": [
+          {
+            "type": "ABSENT_WITH_EXTRA_CHARGE",
+            "priceAffect": 10000,
+            "isEnabled": false
+          },
+          {
+            "type": "PARTIAL",
+            "priceAffect": 2000,
+            "isEnabled": true
+          }
+        ],
         "returnType": "REFOUND_IN_CASE_OF_1_MONTH_NOTICE",
         "value": 100000,
         "returnPeriod": "2",
@@ -99,7 +142,19 @@
     },
     {
       "deposit": {
-        "collectType": "PARTIAL",
+        "isEnabled": true,
+        "collectOptions": [
+          {
+            "type":"ABSENT_WITH_EXTRA_CHARGE",
+            "priceAffect": 10000,
+            "isEnabled": false
+          },
+          {
+            "type": "PARTIAL",
+            "priceAffect": 2000,
+            "isEnabled": false
+          }
+        ],
         "returnType": "REFOUND_IN_CASE_OF_1_MONTH_NOTICE",
         "value": 100000,
         "returnPeriod": "2",

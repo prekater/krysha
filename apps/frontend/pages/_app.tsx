@@ -1,17 +1,23 @@
-import { AppProps } from 'next/app';
+import {AppProps} from 'next/app';
 import Head from 'next/head';
+import {Box, ChakraProvider, Heading, Spacer, Container} from '@chakra-ui/react'
+
 import './styles.css';
 
-function CustomApp({ Component, pageProps }: AppProps) {
+function CustomApp({Component, pageProps}: AppProps) {
   return (
-    <>
+    <ChakraProvider>
       <Head>
-        <title>Welcome to frontend!</title>
+        <title> Крыша </title>
       </Head>
-      <main className="app">
+      <Box alignItems='center' >
+        <Box p='2'>
+          <Heading size='md'>Крыша</Heading>
+        </Box>
+        <Spacer/>
         <Component {...pageProps} />
-      </main>
-    </>
+      </Box>
+    </ChakraProvider>
   );
 }
 

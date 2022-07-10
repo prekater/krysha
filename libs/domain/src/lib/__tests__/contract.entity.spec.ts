@@ -25,6 +25,7 @@ describe(Domain.Contract, () => {
         const contract = makeContract('hello')
         console.debug(contract)
       } catch (e) {
+        console.log(e)
         expect(e).toBeInstanceOf(UncompletedContractException)
       }
 

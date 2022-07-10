@@ -19,11 +19,10 @@ export const priceUnit = {
 
 export const depositCollectType = {
   ru: {
-    [Domain.DepositCollectType.PARTIAL]: 'депозит частями: 2 раза в месяц',
-    [Domain.DepositCollectType.ABSENT]: 'депозит отсутствует',
-    [Domain.DepositCollectType.CONCLUSION]: 'Оплата депозита сразу',
-    //todo: extend deposit contract (add extra charge  default 0 )
-    [Domain.DepositCollectType.ABSENT_WITH_EXTRA_CHARGE]: 'Без депозита, каждый месяц стоит дороже',
+    [Domain.DepositCollectOptionType.PARTIAL]: 'депозит частями: 2 раза в месяц',
+    [Domain.DepositCollectOptionType.CONCLUSION]: 'Оплата депозита сразу',
+    [Domain.DepositCollectOptionType.ABSENT]: 'отсутствует',
+    [Domain.DepositCollectOptionType.ABSENT_WITH_EXTRA_CHARGE]: `Без депозита, каждый месяц стоит дороже на`,
   }
 }
 export const depositReturnType = {

@@ -1,6 +1,6 @@
 {
   "name": "bigdeal",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "license": "MIT",
   "scripts": {
     "frontend:serve": "nx serve frontend",
@@ -17,15 +17,19 @@
     "offers:start": "node ./dist/apps/offers/main.js",
     "test:all": "nx run-many --target=test --all --skip-nx-cache --reporters=\"jest-junit\"",
     "e2e:frontend": "nx e2e frontend-e2e --watch",
+    "test:app:gateway": "nx run gateway:test",
     "test:app:offers": "nx run offers:test",
     "test:app:contracts": "nx run contracts:test",
     "test:domain": "nx run domain:test",
     "test:infra": "nx run infra:test",
-    "test:mappers": "nx run mappers:test --skip-nx-cache  --reporters=\"jest-junit\"",
+    "test:mappers": "nx run mappers:test --skip-nx-cache",
     "merge-reports": "jrm junit.xml \"junit/*.xml\""
   },
   "private": true,
   "dependencies": {
+    "@chakra-ui/react": "^2.2.1",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^2.0.1",
     "@nestjs/core": "^8.0.0",
@@ -40,6 +44,7 @@
     "core-js": "^3.6.5",
     "final-form": "^4.20.7",
     "final-form-arrays": "^3.0.2",
+    "framer-motion": "^6",
     "get-stream": "^6.0.1",
     "memorystream": "^0.3.1",
     "moment": "^2.29.3",

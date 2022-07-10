@@ -1,8 +1,8 @@
 import {Infra} from "@bigdeal/infra";
 import {Domain} from "@bigdeal/domain";
+import {DATE_FORMAT} from "@bigdeal/common";
 import * as _ from 'lodash'
 import * as moment from 'moment'
-import {DATE_FORMAT} from "@bigdeal/common";
 
 const {Address, Deposit, Payment, Option, Term, Penalty} = Domain
 
@@ -35,6 +35,9 @@ export class Contract {
     termId: string,
     rentalStart: string,
     rentalEnd: string,
+    depositCollectOption: Domain.DepositCollectOptionType,
+    paymentStartOption: Domain.PaymentStart,
+    paymentTypeOption: Domain.PaymentType
   ) {
     const term = offer.terms.find(t => t.ID.toString() === termId)
 
@@ -42,6 +45,12 @@ export class Contract {
       rentalStart: moment(rentalStart, DATE_FORMAT),
       rentalEnd: moment(rentalEnd, DATE_FORMAT),
     })
+
+    term?.deposit.enableCollectOption(depositCollectOption)
+    //TODO: if enabled in the offer
+    offer.payment.enablePaymentTypeOption(paymentTypeOption)
+    offer.payment.enablePaymentStartOption(paymentStartOption)
+
     const props: Domain.ContractProps = Object.assign({},
       _.pick(
         offer,
@@ -58,11 +67,15 @@ export class Contract {
     if (!model) return null;
     const options = model.options.map(o => Option.create(o))
 
-    model.term.deposit = Deposit.create(model.term.deposit);
     const terminationRules = model.term.terminationRules.map(r => Domain.TerminationRule.create(r))
-    const term = Term.create({..._.omit(model.term, 'ID'), terminationRules}, model.term.ID)
+    const term = Term.create({
+      ..._.omit({
+        ...model.term,
+        deposit: Deposit.create(model.term.deposit)
+      }, 'ID'), terminationRules
+    }, model.term.ID)
 
-    const penalty = Penalty.create(model.payment.penalty)
+    const penalty = model.payment.penalty && Penalty.create(model.payment.penalty)
 
     const payment = Payment.create({...model.payment, penalty})
 

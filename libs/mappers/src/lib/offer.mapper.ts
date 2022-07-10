@@ -47,7 +47,7 @@ export class Offer {
       return Term.create(props as Domain.TermProps, ID)
     })
 
-    const penalty = Penalty.create(model.payment.penalty)
+    const penalty = model.payment.penalty ? Penalty.create(model.payment.penalty) : null
 
     const payment = Payment.create({...model.payment, penalty})
 

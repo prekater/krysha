@@ -1,4 +1,5 @@
 import {PeriodUnit} from "./common";
+import {Domain} from "@bigdeal/domain";
 
 export enum DepositCollectType {
   // при заключении контракта
@@ -21,14 +22,20 @@ export enum DepositReturnType {
   RECALCULATE_PRICE = 'RECALCULATE_PRICE'
 
 }
-
+export type CollectOption = {
+  type:  Domain.DepositCollectOptionType;
+  priceAffect: number;
+  isEnabled: boolean;
+}
 export interface Deposit {
 
+  isEnabled: boolean;
   returnPeriod: number;
   returnPeriodUnit: PeriodUnit;
 
   value: number;
 
-  collectType: DepositCollectType;
   returnType: DepositReturnType;
+  collectOptions: CollectOption[];
+
 }
