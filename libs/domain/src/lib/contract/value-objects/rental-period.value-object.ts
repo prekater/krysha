@@ -27,6 +27,7 @@ export class RentalPeriod implements IValueObject {
 
   static validate(props: RentalPeriodProps<IMoment>) {
 
+    // @ts-ignore
     if (moment().diff(props.rentalStart) <= 0 &&
       props.rentalEnd.diff(props.rentalStart) > 0) return true
 

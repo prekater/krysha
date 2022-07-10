@@ -77,6 +77,7 @@ export class PdfExporter extends Exporter {
 
     this.writeHeader(document, 'ДОГОВОР НАЙМА ПОМЕЩЕНИЯ')
 
+    // @ts-ignore
     this.writeLine(document, moment().format('DD.MM.YYYY'), {align: "right"})
     this.writeLine(document, 'Мы, нижеподписавшиеся, гражданин ______________________, именуемый в дальнейшем "Наймодателем", с одной стороны, и гражданин _________________________, именуемый в дальнейшем "Нанимателем", с другой стороны, заключили настоящий Договор о нижеследующем:')
 
