@@ -59,11 +59,11 @@ export const paymentType = {
 export const propertyType = {
 
   ru: {
-    [Domain.PropertyType.ONE_ROOM]: 'Однокомнатная',
-    [Domain.PropertyType.TWO_ROOM]: 'Двухкомнатная',
-    [Domain.PropertyType.THREE_ROOM]: 'Трехкомнатная',
-    [Domain.PropertyType.FOUR_ROOM]: 'Четырехкомнатная',
-    [Domain.PropertyType.FIVE_ROOM]: 'Пятикомнатная',
+    [Domain.PropertyType.ONE_ROOM]: 'Однокомнатная квартира',
+    [Domain.PropertyType.TWO_ROOM]: 'Двухкомнатная квартира',
+    [Domain.PropertyType.THREE_ROOM]: 'Трехкомнатная квартира',
+    [Domain.PropertyType.FOUR_ROOM]: 'Четырехкомнатная квартира',
+    [Domain.PropertyType.FIVE_ROOM]: 'Пятикомнатная квартира',
     [Domain.PropertyType.STUDIO]: 'Студия',
   }
 }

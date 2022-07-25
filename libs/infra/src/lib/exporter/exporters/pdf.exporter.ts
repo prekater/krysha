@@ -10,6 +10,8 @@ import {Exporter} from "../interfaces/exporter.abstract";
 
 export class PdfExporter extends Exporter {
 
+
+  static INDENT = 10
   private writeLine(document: typeof PDFKit, text: string, options: TextOptions = {}) {
 
     document.font(`${__dirname}/../fonts/arial.ttf`)
@@ -65,6 +67,10 @@ export class PdfExporter extends Exporter {
 
   }
 
+  get tab() {
+    return '\u0020'
+  }
+
   async createDocumentFromContract(contract: Domain.Contract, language: Language = Language.RU): Promise<Stream> {
     const memoryStream = new MemoryStream()
 
@@ -75,25 +81,40 @@ export class PdfExporter extends Exporter {
 
     document.fontSize(9)
 
-    this.writeHeader(document, 'ДОГОВОР НАЙМА ПОМЕЩЕНИЯ')
+    this.writeHeader(document, 'Договор № ______________________ аренды жилого помещения')
 
     // @ts-ignore
-    this.writeLine(document, moment().format('DD.MM.YYYY'), {align: "right"})
-    this.writeLine(document, 'Мы, нижеподписавшиеся, гражданин ______________________, именуемый в дальнейшем "Наймодателем", с одной стороны, и гражданин _________________________, именуемый в дальнейшем "Нанимателем", с другой стороны, заключили настоящий Договор о нижеследующем:')
+    this.writeLine(document, `г. ${contract.address.city} ` + moment().format('DD.MM.YYYY'), {align: "left"})
+    this.writeLine(document, 'Гражданин РФ,______________________, именуемый(-ая) в дальнейшем "Арендодатель", с одной стороны, и гражданин РФ _________________________, именуемый в дальнейшем "Арендатор", вместе именуемые в дальнейшем "Стороны", заключили настоящий Договор о нижеследующем:')
 
     this.writeHeader(document, '1. Предмет договора')
 
-    this.writeLine(document, `1.1. Наймодателем предоставляет, а Нанимателем получает во временное пользование помещение, расположенную по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat}`)
-    this.writeLine(document, `1.2. Наймодателем предоставляет, а Нанимателем получает во временное пользование находящиеся в помещении предметы мебели и бытовую технику. `)
-    this.writeLine(document, `1.3. Срок аренды составляет ${contract.duration} ${contentParts.terms.periodUnit} и определяется ${contentParts.rentalPeriod.rentalPeriod}`)
+    this.writeLine(document, `1.1. Арендодатель передает, а Арендатор принимает за определенную плату в пользование жилое помещение - ${contentParts.meta.propertyType}, с кадастровым номером _____________, расположенную по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat} (далее - жилое помещение, Помещение)`)
+    this.writeLine(document, `1.2. Жилое помещение может быть использовано только для проживания граждан.`)
+    this.writeLine(document, `1.3. Срок аренды устанавливается на ${contract.duration} ${contentParts.terms.periodUnit} c ${contentParts.rentalPeriod.rentalPeriod}`)
+    this.writeLine(document, `1.4. Жилое помещение принадлежит Арендодателю, что подтверждается выпиской из ЕГРН.`)
+    this.writeLine(document, `1.5. Перечень имущества, находящегося в жилом помещении и передаваемого вместе с жилым помещением, приводится в Акте приема-передачи (Приложение № 2).`)
+    this.writeLine(document, `1.6. Арендодатель гарантирует, что жилое помещение не обременено правами третьих лиц, не находится под арестом, не является предметом судебных споров, находится в пригодном для проживания состоянии.`)
 
-    this.writeHeader(document, '2. Права и обязанности Наймодателя')
+    this.writeHeader(document, '2. Обязанности Сторон')
 
-    this.writeLine(document, '2.1. Наймодатель подтверждает, что он получил согласие всех совершеннолетних лиц, зарегистрированных по данному адресу, или владеющих совместно с ним данной площадью, на сдачу данного помещения в аренду.')
-    this.writeLine(document, '2.2. Наймодатель подтверждает, что на момент подписания настоящего Договора найма данное помещение не продано, не является предметом судебного спора, не находится под залогом, арестом, не сдана в найм. Дом на период найма помещения не подлежит сносу или капитальному ремонту с отселением. ')
-    this.writeLine(document, '2.3. Наймодатель имеет право посещать Нанимателем только с предварительным уведомлением.')
-    this.writeLine(document, '2.4. Наймодатель последствия аварий и повреждений, происшедших не по вине Арендатора, устраняет своими силами.')
-    this.writeLine(document, `2.5. Наймодатель оплачивает: ${contentParts.options.option}.`)
+    this.writeLine(document, '2.1. Арендодатель обязуется:')
+    this.writeLine(document, `2.1.1. Незамедлительно предоставить Арендатору по Акту приема-передачи жилое помещение, указанное в п. 1.1 настоящего Договора.`, {indent: PdfExporter.INDENT})
+    this.writeLine(document, `2.1.2. Обеспечить свободный доступ Арендатора в жилое помещение.`, {indent: PdfExporter.INDENT})
+    this.writeLine(document, `2.1.3. Осуществлять надлежащую эксплуатацию инженерных коммуникаций, которые относятся к сданному в аренду жилому помещению, предоставлять или обеспечивать предоставление Арендатору за плату необходимых коммунальных услуг, обеспечивать ремонт устройств для оказания коммунальных услуг, находящихся в жилом помещении.`, {indent: PdfExporter.INDENT})
+    // this.writeLine(document, `2.5. Наймодатель оплачивает: ${contentParts.options.option}.`)
+    this.writeLine(document, '2.2. Арендатор обязуется:')
+    this.writeLine(document, '2.2.1. Использовать жилое помещение по назначению в соответствии с п. 1.2 настоящего Договора, а также с требованиями Жилищного кодекса Российской Федерации и действующего законодательства Российской Федерации.\n', {indent: PdfExporter.INDENT})
+    this.writeLine(document, '2.2.2. Обеспечивать сохранность жилого помещения и поддерживать его в надлежащем состоянии.', {indent: PdfExporter.INDENT})
+    this.writeLine(document, '2.2.3. Своевременно сообщать Арендодателю о выявленных неисправностях в жилом помещении.', {indent: PdfExporter.INDENT})
+    this.writeLine(document, '2.2.4. Не производить перепланировку и переоборудование жилого помещения без согласия Арендодателя.', {indent: PdfExporter.INDENT})
+    this.writeLine(document, '2.2.5. Допускать в дневное время, а при авариях и в ночное время, в арендуемое жилое помещение работников Арендодателя или самого Арендодателя, а также представителей предприятий по обслуживанию и ремонту жилья для проведения осмотра и ремонта конструкций и технических устройств жилого помещения.', {indent: PdfExporter.INDENT})
+    this.writeLine(document, '2.2.6. Освободить арендуемое жилое помещение по истечении установленного в настоящем Договоре срока аренды.', {indent: PdfExporter.INDENT})
+    this.writeLine(document, '2.2.7. Не производить текущий ремонт без согласования с Арендодателем.', {indent: PdfExporter.INDENT})
+    this.writeLine(document, `2.2.8. Своевременно вносить арендную плату за жилое помещение в размере ${contract.price} ${contentParts.terms.pricePerMonth}. Арендная плата оплачивается путем перечисления на расчетный счет Арендодателя или иным не противоречащим закону способом, не позднее ${contract.paymentDate} числа оплачиваемого месяца. В стоимость арендной платы входит:  ${contentParts.options.included}.`, {indent: PdfExporter.INDENT})
+    this.writeLine(document, `2.2.9. Своевременно оплачивать следующие коммунальные услуги и иные платежи по содержанию жилого помещения: ${contentParts.options.excluded}.`, { indent: PdfExporter.INDENT})
+    this.writeLine(document, `2.2.10. ${contentParts.terms.depositContent}`)
+
 
     this.writeHeader(document, '3. Права и обязанности Нанимателя')
 
@@ -102,7 +123,7 @@ export class PdfExporter extends Exporter {
 
     this.writeHeader(document, '4. Порядок расчетов.')
 
-    this.writeLine(document, `4.1. За наемное помещение Нанимателем уплачивается месячная оплата в размере ${contentParts.terms.pricePerMonth} ${contract.paymentDate} числа каждого месяца.`)
+    this.writeLine(document, `4.1. За наемное помещение Нанимателем уплачивается месячная оплата в размере ${contract.price} ${contentParts.terms.pricePerMonth} ${contract.paymentDate} числа каждого месяца.`)
     this.writeLine(document, `4.2. Размер оплаты остаётся неизменным в течение срока договора`)
     this.writeLine(document, `4.3. При подписании Договора Нанимателем вносится Наймодателю ${contentParts.payments.paymentRules}, а также залоговая сумма ${contentParts.terms.deposit}`)
     this.writeLine(document, `4.4. ${contentParts.payments.penalty}`)

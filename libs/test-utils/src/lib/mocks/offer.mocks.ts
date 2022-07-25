@@ -26,11 +26,17 @@ export const makeOffer = (defaults: Partial<Domain.OfferProps> = {}) => {
 }
 
 export function makeOptions(): Domain.Option[] {
-  return ['Электричество', 'Вода', 'Отопление']
+  const tmp = ['Электричество', 'Вода', 'Отопление']
     .map((title) => Domain.Option.create({
-      isEnabled: true,
+      isEnabled: false,
       title
     }))
+  tmp.unshift(Domain.Option.create({
+    isEnabled: true,
+    title: "Интернет"
+  }))
+
+  return tmp;
 }
 
 export const makeOption = (defaults: Partial<Domain.Option> = {}) => Domain.Option.create({

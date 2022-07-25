@@ -1,7 +1,7 @@
 import {INestApplication} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Transport} from "@nestjs/microservices";
-import {injectEnv, makeContract, offerObjectMock} from "@bigdeal/test-utils";
+import {injectEnv, makeContract} from "@bigdeal/test-utils";
 import {Infra} from "@bigdeal/infra";
 import {Application} from "@bigdeal/application";
 import * as request from 'supertest'

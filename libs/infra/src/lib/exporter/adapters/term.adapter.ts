@@ -15,6 +15,7 @@ export type TermContent = {
   depositReturnType: string;
   depositReturnPeriod: string;
   terminationRules: string;
+  depositContent: string;
 }
 
 export class TermAdapter extends AbstractContentAdapter {
@@ -46,7 +47,6 @@ export class TermAdapter extends AbstractContentAdapter {
 
     return util.format(
       tpl,
-      this.resource.price,
       this.getTranslatedPriceUnit(this.resource.priceUnit)
     )
   }
@@ -70,11 +70,30 @@ export class TermAdapter extends AbstractContentAdapter {
       type = option.type
       value = option.priceAffect
     }
-    args.push (this.getTranslatedDepositCollectType(type))
+    args.push(this.getTranslatedDepositCollectType(type))
     if (type === DepositCollectOptionType.ABSENT_WITH_EXTRA_CHARGE) {
       args = args.concat([value, this.getTranslatedPriceUnit(this.resource.priceUnit)])
     }
     return util.format(...args)
+  }
+
+  private makeDepositContent(tpls: Record<DepositCollectOptionType, string>): any {
+
+    const enabledOption: DepositCollectOptionType = this.resource.deposit.collectOptions.find(o => o.isEnabled)?.type
+
+    if (!enabledOption) return;
+    const tpl = tpls[enabledOption]
+
+    switch (enabledOption) {
+      case DepositCollectOptionType.ABSENT:
+        return util.format(tpl)
+        break;
+      case DepositCollectOptionType.ABSENT_WITH_EXTRA_CHARGE:
+      case DepositCollectOptionType.CONCLUSION:
+      case DepositCollectOptionType.PARTIAL:
+        return this.makeDeposit(tpl)
+    }
+
   }
 
   private makeDepositCollectTypeOptions(tpl: string) {
@@ -137,6 +156,12 @@ export class TermAdapter extends AbstractContentAdapter {
       depositCollectTypeOptions: this.makeDepositCollectTypeOptions(termTranslates.depositCollectType),
       depositReturnType: this.makeDepositReturnType(termTranslates.depositReturnType),
       depositReturnPeriod: this.makeDepositReturnPeriod(termTranslates.depositReturnPeriod),
+      depositContent: this.makeDepositContent({
+        [DepositCollectOptionType.CONCLUSION]: termTranslates.deposit_CONCLUSION,
+        [DepositCollectOptionType.ABSENT_WITH_EXTRA_CHARGE]: termTranslates.deposit_ABSENT_WITH_EXTRA_CHARGE,
+        [DepositCollectOptionType.PARTIAL]: termTranslates.deposit_PARTIAL,
+        [DepositCollectOptionType.ABSENT]: termTranslates.deposit_ABSENT
+      }),
       terminationRules: this.makeTerminationRules(termTranslates.terminationRule)
     }
   }
