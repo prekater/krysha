@@ -189,9 +189,10 @@ export const offerObjectMock = {
   // @ts-ignore
   authorId: 'test',
   options: [
-    {isEnabled: true, title: 'Электричество'},
-    {isEnabled: true, title: 'Вода'},
-    {isEnabled: true, title: 'Отопление'}
+    {isEnabled: true, title: 'Интернет'},
+    {isEnabled: false, title: 'Электричество'},
+    {isEnabled: false, title: 'Вода'},
+    {isEnabled: false, title: 'Отопление'}
   ],
   terms: [
     {
@@ -307,9 +308,10 @@ export const contractObjectMock = {
   },
   authorId: 'test',
   options: [
-    {isEnabled: true, title: 'Электричество'},
-    {isEnabled: true, title: 'Вода'},
-    {isEnabled: true, title: 'Отопление'}
+    {isEnabled: true, title: 'Интернет'},
+    {isEnabled: false, title: 'Электричество'},
+    {isEnabled: false, title: 'Вода'},
+    {isEnabled: false, title: 'Отопление'}
   ],
   term: {
     deposit: {

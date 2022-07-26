@@ -38,12 +38,14 @@ describe(AbstractContentAdapter, () => {
       const content = await termAdapter.makeContent()
 
       expect(content).toEqual({
+        "depositContent": "Арендатор освобождается от обязательств внесения обеспечительного платежа при условии оплаты Арендодателю дополнительной комиссии на сумму «500» рублей в месяц вместе с ежемесячным платежом аренды, при этом гарантирует соответствующие выплаты Арендодателю в случае наступления обстоятельств, указанных в п. 2.2.11 настоящего Договора. В случае, если комиссия прекращает оплачиваться с момента прекращения выплаты комиссии Арендодатель обязан внести обеспечительный платеж в размере 100000 рублей в течение двух дней",
         title: 'Условия аренды',
         rentalPeriod: 'Период аренды: __1__ (от 1 до 3) месяцев',
         periodUnit: "месяцев",
-        pricePerMonth: '100000 рублей',
         deposit: "100000 рублей",
+        "terminationRules": "в размере 45000 рублей в месяцев при расторжении до 3 месяцев; в размере 50000 рублей в месяцев при расторжении до 6 месяцев",
         depositCollectType: "При заезде: Без депозита, каждый месяц стоит дороже на 10000 рублей",
+        "pricePerMonth": "рублей",
         depositCollectTypeOptions: [
           {
             "isEnabled": true,
@@ -60,7 +62,6 @@ describe(AbstractContentAdapter, () => {
         ],
         depositReturnType: "В случае разрыва контракта: Депозит возвращается при уведомлении за 1 месяц",
         depositReturnPeriod: "в течение 2 календарных дней",
-        terminationRules: "найм на период 3 месяцев и менее по 45000 рублей в месяц; найм на период 6 месяцев и менее по 50000 рублей в месяц"
 
       })
     });
@@ -87,7 +88,8 @@ describe(AbstractContentAdapter, () => {
       const content = await optionAdapter.makeContent()
 
       expect(content).toEqual({
-        "option": "электричество; вода; отопление",
+        "excluded": "электричество; вода; отопление",
+        "included": "интернет",
         "title": "Опции: ",
       })
 
@@ -116,7 +118,7 @@ describe(AbstractContentAdapter, () => {
       const content = await metaAdapter.makeContent()
 
       expect(content).toEqual({
-        "propertyType": "Тип жилья: Однокомнатная",
+        "propertyType": "Однокомнатная квартира",
       })
 
     });
