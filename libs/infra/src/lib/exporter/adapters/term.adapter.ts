@@ -121,10 +121,11 @@ export class TermAdapter extends AbstractContentAdapter {
     return this.resource.terminationRules.map(r =>
       util.format(
         tpl,
+        r.value,
+        this.getTranslatedPriceUnit(r.currency),
+        this.getTranslatedPeriodUnit(r.periodUnit),
         r.period,
         this.getTranslatedPeriodUnit(r.periodUnit),
-        r.value,
-        this.getTranslatedPriceUnit(r.currency)
       )
     )
       .join('; ')

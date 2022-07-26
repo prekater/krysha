@@ -1,7 +1,8 @@
 import {Prop, raw, Schema as MongooseSchema, SchemaFactory} from "@nestjs/mongoose";
 import {Domain} from "@bigdeal/domain";
 import * as mongoose from "mongoose";
-import {PropertyType} from "../../../../domain/src/lib/offer/interfaces/offer.interface";
+import * as moment from "moment";
+import {DATE_FORMAT} from "@bigdeal/common";
 
 @MongooseSchema({versionKey: false, timestamps: true, autoIndex: true, autoCreate: true})
 export class Contract {
@@ -41,6 +42,10 @@ export class Contract {
   )
   payment: Omit<Domain.Payment['props'], 'penalty'> & { penalty?: Domain.Penalty['props'] };
 
+  @Prop()
+  date: string;
+
+
   @Prop(
     raw({
       type: mongoose.Schema.Types.Mixed
@@ -52,7 +57,7 @@ export class Contract {
     type: mongoose.Schema.Types.Mixed,
     validate: {
       validator: function(v:  Domain.ContractProps['meta']) {
-        return Object.values(PropertyType).includes(v.propertyType)
+        return Object.values(Domain.PropertyType).includes(v.propertyType)
       },
       message: props => `meta is not a valid`
     },
