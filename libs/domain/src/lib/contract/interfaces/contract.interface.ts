@@ -13,6 +13,7 @@ export interface ContractProps {
   meta: {
     propertyType: PropertyType;
   }
+  date: string;
   address: Address;
   rentalPeriod: RentalPeriod;
 }

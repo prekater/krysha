@@ -14,6 +14,12 @@ import {Validator} from "../../core/validator";
 
 export class Contract implements IAggregateRoot, IEntity {
 
+  get date() {
+    return this.props.date
+  }
+  get price() {
+    return this.term.price - this.payment.priceAffect
+  }
   get rentalPeriod() {
     return this.props.rentalPeriod
   }
@@ -73,7 +79,6 @@ export class Contract implements IAggregateRoot, IEntity {
 
 
   static validate(props: ContractProps): boolean {
-
 
     const schema = {
       address: props.address instanceof Address,

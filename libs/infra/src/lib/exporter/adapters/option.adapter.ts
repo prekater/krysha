@@ -4,7 +4,8 @@ import {AbstractContentAdapter} from "./interfaces/content.adapter.abstract";
 
 export type OptionsContent = {
   title: string;
-  option: string;
+  included: string;
+  excluded: string;
 
 }
 export class OptionAdapter extends AbstractContentAdapter {
@@ -15,10 +16,20 @@ export class OptionAdapter extends AbstractContentAdapter {
     return util.format(tpl)
   }
 
-  public makeOptions(tpl: string): string {
+  public makeIncludedOptions(tpl: string): string {
     return this
       .resource
       .filter( o => o.isEnabled)
+      .map(o => util.format(
+        tpl,
+        o.title.toLocaleLowerCase(),
+      ))
+      .join('; ')
+  }
+  public makeExcludedOptions(tpl: string): string {
+    return this
+      .resource
+      .filter( o => !o.isEnabled)
       .map(o => util.format(
         tpl,
         o.title.toLocaleLowerCase(),
@@ -32,7 +43,8 @@ export class OptionAdapter extends AbstractContentAdapter {
 
     return {
       title,
-      option: this.makeOptions(option),
+      included: this.makeIncludedOptions(option),
+      excluded: this.makeExcludedOptions(option),
     }
   }
 
