@@ -49,6 +49,7 @@ describe(PdfExporter, () => {
     const path = __dirname + '/output.pdf'
     const contract = makeContract()
 
+    console.log(contract)
     console.time()
     await exporter.export(contract)
 

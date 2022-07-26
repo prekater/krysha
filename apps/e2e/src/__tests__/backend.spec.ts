@@ -1,7 +1,7 @@
 import {INestApplication} from '@nestjs/common';
 import {Test, TestingModule} from '@nestjs/testing';
 import {Transport} from "@nestjs/microservices";
-import {injectEnv, makeContract, offerObjectMock} from "@bigdeal/test-utils";
+import {injectEnv, makeContract} from "@bigdeal/test-utils";
 import {Infra} from "@bigdeal/infra";
 import {Application} from "@bigdeal/application";
 import * as request from 'supertest'
@@ -104,6 +104,7 @@ describe('Application e2e', () => {
           })
           resourceId = res.body.resourceId
         });
+
       await request(gateway.getHttpServer())
         .get(`/api/offers/${resourceId}`)
         .set('Accept', 'application/json')
@@ -131,17 +132,21 @@ describe('Application e2e', () => {
                 "paymentRules": "оплата за первый месяц найма в полном объеме"
               },
               "address": {"house": "д. 56", "flat": "кв. 222", "street": "улица Свободы", "city": "г. Москва"},
-              "meta": {"propertyType": "Тип жилья: Однокомнатная"},
+              "meta": {"propertyType": "Однокомнатная квартира"},
               "options": [{"title": "Электричество", "isEnabled": false}, {
                 "title": "Кондиционер",
                 "isEnabled": true
               }, {"title": "Телевизор", "isEnabled": true}, {"title": "Интернет", "isEnabled": false}],
-              "optionsContent": {"title": "Опции: ", "option": "кондиционер; телевизор"},
+              "optionsContent": {
+                "title": "Опции: ",
+                "included": "кондиционер; телевизор",
+                "excluded": "электричество; интернет"
+              },
               "termsContent": [{
                 "title": "Условия аренды",
                 "periodUnit": "дней",
                 "rentalPeriod": "Период аренды: __1__ (от 1 до 3) дней",
-                "pricePerMonth": "100000 рублей",
+                "pricePerMonth": "рублей",
                 "deposit": "100000 рублей",
                 "depositCollectType": "При заезде: Без депозита, каждый месяц стоит дороже на 10000 рублей",
                 "depositCollectTypeOptions": [{
@@ -157,13 +162,14 @@ describe('Application e2e', () => {
                 }],
                 "depositReturnType": "В случае разрыва контракта: Стоимость месяца пересчитывается",
                 "depositReturnPeriod": "в течение 0 календарных undefined",
-                "terminationRules": "найм на период 3 месяцев и менее по 145000 рублей в месяц; найм на период 6 месяцев и менее по 150000 рублей в месяц",
+                "depositContent": "Арендатор освобождается от обязательств внесения обеспечительного платежа при условии оплаты Арендодателю дополнительной комиссии на сумму «500» рублей в месяц вместе с ежемесячным платежом аренды, при этом гарантирует соответствующие выплаты Арендодателю в случае наступления обстоятельств, указанных в п. 2.2.11 настоящего Договора. В случае, если комиссия прекращает оплачиваться с момента прекращения выплаты комиссии Арендодатель обязан внести обеспечительный платеж в размере 100000 рублей в течение двух дней",
+                "terminationRules": "в размере 145000 рублей в месяцев при расторжении до 3 месяцев; в размере 150000 рублей в месяцев при расторжении до 6 месяцев",
                 "ID": "4578b396-cd7a-4e2c-8c1e-ac83eb1d030d"
               }, {
                 "title": "Условия аренды",
                 "periodUnit": "месяцев",
                 "rentalPeriod": "Период аренды: __3__ (от 3 до 6) месяцев",
-                "pricePerMonth": "90000 рублей",
+                "pricePerMonth": "рублей",
                 "deposit": "100000 рублей",
                 "depositCollectType": "При заезде: депозит частями: 2 раза в месяц",
                 "depositCollectTypeOptions": [{
@@ -179,13 +185,14 @@ describe('Application e2e', () => {
                 }],
                 "depositReturnType": "В случае разрыва контракта: Стоимость месяца пересчитывается",
                 "depositReturnPeriod": "в течение 0 календарных undefined",
-                "terminationRules": "найм на период 3 месяцев и менее по 160000 рублей в месяц; найм на период 6 месяцев и менее по 140000 рублей в месяц; найм на период 9 месяцев и менее по 120000 рублей в месяц",
+                "depositContent": "Помимо арендной платы Арендатор вносит также обеспечительный платеж в размере 100000 рублей. При условии оплаты разовой комиссию Арендодателю на сумму «1000» рублей Арендатор вносить обеспечительный платеж следующим путем: половину обеспечительного платежа одновременно с первым платежом аренды; остаток одновременно со вторым платежом аренды",
+                "terminationRules": "в размере 160000 рублей в месяцев при расторжении до 3 месяцев; в размере 140000 рублей в месяцев при расторжении до 6 месяцев; в размере 120000 рублей в месяцев при расторжении до 9 месяцев",
                 "ID": "0aef4f7b-eb11-418c-8224-bb78b448f4df"
               }, {
                 "title": "Условия аренды",
                 "periodUnit": "месяцев",
                 "rentalPeriod": "Период аренды: __6__ (от 6 до 12) месяцев",
-                "pricePerMonth": "90000 рублей",
+                "pricePerMonth": "рублей",
                 "deposit": "100000 рублей",
                 "depositCollectType": "При заезде: Оплата депозита сразу",
                 "depositCollectTypeOptions": [{
@@ -201,7 +208,7 @@ describe('Application e2e', () => {
                 }],
                 "depositReturnType": "В случае разрыва контракта: Стоимость месяца пересчитывается",
                 "depositReturnPeriod": "в течение 0 календарных undefined",
-                "terminationRules": "найм на период 6 месяцев и менее по 110000 рублей в месяц",
+                "terminationRules": "в размере 110000 рублей в месяцев при расторжении до 6 месяцев",
                 "ID": "e46775d9-58f2-4ca1-9ab9-65e6754939c0"
               }],
               "terms": [{

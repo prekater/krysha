@@ -19,6 +19,7 @@ export class Contract {
       ID: model.ID.toString(),
       address: model.address.toObject(),
       payment: model.payment.toObject(),
+      date: model.date,
       meta: {
         propertyType: model.propertyType,
       },
@@ -51,7 +52,9 @@ export class Contract {
     offer.payment.enablePaymentTypeOption(paymentTypeOption)
     offer.payment.enablePaymentStartOption(paymentStartOption)
 
-    const props: Domain.ContractProps = Object.assign({},
+    const props: Domain.ContractProps = Object.assign({
+        date: moment().format(DATE_FORMAT)
+      },
       _.pick(
         offer,
         ['authorId', 'options', 'payment', 'meta', 'address']
@@ -81,6 +84,7 @@ export class Contract {
 
     return Domain.Contract.create({
       address: Address.create(model.address),
+      date: model.date,
       authorId: model.authorId,
       payment,
       meta: {

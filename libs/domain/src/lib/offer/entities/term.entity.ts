@@ -8,8 +8,9 @@ import {TerminationRule} from "../../core/value-objects/termination-rule.value-o
 import {Validator} from "../../core/validator";
 
 export class Term implements IEntity {
+
   get price() {
-    return this.props.price
+    return Number(this.props.price) - Number(this.deposit.priceAffect)
   }
 
   get periodUnit() {
@@ -66,12 +67,12 @@ export class Term implements IEntity {
       priceUnit: Object.values(PriceUnit).includes(props.priceUnit),
       periodFrom: props.periodFrom >= 0,
       periodTo: props.periodTo >= props.periodFrom,
-      terminationRules:    props.terminationRules.every(r => r instanceof TerminationRule) &&
+      terminationRules: props.terminationRules.every(r => r instanceof TerminationRule) &&
         _.uniqBy(props.terminationRules, 'period').length === props.terminationRules.length
     }
     const errors = Validator.validateAgainstSchema(schema)
 
-    if (Object.keys(errors).length === 0 ) return true
+    if (Object.keys(errors).length === 0) return true
 
     throw new UncompletedTermException(JSON.stringify(errors))
   }

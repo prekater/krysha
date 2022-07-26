@@ -2,6 +2,8 @@
 import * as uuid from 'uuid'
 import {makeContract, contractObjectMock} from "@bigdeal/test-utils";
 import {Mappers} from "../../";
+import * as moment from "moment";
+import {DATE_FORMAT} from "@bigdeal/common";
 jest.mock('uuid')
 
 describe(Mappers.Contract, () => {
@@ -15,7 +17,11 @@ describe(Mappers.Contract, () => {
       .Contract
       .fromDomainModelToPersistenceModel(contract)
 
-    expect(persistenceContract).toEqual(contractObjectMock);
+
+    expect(persistenceContract).toEqual({
+      ...contractObjectMock,
+      date: moment().format(DATE_FORMAT)
+    });
   })
 
   it('should convert from plain object to domain model', function () {
@@ -25,10 +31,11 @@ describe(Mappers.Contract, () => {
 
     const contract = makeContract()
 
-    const domainContract = Mappers.Contract.fromObjectToDomainModel(contractObjectMock as any)
+    const domainContract = Mappers.Contract.fromObjectToDomainModel({
+      ...contractObjectMock, date: moment().format(DATE_FORMAT)
+    } as any)
 
     expect(domainContract).toEqual(contract)
-
   });
 
 });
