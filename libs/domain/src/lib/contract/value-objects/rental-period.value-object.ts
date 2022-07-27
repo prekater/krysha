@@ -31,6 +31,7 @@ export class RentalPeriod implements IValueObject {
     const schema = {
       rentalStart: props.rentalStart.isValid(),
       rentalEnd: props.rentalEnd.isValid(),
+      // @ts-ignore
       rentalStartMoreThanNow: moment().diff(props.rentalStart) <= 0,
       rentalEndMoreThanStart: props.rentalEnd.diff(props.rentalStart) > 0
     }
