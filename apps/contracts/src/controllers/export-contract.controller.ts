@@ -8,7 +8,6 @@ import {EXPORT_CONTRACT_QUERY} from "@bigdeal/messaging";
 import {Domain} from "@bigdeal/domain";
 import {RetrieveContractDomainModelById} from "../pipes/retrieve-contract-domain-model-from-dto.pipe";
 import {ExportContractQuery} from "../queries/export-contract.query";
-import {Observable} from "rxjs";
 import {Application} from "@bigdeal/application";
 
 

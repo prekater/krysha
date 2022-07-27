@@ -374,8 +374,8 @@ describe('Application e2e', () => {
         depositOption: Domain.DepositCollectOptionType.CONCLUSION,
         paymentStartOption: Domain.PaymentStart.START_OF_RENT,
         paymentTypeOption: Domain.PaymentType.TWO_PAYMENTS,
-        rentalEnd: "23.07.2022",
-        rentalStart: "20.07.2022",
+        rentalEnd: "23.07.2023",
+        rentalStart: "20.07.2023",
       }
 
       await request(gateway.getHttpServer())

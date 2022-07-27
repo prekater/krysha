@@ -7,6 +7,7 @@ import {OptionsStep} from "../../../components/offers/OptionsStep";
 import {DepositStep} from "../../../components/offers/DepositStep";
 import {RentalPeriodStep} from "../../../components/offers/RentalPeriodStep";
 import {PaymentStep} from "../../../components/offers/PaymentStep";
+import {reverseDate} from "../../../utils";
 
 export async function getServerSideProps({params: {slug}}) {
   const res = await fetch(`http://ec2-44-200-125-244.compute-1.amazonaws.com:3333/api/offers/${slug}`)
@@ -31,7 +32,7 @@ const Offer = () => {
   const [deposit, setDeposit] = useState(null)
   const [payment, setPayment] = useState(null)
 
-  useEffect(() => console.log(deposit) , [deposit])
+  useEffect(() => console.log(period) , [period])
   useEffect(() => {
     offer && setPayment({
       ...offer.payment,
@@ -117,7 +118,7 @@ const Offer = () => {
     const payload = {
       offerId: offer.ID,
       termId: term.ID,
-      rentalStart:period.startDate,
+      rentalStart: new Date(reverseDate(period.startDate)).toLocaleDateString('ru-RU'),
       rentalEnd: period.endDate,
       depositOption: deposit.collectOptions.find(co => co.isEnabled)?.type || 'CONCLUSION',
       paymentStartOption: payment.paymentStartOptions.find(pso => pso.isEnabled)?.type,

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {Box, Heading, HStack, Input, ListItem, Select, Text, UnorderedList} from "@chakra-ui/react";
+import {Box, Heading, HStack, Input, Select, Text} from "@chakra-ui/react";
+import {reverseDate} from "../../utils";
 
 type Props = {
   onChange: (key: string) => (value: string) => void
@@ -7,9 +8,9 @@ type Props = {
   unit: string;
   period: any;
 }
-const reverseDate = (date) => date.split('-').reverse().join('-')
 
 export const RentalPeriodStep = ({period, unit, range, onChange}: Props) => {
+
   let periodUnit;
   const [duration, setDuration] = useState(range[0])
 
@@ -24,6 +25,10 @@ export const RentalPeriodStep = ({period, unit, range, onChange}: Props) => {
       periodUnit = 'лет'
       break;
   }
+
+  useEffect(() => {
+    onChangeEnd(duration)
+  }, [period.startDate])
 
   const onChangeStart = (date: string) => {
     onChange('startDate')(reverseDate(date))
@@ -41,7 +46,6 @@ export const RentalPeriodStep = ({period, unit, range, onChange}: Props) => {
         endDate = new Date(date.setMonth(date.getMonth() + value));
         break;
       case 'years':
-
         endDate = new Date(date.setFullYear(date.getFullYear() + value));
         break;
     }

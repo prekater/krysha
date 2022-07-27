@@ -5,6 +5,7 @@ import {IValueObject} from "../../core/value-object";
 import {RentalPeriodProps} from "../interfaces/rental-period.interface";
 import {UncompletedRentalPeriodException} from "../exceptions/uncompleted-rental-period.exception";
 import {PeriodUnit} from "../../core/interfaces/term.interface";
+import {Validator} from "../../core/validator";
 
 export class RentalPeriod implements IValueObject {
 
@@ -22,16 +23,23 @@ export class RentalPeriod implements IValueObject {
     return this.rentalEnd.diff(this.rentalStart, unit)
   }
 
-  constructor(private readonly props: RentalPeriodProps<IMoment>) {
+  private constructor(private readonly props: RentalPeriodProps<IMoment>) {
   }
 
   static validate(props: RentalPeriodProps<IMoment>) {
 
-    // @ts-ignore
-    if (moment().diff(props.rentalStart) <= 0 &&
-      props.rentalEnd.diff(props.rentalStart) > 0) return true
+    const schema = {
+      rentalStart: props.rentalStart.isValid(),
+      rentalEnd: props.rentalEnd.isValid(),
+      rentalStartMoreThanNow: moment().diff(props.rentalStart) <= 0,
+      rentalEndMoreThanStart: props.rentalEnd.diff(props.rentalStart) > 0
+    }
 
-    throw new UncompletedRentalPeriodException()
+    const errors = Validator.validateAgainstSchema(schema)
+    if (Object.keys(errors).length > 0) {
+      throw new UncompletedRentalPeriodException(JSON.stringify(errors))
+    }
+    return true;
   }
 
   static create(props: RentalPeriodProps<IMoment>) {
