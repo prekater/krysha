@@ -28,7 +28,6 @@ export class Contract {
       term,
       rentalPeriod: model.rentalPeriod.toObject()
     }
-
   }
 
   static fromOfferToDomainModel(
@@ -42,7 +41,7 @@ export class Contract {
   ) {
     const term = offer.terms.find(t => t.ID.toString() === termId)
 
-    const rentalPeriod = new Domain.RentalPeriod({
+    const rentalPeriod = Domain.RentalPeriod.create({
       rentalStart: moment(rentalStart, DATE_FORMAT),
       rentalEnd: moment(rentalEnd, DATE_FORMAT),
     })

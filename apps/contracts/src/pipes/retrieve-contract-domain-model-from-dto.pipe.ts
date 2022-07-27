@@ -6,7 +6,6 @@ import {SearchContractByIdDto} from "../../../../libs/application/src/lib/dto/se
 @Injectable()
 export class RetrieveContractDomainModelById implements PipeTransform {
 
-
   constructor(
     private readonly contractRepository: Infra.ContractRepository) {
   }

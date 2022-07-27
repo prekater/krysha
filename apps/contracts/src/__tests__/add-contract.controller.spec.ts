@@ -119,6 +119,7 @@ describe(CreateContractController, () => {
 
   });
 
+
   //todo: add exception filter and format error and check format
   it('should throw not found exception', async function () {
 
@@ -182,5 +183,38 @@ describe(CreateContractController, () => {
     }
 
   });
+
+  it('should throw bad request exception 2', async function () {
+
+    expect.assertions(2)
+    const offer = makeOffer()
+
+    const dto: CreateContractDto = {
+      landlord: "",
+      renter: "",
+      offerId: offer.ID.toString(),
+      termId: offer.terms[0].ID.toString(),
+      "rentalStart": "28-07-2022",
+      "rentalEnd": "Invalid Date",
+      "depositOption": "CONCLUSION",
+      "paymentStartOption": "START_OF_RENT",
+      "paymentTypeOption": "TWO_PAYMENTS"
+    } as any
+
+    jest.spyOn(repo, 'getById').mockResolvedValue(offer)
+    jest.spyOn(controller['commandBus'], 'execute').mockClear()
+
+    try {
+      await client.send(
+        CREATE_CONTRACT_COMMAND,
+        dto
+      ).toPromise();
+    }
+    catch (e) {
+      expect(controller['commandBus'].execute).not.toHaveBeenCalled()
+      expect(CreateContractCommand).not.toHaveBeenCalled()
+    }
+  });
+
 
 });
