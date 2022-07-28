@@ -304,9 +304,7 @@ describe('Application e2e', () => {
           )
         });
 
-      // const dbResult = await repo.getById(resourceId)
-      //
-      // expect(dbResult).toBeDefined()
+
     });
 
   })

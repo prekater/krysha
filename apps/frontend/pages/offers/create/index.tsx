@@ -52,11 +52,17 @@ const CreateOffer = () => {
   const onChangeTerm = index => field => oCT(index, field)
   const onAddTerminationRule = index => oATR(index)
 
+  const removeUnnecessaryTerminationRules = t => {
+    if (t.deposit.returnType !== 'RECALCULATE_PRICE') {
+      return {...t, terminationRules: []}
+    }
+    return t
+  }
   const onSubmit = async values => {
     const payload = {
       ...values,
       options,
-      terms,
+      terms: terms.map(removeUnnecessaryTerminationRules),
       authorId: 'weofkwpfokw',
       payment: payments
     }
