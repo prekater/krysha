@@ -3,7 +3,9 @@ export const createOfferPayload1 = {
     "city": "Москва",
     "street": "улица Свободы",
     "house": "56",
-    "flat": "222"
+    "flat": "222",
+    cadastralNumber: '1231432425'
+
   },
   "meta": {
     "propertyType": "ONE_ROOM"
