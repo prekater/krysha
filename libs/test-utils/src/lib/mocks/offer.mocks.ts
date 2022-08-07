@@ -10,7 +10,8 @@ export const makeOffer = (defaults: Partial<Domain.OfferProps> = {}) => {
         city: "Москва",
         flat: "222",
         house: "56",
-        street: "улица Свободы"
+        street: "улица Свободы",
+        cadastralNumber: '1231432425'
       }),
       authorId: new Domain.UniqueEntityID().toString(),
       options: makeOptions(),
@@ -108,6 +109,7 @@ export const makeAddress = (defaults: Partial<Domain.Address> = {}) => Domain.Ad
   flat: "222",
   house: "56",
   street: "улица Свободы",
+  cadastralNumber: '1231432425',
   ...defaults
 })
 
@@ -181,7 +183,7 @@ export function makeTerms(): Domain.Term[] {
 export const offerObjectMock = {
   // @ts-ignore
   ID: 'test',
-  address: {city: 'Москва', flat: '222', house: '56', street: 'улица Свободы'},
+  address: {city: 'Москва', flat: '222', house: '56', street: 'улица Свободы', cadastralNumber: '1231432425'},
   payment: makePayment().toObject(),
   meta: {
     propertyType: Domain.PropertyType.ONE_ROOM,
@@ -301,7 +303,7 @@ export const contractObjectMock = {
     rentalStart: '12.06.2025',
     rentalEnd: '12.09.2025',
   },
-  address: {city: 'Москва', flat: '222', house: '56', street: 'улица Свободы'},
+  address: {city: 'Москва', flat: '222', house: '56', street: 'улица Свободы', "cadastralNumber": "1231432425"},
   payment: makePayment().toObject(),
   meta: {
     propertyType: "ONE_ROOM",

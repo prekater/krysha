@@ -1,6 +1,12 @@
 import {IValueObject} from "../value-object";
 import {AddressProps} from "../interfaces/address.interface";
 import {UncompletedAddressException} from "../../offer/exceptions/uncompleted-address.exception";
+import {OfferType, PropertyType} from "../../offer/interfaces/offer.interface";
+import {Term} from "../../offer/entities/term.entity";
+import {Option} from "./option.value-object";
+import {Payment} from "./payment.value-object";
+import {Validator} from "../validator";
+import {UncompletedOfferException} from "../../offer/exceptions/uncompleted-offer.exception";
 
 export class Address implements IValueObject {
 
@@ -25,6 +31,10 @@ export class Address implements IValueObject {
   get street() {
     return this.props.street
   }
+  get cadastralNumber() {
+    return this.props.cadastralNumber
+  }
+
 
   toObject() {
     return { ...this.props }
@@ -37,14 +47,20 @@ export class Address implements IValueObject {
 
   static validate(props: AddressProps) {
 
-    if (
-      props.city.length > 0 &&
-      props.street.length > 0 &&
-      props.house.length > 0 &&
-      props.flat.length > 0
-    ) return true;
+    const schema = {
+      city: props.city.length > 0,
+      street: props.street.length > 0,
+      house:  props.house.length > 0,
+      flat:  props.flat.length > 0,
+      cadastralNumber: props.cadastralNumber?.toString().length > 0,
+    }
 
-    throw new UncompletedAddressException()
+    const errors = Validator.validateAgainstSchema(schema)
+
+    if (Object.keys(errors).length > 0) {
+      throw new UncompletedAddressException(JSON.stringify(errors))
+    }
+    return true;
   }
 
 }

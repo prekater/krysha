@@ -3,5 +3,6 @@ export interface AddressProps {
   street: string;
   house: string;
   flat: string;
+  cadastralNumber: string;
 }
 

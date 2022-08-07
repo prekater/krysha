@@ -105,6 +105,7 @@ Cypress.Commands.add('fillOfferAddress', (address) => {
   cy.get('#street').type(address.street)
   cy.get('#house').type(address.house)
   cy.get('#flat').type(address.flat)
+  cy.get('#cadastralNumber').type(address.cadastralNumber)
 
 })
 Cypress.Commands.add('fillOfferMeta', (meta) => {
@@ -129,6 +130,7 @@ Cypress.Commands.add('createOffer', () => {
 
     // -- Submit --
     cy.get('[type="submit"]').click()
+
     // cy.wait('@Submit').then(i => {
     //   cy.wrap(i.response.body.resourceId).as('OfferID');
     // })

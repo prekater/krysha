@@ -15,7 +15,8 @@ export const AddressStep = (props: Props) => {
     city,
     house,
     street,
-    flat
+    flat,
+    cadastralNumber
   ] = useAddress(form)
 
   const propertyType = useField('meta.propertyType', form)
@@ -41,6 +42,10 @@ export const AddressStep = (props: Props) => {
         <Flex>
           <Box width={'5%'}>Квартира: </Box>
           <Box><Input {...flat.input} id="flat" placeholder="Введите квартиру"/></Box>
+        </Flex>
+        <Flex>
+          <Box width={'15%'}>Кадастровый номер: </Box>
+          <Box><Input {...cadastralNumber.input} id="cadastralNumber" placeholder="Введите кадастровый номер"/></Box>
         </Flex>
       </Box>
       <Box>

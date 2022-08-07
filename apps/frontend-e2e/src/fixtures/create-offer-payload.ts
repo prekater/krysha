@@ -1,9 +1,10 @@
-{
+export const createOfferPayload = {
   "address": {
     "city": "Москва",
     "street": "улица Свободы",
     "house": "56",
-    "flat": "222"
+    "flat": "222",
+    "cadastralNumber": "12332455"
   },
   "meta": {
     "propertyType": "ONE_ROOM"
@@ -52,7 +53,7 @@
       "periodUnit": "days",
       "price": "100000",
       "priceUnit": "RUB",
-      "ID": "4578b396-cd7a-4e2c-8c1e-ac83eb1d030d",
+      "ID": expect.any(String),
       "terminationRules": [
         {
           "currency": "RUB",
@@ -93,7 +94,7 @@
       "periodUnit": "months",
       "price": "90000",
       "priceUnit": "RUB",
-      "ID": "0aef4f7b-eb11-418c-8224-bb78b448f4df",
+      "ID": expect.any(String),
       "terminationRules": [
         {
           "currency": "RUB",
@@ -140,7 +141,7 @@
       "periodUnit": "months",
       "price": "90000",
       "priceUnit": "RUB",
-      "ID": "e46775d9-58f2-4ca1-9ab9-65e6754939c0",
+      "ID": expect.any(String),
       "terminationRules": [
         {
           "currency": "RUB",

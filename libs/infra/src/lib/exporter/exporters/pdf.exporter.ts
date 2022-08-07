@@ -6,6 +6,7 @@ import {Stream} from "stream";
 import TextOptions = PDFKit.Mixins.TextOptions;
 import * as PDFTable from 'voilab-pdf-table'
 import {Exporter} from "../interfaces/exporter.abstract";
+import * as _ from 'lodash'
 
 export class PdfExporter extends Exporter {
 
@@ -21,10 +22,10 @@ export class PdfExporter extends Exporter {
 
   }
 
-  private writeHeader(document, text: string) {
-    document.text(' ', {align: 'center', lineGap: PdfExporter.LINE_GAP})
+  private writeHeader(document, text: string, options: TextOptions = Object.create(null)) {
+    document.text(' ', {align: 'center', lineGap: PdfExporter.LINE_GAP, ...options})
     document.font(`${__dirname}/../fonts/arial-bold.ttf`)
-    document.text(text, {align: 'center', lineGap: PdfExporter.LINE_GAP})
+    document.text(text, {align: 'center', lineGap: PdfExporter.LINE_GAP, ...options})
   }
 
   private addPassportTable(document: typeof PDFKit) {
@@ -70,6 +71,64 @@ export class PdfExporter extends Exporter {
 
   }
 
+  private addPropertyTable(document: typeof PDFKit) {
+
+    document.font(`${__dirname}/../fonts/arial.ttf`)
+    const table = new PDFTable(document, {
+      bottomMargin: 30,
+      bottomTop: 30
+    });
+
+
+    table
+      // set defaults to your columns
+      .setColumnsDefaults({
+        headerBorder: ['L', 'T', 'B', 'R'],
+        border: ['L', 'T', 'B', 'R'],
+      })
+      .addColumns([
+        {
+          id: 'N',
+          header: '№',
+          align: 'center',
+          width: 15
+        },
+        {
+          id: 'name',
+          header: 'Наименование и принадлежности имущества',
+          align: 'center',
+          width: 200
+        },
+        {
+          id: 'count',
+          header: 'Количество',
+          align: 'center',
+          width: 70
+        },
+        {
+          id: 'price',
+          header: 'Ориентировочная стоимость',
+          align: 'center',
+          width: 130,
+        },
+        {
+          id: 'quality',
+          header: 'Состояние',
+          align: 'center',
+          width: 100
+        },
+      ])
+
+
+    const body = Array.apply(null, {length: 20}).map((_, i) => (
+      {N: i + 1, name: '', count: '', price: '', quality: ''}
+    ));
+
+    table.addBody(body);
+    document['x'] = 72
+
+  }
+
   get tab() {
     return '\u0020'
   }
@@ -79,20 +138,23 @@ export class PdfExporter extends Exporter {
 
     const contentParts = await this.getContentParts(contract, language)
 
-    const document = new PDFKit()
+    let document = new PDFKit()
     document.pipe(memoryStream)
 
     document.fontSize(9)
 
-    this.writeHeader(document, `Договор № ${contract.ID.toString()} аренды жилого помещения`, )
+    this.writeHeader(document, `Договор № ${contract.ID.toString()} аренды жилого помещения`,)
 
     // @ts-ignore
-    this.writeLine(document, `г. ${contract.address.city} ` + contract.date, {align: "left", lineGap: PdfExporter.LINE_GAP})
+    this.writeLine(document, `г. ${contract.address.city} ` + contract.date, {
+      align: "left",
+      lineGap: PdfExporter.LINE_GAP
+    })
     this.writeLine(document, 'Гражданин РФ,______________________, именуемый(-ая) в дальнейшем "Арендодатель", с одной стороны, и гражданин РФ _________________________, именуемый в дальнейшем "Арендатор", вместе именуемые в дальнейшем "Стороны", заключили настоящий Договор о нижеследующем:')
 
     this.writeHeader(document, '1. Предмет договора')
 
-    this.writeLine(document, `1.1. Арендодатель передает, а Арендатор принимает за определенную плату в пользование жилое помещение - ${contentParts.meta.propertyType}, с кадастровым номером _____________, расположенную по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat} (далее - жилое помещение, Помещение)`)
+    this.writeLine(document, `1.1. Арендодатель передает, а Арендатор принимает за определенную плату в пользование жилое помещение - ${contentParts.meta.propertyType}, с кадастровым номером ${contract.address.cadastralNumber}, расположенную по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat} (далее - жилое помещение, Помещение)`)
     this.writeLine(document, `1.2. Жилое помещение может быть использовано только для проживания граждан.`)
     this.writeLine(document, `1.3. Срок аренды устанавливается на ${contract.duration} ${contentParts.terms.periodUnit} c ${contentParts.rentalPeriod.rentalPeriod}`)
     this.writeLine(document, `1.4. Жилое помещение принадлежит Арендодателю, что подтверждается выпиской из ЕГРН.`)
@@ -177,6 +239,80 @@ export class PdfExporter extends Exporter {
     this.addPassportTable(document)
 
     document.addPage()
+
+    this.writeLine(document, 'Приложение №1', {align: "right"})
+    this.writeLine(document, 'К договору аренды жилого помещения', {align: "right"})
+    this.writeLine(document, `от ${contract.date} г. № ${contract.ID.toString()} `, {align: "right"})
+
+    this.writeHeader(document, `Акт \n приема-передачи жилого помещения`, {lineGap: 0})
+
+    this.writeLine(document, `г. ${contract.address.city} ` + contract.date, {align: "left"})
+    this.writeLine(document, `Гражданин РФ, _____________________________, именуемый (-ая) в дальнейшем "Арендодатель", с одной стороны и`, {align: "left"})
+    this.writeLine(document, `гражданин РФ, _____________________________, именуемый (-ая) в дальнейшем "Арендатор", с другой стороны, вместе именуемые в дальнейшем "Стороны", совместно составили настоящий Акт о том, что Арендодатель передал, а Арендатор принял во временное пользование изолированное жилое помещение в виде ${contentParts.meta.propertyType} с кадастровым номером ${contract.address.cadastralNumber}, расположенное по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat} (далее - Жилое помещение, Помещение).
+`, {align: "left", lineGap: PdfExporter.LINE_GAP})
+    this.writeLine(document, `1. Общее состояние инженерных коммуникаций: ________________________________________________`, {align: "left"})
+    this.writeLine(document, `2. На момент составления настоящего Акта Жилое помещение находится в следующем техническом состоянии:`, {align: "left"})
+    this.writeLine(document, `___________________________________________________________________________________________`, {align: "left"})
+    this.writeLine(document, `Выявленные недостатки:`, {align: "left",})
+    this.writeLine(document, `___________________________________________`, {align: "left", indent: PdfExporter.INDENT})
+    this.writeLine(document, `___________________________________________`, {align: "left", indent: PdfExporter.INDENT})
+    this.writeLine(document, `3. В пользование Арендатора передаются предметы домашнего обихода и обстановки, бытовая техника, мебель, указанные в приложении № 2 к Договору.
+Техническое состояние - пригодное для проживания.`, {align: "left"})
+    this.writeLine(document, `4. Арендодатель также передает Арендатору ключи:`, {align: "left"})
+    this.writeLine(document, `______________ - в количестве ____ (______________) комплектов.`, {
+      align: "left",
+      indent: PdfExporter.INDENT
+    })
+    this.writeLine(document, `5. Показания приборов учета на момент передачи:`, {align: "left"})
+    this.writeLine(document, `___________________________________________________________`, {align: "left"})
+    this.writeLine(document, `6. Стороны взаимных претензий, кроме прямо оговоренных в настоящем Акте, не имеют.`, {align: "left"})
+    this.writeLine(document, `7. Настоящий Акт составлен в двух экземплярах, имеющих равную юридическую силу, по одному для каждой из Сторон.`, {align: "left"})
+
+    this.writeHeader(document, 'Подписи Сторон')
+
+    document.addPage()
+
+    this.writeLine(document, 'Приложение №2', {align: "right"})
+    this.writeLine(document, 'К договору аренды жилого помещения', {align: "right"})
+    this.writeLine(document, `от ${contract.date} г. № ${contract.ID.toString()} `, {align: "right"})
+
+    this.writeHeader(document, `Перечень имущества`, {lineGap: 0})
+
+
+    this.addPropertyTable(document)
+
+
+    this.writeLine(document, `Настоящий Перечень составлен в соответствии с Договором аренды от ${contract.date} г. № ${contract.ID.toString()} `, {
+      align: 'left',
+      indent: 0
+    })
+    this.writeLine(document, 'Указанное имущество находится в Помещении, и Арендодатель передает его в пользование Арендатору.', {align: 'left'})
+    this.writeLine(document, 'Настоящий Перечень составлен в 2 (двух) экземплярах, по одному экземпляру для каждой Стороны.', {align: 'left'})
+
+    this.writeHeader(document, 'Подписи Сторон')
+
+    document.addPage()
+
+
+    this.writeLine(document, 'Приложение №3', {align: "right"})
+    this.writeLine(document, 'К договору аренды жилого помещения', {align: "right"})
+    this.writeLine(document, `от ${contract.date} г. № ${contract.ID.toString()} `, {align: "right"})
+    this.writeLine(document, `\n`)
+
+    this.writeLine(document, `Гражданин РФ, _____________________________, именуемый (-ая) в дальнейшем "Арендодатель", с одной стороны и`)
+    this.writeLine(document, `гражданин РФ  _____________________________, именуемый (-ая) в дальнейшем "Арендатор", с другой стороны, вместе именуемые в дальнейшем "Стороны", совместно составили настоящий Акт о том, что Арендатор возвратил, а Арендодатель принял обратно жилое помещение в виде ${contentParts.meta.propertyType} с кадастровым номером ${contract.address.cadastralNumber}, расположенное по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat} (далее - жилое помещение, Помещение).`)
+    this.writeLine(document, `1. Общее состояние инженерных коммуникаций: ________________________________________________`, {align: "left"})
+    this.writeLine(document, `2. Общее состояние жилого помещения на момент возврата ____________________________________________`, {align: "left"})
+    this.writeLine(document, `3. Возвращаются предметы домашнего обихода и обстановки, бытовая техника, мебель, указанные в Приложении №2 к Договору.`, {align: "left"})
+    this.writeLine(document, `Претензии к состоянию имущества: _________________________________________________________________`, {align: "left"})
+    this.writeLine(document, `Были произведены все взаиморасчеты в случае поломки или уничтожения имущества, указанного в Приложении №2 к Договору. К состоянию имущества у Арендодателя дополнительных претензий не имеется.`, {align: "left"})
+    this.writeLine(document, `4. Арендатор возвращает Арендодателю ключи:`, {align: "left"})
+    this.writeLine(document, `______________ в количестве ____ (______________) комплектов.`, {indent: PdfExporter.INDENT})
+    this.writeLine(document, `5. Задолженности по внесению арендной платы и оплате дополнительных согласованных Сторонами платежей не имеется (иное может быть предусмотрено договором).`,)
+    this.writeLine(document, `6. Обнаруженные недостатки _________________________________________________________________`)
+    this.writeLine(document, `7. Стороны взаимных претензий, кроме прямо оговоренных в настоящем Акте, не имеют.`)
+    this.writeLine(document, `8. Настоящий Акт составлен в двух экземплярах, имеющих равную юридическую силу, по одному для каждой из Сторон.`)
+
 
     document.end()
 

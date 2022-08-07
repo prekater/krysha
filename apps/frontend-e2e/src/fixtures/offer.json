@@ -4,7 +4,8 @@
     "city": "Москва",
     "flat": "222",
     "house": "56",
-    "street": "улица Свободы"
+    "street": "улица Свободы",
+    "cadastralNumber": "12332455"
   },
   "payment": {
     "paymentStartOptions": [
