@@ -1,0 +1,74 @@
+@use '../../styles/mixins';
+@use '../../styles/variables';
+
+.root {
+  padding: 80px 60px 0;
+
+  @include mixins.notDesktop {
+    padding: 20px 60px 0 60px;
+  }
+}
+
+.fieldsGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 60px;
+
+  &:last-of-type {
+    margin-bottom: 8px;
+
+    @include mixins.notDesktop {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.fieldTitle {
+  font: variables.$fieldTitle;
+  margin-bottom: 18px;
+  margin-right: 35px;
+}
+
+.checkboxLabel {
+  @include mixins.checkboxLabel;
+
+  &:first-of-type {
+    margin-bottom: 14px;
+  }
+
+  &__long {
+    padding-right: 170px;
+
+    @include mixins.notDesktop {
+      padding-right: 0;
+    }
+  }
+}
+
+.checkboxMark {
+  @include mixins.checkboxMark;
+
+  &__long {
+    top: 9px;
+  }
+}
+
+.sumOptionsLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font: variables.$text;
+  color: variables.$gray;
+}
+
+.sumOptionsInput {
+  @include mixins.input;
+  width: 240px;
+  margin-right: 18px;
+
+  @include mixins.notDesktop {
+    width: 169px;
+  }
+}

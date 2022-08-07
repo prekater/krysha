@@ -1,0 +1,132 @@
+@use '../../styles/mixins';
+@use '../../styles/variables';
+
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include mixins.notDesktop {
+    flex-direction: column;
+  }
+
+  &_lastStep {
+    flex-direction: row-reverse;
+
+    @include mixins.notDesktop {
+      flex-direction: column;
+    }
+  }
+}
+
+.textBlock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  padding: 0 7.84% 0 11.29%;
+
+  @include mixins.notDesktop {
+    padding: 65px 0 44px;
+    width: 100%;
+  }
+
+  &_lastStep {
+    padding: 0 11.29% 0 20.68%;
+
+    @include mixins.notDesktop {
+      padding: 65px 0 44px;
+    }
+  }
+}
+
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  @include mixins.notDesktop {
+    width: 100%;
+    margin: 0 60px;
+  }
+
+  &_lastStep {
+    align-items: flex-end;
+
+    @include mixins.notDesktop {
+      align-items: flex-start;
+    }
+  }
+}
+
+.pageTitle {
+  font: variables.$mainTitle;
+  text-align: left;
+
+  @include mixins.notDesktop {
+    font: variables.$mainTitleMobile;
+  }
+
+  &_lastStep {
+    text-align: right;
+  }
+}
+
+.pageText {
+  text-align: left;
+  margin: 46px 0;
+  font: variables.$text;
+
+  @include mixins.notDesktop {
+    font: variables.$textMobile;
+    margin: 36px 0;
+  }
+
+  &_lastStep {
+    text-align: right;
+
+    @include mixins.notDesktop {
+      text-align: left;
+      margin-right: 90px;
+    }
+  }
+}
+
+.heroImage {
+  content: '';
+  width: 50%;
+  background: url('/images/offer/main-web.png') center no-repeat;
+  background-size: cover;
+  padding-top: 54.75%;
+
+  @include mixins.desktopRetina {
+    background-image: url('/images/offer/main-web@2x.png');
+  }
+
+  @include mixins.notDesktop {
+    width: 100%;
+    background-image: url('/images/offer/main-mob.png');
+    padding-top: 96.46%;
+  }
+
+  @include mixins.notDesktopRetina {
+    background-image: url('/images/offer/main-mob@2x.png');
+  }
+
+  &_lastStep {
+    background-image: url('/images/offer/check-web.png');
+
+    @include mixins.desktopRetina {
+      background-image: url('/images/offer/check-web@2x.png');
+    }
+
+    @include mixins.notDesktop {
+      background-image: url('/images/offer/check-mob.png');
+    }
+
+    @include mixins.notDesktopRetina {
+      background-image: url('/images/offer/check-mob@2x.png');
+    }
+  }
+}

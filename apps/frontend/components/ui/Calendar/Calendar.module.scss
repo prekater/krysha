@@ -1,0 +1,109 @@
+@use '../../styles/mixins';
+@use '../../styles/variables';
+
+.root {
+  position: absolute;
+  top: 58px;
+  right: 0;
+  font: variables.$text;
+  font-size: 16px;
+  color: variables.$black;
+  border: 1px solid variables.$dropDownMenuBorder;
+  border-radius: 11px;
+  width: 217px;
+  background-color: variables.$white;
+  z-index: 1;
+  padding: 16px 7px;
+}
+
+.header {
+  background-color: #fff;
+  border: none;
+  text-align: center;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navBtn {
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  background-image: url('/images/calendar_arrow.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+
+  &__isPrev {
+    transform: rotate(180deg);
+    margin-left: 8px;
+  }
+}
+
+.body {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.daysNamesWrapper {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 100%;
+}
+
+.daysWrapper {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 100%;
+}
+
+.day {
+  height: 34px;
+  width: 29px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 38px;
+  color: black;
+  position: relative;
+  cursor: pointer;
+  border-radius: 7px;
+
+  @media (any-hover: hover) {
+    &:hover {
+      border-radius: 7px;
+      background-color: variables.$redRose;
+      color: variables.$white;
+    }
+  }
+
+  &__isPastDay {
+    color: variables.$gray;
+    cursor: default;
+
+    @media (any-hover: hover) {
+      &:hover {
+        background-color: unset;
+        color: variables.$gray;
+      }
+    }
+  }
+
+  &__isSelected {
+    border-radius: 7px;
+    background-color: variables.$redRose;
+    color: variables.$white;
+  }
+}
+
+.dayName {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 34px;
+  width: 29px;
+  color: variables.$gray;
+  font-size: 14px;
+}

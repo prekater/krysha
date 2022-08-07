@@ -15,6 +15,9 @@ export function Index() {
           <div id="nav">
             <Link href={'/offers/create'}> Создать предложение </Link>
           </div>
+          <div id="nav">
+            <Link href={'/offers/choose'}> Подобрать предложение </Link>
+          </div>
         </div>
       </div>
     </StyledPage>

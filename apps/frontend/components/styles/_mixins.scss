@@ -1,0 +1,179 @@
+@use "variables";
+
+@mixin qwe {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid red;
+}
+
+@mixin desktop {
+  @media (min-width: variables.$xl) {
+    @content;
+  }
+}
+
+@mixin desktopRetina {
+  @media (min-width: variables.$xl) and (-webkit-min-device-pixel-ratio: 2) {
+    @content;
+  }
+}
+
+@mixin notDesktop {
+  @media (max-width: (variables.$xl - 0.1)) {
+    @content;
+  }
+}
+
+@mixin notDesktopRetina {
+  @media (max-width: (variables.$xl - 0.1)) and (-webkit-min-device-pixel-ratio: 2) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: variables.$sm) and (max-width: (variables.$xl - 0.1)) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: (variables.$sm - 0.1)) {
+    @content;
+  }
+}
+
+@mixin hover {
+  @media (any-hover: hover) {
+    &:hover {
+      &:not(:disabled) {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin input {
+  height: 58px;
+  padding: 18px;
+  border: 1px solid variables.$inputBorderColor;
+  border-radius: 15px;
+
+  &:hover {
+    border: 1px solid variables.$inputBorderColorHover;
+  }
+
+  &:active,
+  &:focus {
+    border: 1px solid variables.$redRose;
+    outline: none;
+  }
+
+  &::placeholder {
+    color: variables.$inputPlaceholder;
+    font: variables.$text;
+  }
+}
+
+@mixin radioCheckMark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 29px;
+  width: 29px;
+  border-radius: 50%;
+  border: 1px solid variables.$inputBorderColor;
+
+  &:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+}
+
+@mixin radioLabel {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font: variables.$text;
+  color: variables.$gray;
+  min-height: 29px;
+  position: relative;
+  padding-left: 41px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  & input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+
+    &:checked ~ .radioCheckMark:after {
+      display: block;
+    }
+  }
+
+  .radioCheckMark:after {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: variables.$redRose;
+  }
+}
+
+@mixin checkboxMark {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  height: 29px;
+  width: 29px;
+  border: 1px solid variables.$inputBorderColor;
+
+  &:after {
+    content: " ";
+    position: absolute;
+    display: none;
+  }
+}
+
+@mixin checkboxLabel {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;;
+  position: relative;
+  padding-left: 41px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font: variables.$text;
+  color: variables.$gray;
+  min-height: 29px;
+
+  & input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+
+    &:checked ~ .checkboxMark:after {
+      display: block;
+    }
+  }
+
+  .checkboxMark:after {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background: url('../../public/images/checkmark.svg') no-repeat center;
+  }
+}

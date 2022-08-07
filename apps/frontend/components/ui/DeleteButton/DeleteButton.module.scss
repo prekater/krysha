@@ -1,0 +1,17 @@
+@use '../../styles/variables';
+
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: variables.$gray;
+  font: variables.$text;
+
+  &:focus {
+    outline: none;
+  }
+
+  &_icon {
+    margin-right: 12px;
+  }
+}
