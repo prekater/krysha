@@ -1,4 +1,4 @@
-{
+export const createOfferPayload = {
   "address": {
     "city": "Москва",
     "street": "улица Свободы",
@@ -53,7 +53,7 @@
       "periodUnit": "days",
       "price": "100000",
       "priceUnit": "RUB",
-      "ID": "5c3dbd22-085d-411a-945e-d1af33a4ddab",
+      "ID": expect.any(String),
       "terminationRules": [
         {
           "currency": "RUB",
@@ -94,7 +94,7 @@
       "periodUnit": "months",
       "price": "90000",
       "priceUnit": "RUB",
-      "ID": "fb9037f5-b6cc-4711-ac5e-23d2fa44994c",
+      "ID": expect.any(String),
       "terminationRules": [
         {
           "currency": "RUB",
@@ -141,7 +141,7 @@
       "periodUnit": "months",
       "price": "90000",
       "priceUnit": "RUB",
-      "ID": "da9c108f-a727-4a8d-8735-ef61365727f6",
+      "ID": expect.any(String),
       "terminationRules": [
         {
           "currency": "RUB",

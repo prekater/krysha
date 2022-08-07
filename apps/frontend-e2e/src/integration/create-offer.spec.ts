@@ -1,4 +1,6 @@
-import * as offerPayload from '../fixtures/create-offer-payload.json'
+import {
+  createOfferPayload
+} from '../fixtures/create-offer-payload'
 
 describe('frontend', () => {
   beforeEach(() => cy.visit('/offers/create'));
@@ -7,7 +9,7 @@ describe('frontend', () => {
     cy.createOffer();
 
     cy.wait('@Submit').then((r) => {
-      expect(JSON.stringify(r.request.body)).to.equal(JSON.stringify(offerPayload['default']))
+      expect(r.request.body).toEqual(createOfferPayload)
     });
     // cy.get('@OfferID').then((offerId) => {
     //   cy.visit(`/offers/${offerId}`)
