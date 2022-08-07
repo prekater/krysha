@@ -31,6 +31,10 @@ export class Address implements IValueObject {
   get street() {
     return this.props.street
   }
+  get cadastralNumber() {
+    return this.props.cadastralNumber
+  }
+
 
   toObject() {
     return { ...this.props }
