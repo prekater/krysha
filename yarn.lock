@@ -3340,6 +3340,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/hellosign-sdk@^1.6.10":
+  version "1.6.10"
+  resolved "https://registry.yarnpkg.com/@types/hellosign-sdk/-/hellosign-sdk-1.6.10.tgz#7c2547bbd1768eeb939a7f8169bf7fb9d2eb4752"
+  integrity sha512-7xnhaqsL1x11e82euFMvmEJ+RejVEk93aBD+GYzu0Nx0KGB+n/7xZCHoQrADDA94jNaxcCNKS4xzTcIgtpqEzw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/hoist-non-react-statics@*":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
@@ -7180,6 +7187,15 @@ fork-ts-checker-webpack-plugin@6.2.10:
     semver "^7.3.2"
     tapable "^1.0.0"
 
+form-data@^2.3.2:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.5.1.tgz#f2cbec57b5e59e23716e128fe44d4e5dd23895f4"
+  integrity sha512-m21N3WOmEEURgk6B9GLOE4RuWOFf28Lhh9qGYeNlGq4VDXUlJy2th2slBNU8Gp8EzloYZOibZJ7t5ecIrFSjVA==
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.6"
+    mime-types "^2.1.12"
+
 form-data@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-3.0.1.tgz#ebd53791b78356a99af9a300d4282c4d5eb9755f"
@@ -7662,6 +7678,13 @@ he@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
+
+hellosign-sdk@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/hellosign-sdk/-/hellosign-sdk-2.1.0.tgz#8af9143fee077f5b5712334ca24868a3ccaaea8a"
+  integrity sha512-2O83jVSvXDgzI+4+sPvCKlN6rdPDmKIQqBVMWnTUczSwqPYO6DlYCoHb3rFdUoubsXMFSnHX+kMBOw6W6BKwnw==
+  dependencies:
+    form-data "^2.3.2"
 
 hexoid@1.0.0:
   version "1.0.0"

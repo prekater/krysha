@@ -410,7 +410,7 @@ describe('Application e2e', () => {
         })
       const data = await pdfParser(buffer)
 
-      console.log(data, buffer)
+      console.log(data, buffer.toString('base64'))
 
 
     });

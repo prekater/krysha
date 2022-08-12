@@ -278,9 +278,7 @@ export class PdfExporter extends Exporter {
 
     this.writeHeader(document, `Перечень имущества`, {lineGap: 0})
 
-
     this.addPropertyTable(document)
-
 
     this.writeLine(document, `Настоящий Перечень составлен в соответствии с Договором аренды от ${contract.date} г. № ${contract.ID.toString()} `, {
       align: 'left',
@@ -293,7 +291,6 @@ export class PdfExporter extends Exporter {
 
     document.addPage()
 
-
     this.writeLine(document, 'Приложение №3', {align: "right"})
     this.writeLine(document, 'К договору аренды жилого помещения', {align: "right"})
     this.writeLine(document, `от ${contract.date} г. № ${contract.ID.toString()} `, {align: "right"})
@@ -301,6 +298,7 @@ export class PdfExporter extends Exporter {
 
     this.writeLine(document, `Гражданин РФ, _____________________________, именуемый (-ая) в дальнейшем "Арендодатель", с одной стороны и`)
     this.writeLine(document, `гражданин РФ  _____________________________, именуемый (-ая) в дальнейшем "Арендатор", с другой стороны, вместе именуемые в дальнейшем "Стороны", совместно составили настоящий Акт о том, что Арендатор возвратил, а Арендодатель принял обратно жилое помещение в виде ${contentParts.meta.propertyType} с кадастровым номером ${contract.address.cadastralNumber}, расположенное по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat} (далее - жилое помещение, Помещение).`)
+
     this.writeLine(document, `1. Общее состояние инженерных коммуникаций: ________________________________________________`, {align: "left"})
     this.writeLine(document, `2. Общее состояние жилого помещения на момент возврата ____________________________________________`, {align: "left"})
     this.writeLine(document, `3. Возвращаются предметы домашнего обихода и обстановки, бытовая техника, мебель, указанные в Приложении №2 к Договору.`, {align: "left"})
