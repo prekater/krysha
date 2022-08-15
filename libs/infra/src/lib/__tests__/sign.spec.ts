@@ -6,7 +6,8 @@ describe('hellosign', () => {
   it('should ', async function () {
 
     const hs = new HelloSign({
-      key: '1342342'
+
+      key: '65e191a57a94fe7870de6a7fc140c81528edad708c262ace44f8914dfe187403',
     })
 
     const opts: SignatureRequestRequestOptions = {
@@ -82,6 +83,8 @@ describe('hellosign', () => {
     }
 
     const test = await hs.signatureRequest.send(opts)
+
+
     console.log(test)
 
 
