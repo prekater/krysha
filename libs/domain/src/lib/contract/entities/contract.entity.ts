@@ -14,6 +14,12 @@ import {Validator} from "../../core/validator";
 
 export class Contract implements IAggregateRoot, IEntity {
 
+  get users() {
+    return {
+      first: this.props.user1,
+      second: this.props.user2
+    }
+  }
   get date() {
     return this.props.date
   }
@@ -61,6 +67,11 @@ export class Contract implements IAggregateRoot, IEntity {
 
   get duration(): number {
     return this.rentalPeriod.duration(this.term.periodUnit)
+  }
+
+  fillUsersData(data: Required<Pick<ContractProps, 'user1' | 'user2'>>) {
+    this.props.user1 = data.user1
+    this.props.user2 = data.user2
   }
 
   private constructor(

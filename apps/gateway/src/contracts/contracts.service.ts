@@ -20,8 +20,8 @@ export class ContractsService {
     return await this.contractsClient.send(CREATE_CONTRACT_COMMAND, createContractDto).toPromise();
   }
 
-  async exportContract(ID: Application.SearchContractByIdDto['contractId']): Promise<Buffer> {
-    const bufferObject = await this.contractsClient.send(EXPORT_CONTRACT_QUERY, {contractId: ID}).toPromise()
+  async exportContract(data: Application.ExportContractDto): Promise<Buffer> {
+    const bufferObject = await this.contractsClient.send(EXPORT_CONTRACT_QUERY, data).toPromise()
 
     return Application.FileTransportAdapter.fromObjectToBuffer(bufferObject)
   }

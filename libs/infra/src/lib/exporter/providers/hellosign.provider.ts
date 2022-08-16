@@ -1,6 +1,5 @@
 import * as HelloSign from "hellosign-sdk";
 import {ConfigService} from "@nestjs/config";
-import * as fs from "fs";
 
 export class HelloSignProvider {
 
@@ -8,9 +7,9 @@ export class HelloSignProvider {
   private config: ConfigService;
   private readonly signatureRequestDefaults = Object.freeze({
     test_mode: 1,
-    title: 'NDA with Acme Co.',
-    subject: 'The NDA we talked about',
-    message: 'Please sign this NDA and then we can discuss more.',
+    title: 'Договор аренды',
+    subject: 'Договор аренды',
+    message: 'Пожалуйста, подпишите договор',
     signers: [
       {
         email_address: 'kontaktAK@Yandex.ru',
@@ -24,32 +23,32 @@ export class HelloSignProvider {
     form_fields_per_document:
       [
         [
-          {
-            api_id: 'signature_page_1_user_1',
-            name: '',
-            type: 'signature',
-            x: 100,
-            y: 600,
-            width: 100,
-            height: 16,
-            required: true,
-            signer: 0,
-            page: 1
-
-          },
-          {
-            api_id: 'signature_page_1_user_2',
-            name: '',
-            type: 'signature',
-            x: 500,
-            y: 600,
-            width: 100,
-            height: 16,
-            required: true,
-            signer: 1,
-            page: 1
-
-          },
+          // {
+          //   api_id: 'signature_page_1_user_1',
+          //   name: '',
+          //   type: 'signature',
+          //   x: 100,
+          //   y: 600,
+          //   width: 100,
+          //   height: 16,
+          //   required: true,
+          //   signer: 0,
+          //   page: 1
+          //
+          // },
+          // {
+          //   api_id: 'signature_page_1_user_2',
+          //   name: '',
+          //   type: 'signature',
+          //   x: 500,
+          //   y: 600,
+          //   width: 100,
+          //   height: 16,
+          //   required: true,
+          //   signer: 1,
+          //   page: 1
+          //
+          // },
           // {
           //   name: 'date_page_2_user_1',
           //   type: 'date_signed',
@@ -97,13 +96,26 @@ export class HelloSignProvider {
 
   async sign(pathToFile: string) {
 
-    console.log(pathToFile)
     // @ts-ignore
     const test = await this.api.signatureRequest.send(
       {
         ...this.signatureRequestDefaults,
         // @ts-ignore
         files: [pathToFile],
+        use_text_tags: 1,
+        hide_text_tags: 1,
+
+        custom_fields: [
+          {
+            "name": "employer_data",
+            "value": "Иванов Иван Иванович"
+          },
+          {
+            "name": "landlord_data",
+            "value": "Петров Петр Петрович"
+          },
+
+        ]
 
       }
     )

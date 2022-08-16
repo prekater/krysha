@@ -404,7 +404,18 @@ describe('Application e2e', () => {
       await repo.persist(contract)
 
       await request(gateway.getHttpServer())
-        .get(`/api/contracts/${contract.ID.toString()}/export`)
+        .post(`/api/contracts/${contract.ID.toString()}/export`)
+        .send({
+          user1: {
+            email: 'kontaktAK@yandex.ru',
+            fullname: 'Иванов Иван Иванович'
+          },
+          user2: {
+            email: 'kontaktAK@yandex.ru',
+            fullname: 'Петров Петр Петрович'
+          }
+        })
+
         .expect(200)
         .expect('content-type', 'application/pdf')
         .expect(res => {

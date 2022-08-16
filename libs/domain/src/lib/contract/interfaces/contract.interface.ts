@@ -4,8 +4,11 @@ import {Payment} from "../../core/value-objects/payment.value-object";
 import {Address} from "../../core/value-objects/address.value-object";
 import {PropertyType} from "../../offer/interfaces/offer.interface";
 import {RentalPeriod} from "../value-objects/rental-period.value-object";
+import {UserData} from "../../core/value-objects/user-data.value-object";
 
 export interface ContractProps {
+  user1?: UserData;
+  user2?: UserData;
   authorId: string;
   term: Term
   options: Option[]

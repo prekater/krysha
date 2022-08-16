@@ -6,7 +6,6 @@ import {Stream} from "stream";
 import TextOptions = PDFKit.Mixins.TextOptions;
 import * as PDFTable from 'voilab-pdf-table'
 import {Exporter} from "../interfaces/exporter.abstract";
-import * as _ from 'lodash'
 
 export class PdfExporter extends Exporter {
 
@@ -59,14 +58,14 @@ export class PdfExporter extends Exporter {
       ])
 
     table.addBody([
-      {employer: 'Петров Петр Петрович', landlord: 'Иванов Иван Иванович'},
+      {employer: '[text-merge|req|sender|employer_data|api_id]', landlord: '[text-merge|req|sender|landlord_data|api_id]'},
       {employer: 'Паспорт: 4646474848', landlord: 'Паспорт: 4646474848'},
       {employer: 'Выдан: кем-то', landlord: 'Выдан: кем-то, но другим'},
       {
         employer: 'Зарегистрирован по адресу: г. Москва, улица свободы, дом 56',
         landlord: 'Зарегистрирован по адресу:  г. Москва, улица свободы, дом 56'
       },
-      {employer: 'Подпись: ________', landlord: 'Подпись: __________'}
+      {employer: 'Подпись: [sig|req|signer1]', landlord: 'Подпись: [sig|req|signer2]'}
     ]);
 
   }
@@ -150,7 +149,7 @@ export class PdfExporter extends Exporter {
       align: "left",
       lineGap: PdfExporter.LINE_GAP
     })
-    this.writeLine(document, 'Гражданин РФ,______________________, именуемый(-ая) в дальнейшем "Арендодатель", с одной стороны, и гражданин РФ _________________________, именуемый в дальнейшем "Арендатор", вместе именуемые в дальнейшем "Стороны", заключили настоящий Договор о нижеследующем:')
+    this.writeLine(document, 'Гражданин РФ,[text-merge|req|sender|landlord_data|api_id], именуемый(-ая) в дальнейшем "Арендодатель", с одной стороны, и гражданин РФ, [text-merge|req|sender|employer_data|api_id], именуемый в дальнейшем "Арендатор", вместе именуемые в дальнейшем "Стороны", заключили настоящий Договор о нижеследующем:')
 
     this.writeHeader(document, '1. Предмет договора')
 
@@ -247,8 +246,8 @@ export class PdfExporter extends Exporter {
     this.writeHeader(document, `Акт \n приема-передачи жилого помещения`, {lineGap: 0})
 
     this.writeLine(document, `г. ${contract.address.city} ` + contract.date, {align: "left"})
-    this.writeLine(document, `Гражданин РФ, _____________________________, именуемый (-ая) в дальнейшем "Арендодатель", с одной стороны и`, {align: "left"})
-    this.writeLine(document, `гражданин РФ, _____________________________, именуемый (-ая) в дальнейшем "Арендатор", с другой стороны, вместе именуемые в дальнейшем "Стороны", совместно составили настоящий Акт о том, что Арендодатель передал, а Арендатор принял во временное пользование изолированное жилое помещение в виде ${contentParts.meta.propertyType} с кадастровым номером ${contract.address.cadastralNumber}, расположенное по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat} (далее - Жилое помещение, Помещение).
+    this.writeLine(document, `Гражданин РФ, [text-merge|req|sender|landlord_data|api_id], именуемый (-ая) в дальнейшем "Арендодатель", с одной стороны и`, {align: "left"})
+    this.writeLine(document, `гражданин РФ, [text-merge|req|sender|employer_data|api_id], именуемый (-ая) в дальнейшем "Арендатор", с другой стороны, вместе именуемые в дальнейшем "Стороны", совместно составили настоящий Акт о том, что Арендодатель передал, а Арендатор принял во временное пользование изолированное жилое помещение в виде ${contentParts.meta.propertyType} с кадастровым номером ${contract.address.cadastralNumber}, расположенное по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat} (далее - Жилое помещение, Помещение).
 `, {align: "left", lineGap: PdfExporter.LINE_GAP})
     this.writeLine(document, `1. Общее состояние инженерных коммуникаций: ________________________________________________`, {align: "left"})
     this.writeLine(document, `2. На момент составления настоящего Акта Жилое помещение находится в следующем техническом состоянии:`, {align: "left"})
@@ -296,8 +295,8 @@ export class PdfExporter extends Exporter {
     this.writeLine(document, `от ${contract.date} г. № ${contract.ID.toString()} `, {align: "right"})
     this.writeLine(document, `\n`)
 
-    this.writeLine(document, `Гражданин РФ, _____________________________, именуемый (-ая) в дальнейшем "Арендодатель", с одной стороны и`)
-    this.writeLine(document, `гражданин РФ  _____________________________, именуемый (-ая) в дальнейшем "Арендатор", с другой стороны, вместе именуемые в дальнейшем "Стороны", совместно составили настоящий Акт о том, что Арендатор возвратил, а Арендодатель принял обратно жилое помещение в виде ${contentParts.meta.propertyType} с кадастровым номером ${contract.address.cadastralNumber}, расположенное по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat} (далее - жилое помещение, Помещение).`)
+    this.writeLine(document, `Гражданин РФ, [text-merge|req|sender|landlord_data|api_id], именуемый (-ая) в дальнейшем "Арендодатель", с одной стороны и`)
+    this.writeLine(document, `гражданин РФ  [text-merge|req|sender|employer_data|api_id], именуемый (-ая) в дальнейшем "Арендатор", с другой стороны, вместе именуемые в дальнейшем "Стороны", совместно составили настоящий Акт о том, что Арендатор возвратил, а Арендодатель принял обратно жилое помещение в виде ${contentParts.meta.propertyType} с кадастровым номером ${contract.address.cadastralNumber}, расположенное по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat} (далее - жилое помещение, Помещение).`)
 
     this.writeLine(document, `1. Общее состояние инженерных коммуникаций: ________________________________________________`, {align: "left"})
     this.writeLine(document, `2. Общее состояние жилого помещения на момент возврата ____________________________________________`, {align: "left"})
