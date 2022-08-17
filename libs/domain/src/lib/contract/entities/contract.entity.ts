@@ -16,8 +16,8 @@ export class Contract implements IAggregateRoot, IEntity {
 
   get users() {
     return {
-      first: this.props.user1,
-      second: this.props.user2
+      landlord: this.props.landlord,
+      employer: this.props.employer
     }
   }
   get date() {
@@ -69,9 +69,9 @@ export class Contract implements IAggregateRoot, IEntity {
     return this.rentalPeriod.duration(this.term.periodUnit)
   }
 
-  fillUsersData(data: Required<Pick<ContractProps, 'user1' | 'user2'>>) {
-    this.props.user1 = data.user1
-    this.props.user2 = data.user2
+  fillUsersData(data: Required<Pick<ContractProps, 'landlord' | 'employer'>>) {
+    this.props.landlord = data.landlord
+    this.props.employer = data.employer
   }
 
   private constructor(

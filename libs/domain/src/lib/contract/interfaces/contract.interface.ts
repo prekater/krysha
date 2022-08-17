@@ -7,8 +7,8 @@ import {RentalPeriod} from "../value-objects/rental-period.value-object";
 import {UserData} from "../../core/value-objects/user-data.value-object";
 
 export interface ContractProps {
-  user1?: UserData;
-  user2?: UserData;
+  landlord?: UserData;
+  employer?: UserData;
   authorId: string;
   term: Term
   options: Option[]

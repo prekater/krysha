@@ -406,11 +406,11 @@ describe('Application e2e', () => {
       await request(gateway.getHttpServer())
         .post(`/api/contracts/${contract.ID.toString()}/export`)
         .send({
-          user1: {
+          landlord: {
             email: 'kontaktAK@yandex.ru',
             fullname: 'Иванов Иван Иванович'
           },
-          user2: {
+          employer: {
             email: 'kontaktAK@yandex.ru',
             fullname: 'Петров Петр Петрович'
           }
@@ -425,7 +425,7 @@ describe('Application e2e', () => {
         })
       const data = await pdfParser(buffer)
 
-      // console.log(data, buffer.toString('base64'))
+      console.log(data)
 
 
     });

@@ -5,6 +5,6 @@ export type UserDto  = Omit<Domain.UserDataProps, 'email'> & {
   email: string;
 }
 export class ExportContractDto extends SearchContractByIdDto {
-  user1: UserDto;
-  user2: UserDto;
+  landlord: UserDto;
+  employer: UserDto;
 }

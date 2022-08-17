@@ -58,14 +58,14 @@ export class PdfExporter extends Exporter {
       ])
 
     table.addBody([
-      {employer: '[text-merge|req|sender|employer_data|api_id]', landlord: '[text-merge|req|sender|landlord_data|api_id]'},
-      {employer: 'Паспорт: 4646474848', landlord: 'Паспорт: 4646474848'},
-      {employer: 'Выдан: кем-то', landlord: 'Выдан: кем-то, но другим'},
+      {employer: '', landlord: ''},
+      {employer: 'Паспорт: [text|req|signer2|employer_passport] ', landlord: 'Паспорт: [text|req|signer1|landlord_passport] '},
+      {employer: 'Выдан: [text|req|signer2|issued_by] ', landlord: 'Выдан: [text|req|signer1|issued_by] '},
       {
-        employer: 'Зарегистрирован по адресу: г. Москва, улица свободы, дом 56',
-        landlord: 'Зарегистрирован по адресу:  г. Москва, улица свободы, дом 56'
+        employer: 'Зарегистрирован: [text|req|signer2] ',
+        landlord: 'Зарегистрирован: [text|req|signer1] '
       },
-      {employer: 'Подпись: [sig|req|signer1]', landlord: 'Подпись: [sig|req|signer2]'}
+      {employer: 'Подпись: [sig|req|signer2]', landlord: 'Подпись: [sig|req|signer1]'}
     ]);
 
   }
@@ -134,6 +134,8 @@ export class PdfExporter extends Exporter {
 
   async createDocumentFromContract(contract: Domain.Contract, language: Language = Language.RU): Promise<Stream> {
     const memoryStream = new MemoryStream()
+
+    console.log(contract.users)
 
     const contentParts = await this.getContentParts(contract, language)
 

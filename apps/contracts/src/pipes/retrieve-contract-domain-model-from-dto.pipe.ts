@@ -17,12 +17,12 @@ export class RetrieveContractDomainModelById implements PipeTransform {
     if (!contract) throw new NotFoundException()
 
     try {
-      const user1 = Mappers.UserData.fromObjectToDomainModel(value.user1)
-      const user2 = Mappers.UserData.fromObjectToDomainModel(value.user2)
+      const landlord = Mappers.UserData.fromObjectToDomainModel(value.landlord)
+      const employer = Mappers.UserData.fromObjectToDomainModel(value.employer)
 
       contract.fillUsersData({
-        user1,
-        user2
+        landlord,
+        employer
       })
 
 
