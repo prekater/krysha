@@ -1,5 +1,6 @@
 import * as HelloSign from "hellosign-sdk";
 import {ConfigService} from "@nestjs/config";
+import {Domain} from "@bigdeal/domain";
 
 export class HelloSignProvider {
 
@@ -10,80 +11,6 @@ export class HelloSignProvider {
     title: 'Договор аренды',
     subject: 'Договор аренды',
     message: 'Пожалуйста, подпишите договор',
-    signers: [
-      {
-        email_address: 'kontaktAK@Yandex.ru',
-        name: 'Alex1'
-      },
-      {
-        email_address: 'kontaktAK@Yandex.ru',
-        name: 'Alex2'
-      }
-    ],
-    form_fields_per_document:
-      [
-        [
-          // {
-          //   api_id: 'signature_page_1_user_1',
-          //   name: '',
-          //   type: 'signature',
-          //   x: 100,
-          //   y: 600,
-          //   width: 100,
-          //   height: 16,
-          //   required: true,
-          //   signer: 0,
-          //   page: 1
-          //
-          // },
-          // {
-          //   api_id: 'signature_page_1_user_2',
-          //   name: '',
-          //   type: 'signature',
-          //   x: 500,
-          //   y: 600,
-          //   width: 100,
-          //   height: 16,
-          //   required: true,
-          //   signer: 1,
-          //   page: 1
-          //
-          // },
-          // {
-          //   name: 'date_page_2_user_1',
-          //   type: 'date_signed',
-          //   x: 100,
-          //   y: 320,
-          //   width: 100,
-          //   height: 16,
-          //   required: true,
-          //   signer: 0,
-          //   page: 2
-          // },
-          // {
-          //   name: '',
-          //   type: 'signature',
-          //   x: 250,
-          //   y: 300,
-          //   width: 100,
-          //   height: 16,
-          //   required: true,
-          //   signer: 1,
-          //   page: 3
-          // },
-          // {
-          //   name: '',
-          //   type: 'date_signed',
-          //   x: 250,
-          //   y: 320,
-          //   width: 100,
-          //   height: 16,
-          //   required: true,
-          //   signer: 1,
-          //   page: 4
-          // }
-
-        ]]
   })
 
   constructor() {
@@ -94,7 +21,7 @@ export class HelloSignProvider {
   }
 
 
-  async sign(pathToFile: string) {
+  async sign(pathToFile: string, users: Domain.Contract['users']) {
 
     // @ts-ignore
     const test = await this.api.signatureRequest.send(
@@ -104,24 +31,23 @@ export class HelloSignProvider {
         files: [pathToFile],
         use_text_tags: 1,
         hide_text_tags: 1,
-
-        custom_fields: [
+        signers: [
           {
-            "name": "employer_data",
-            "value": "Иванов Иван Иванович"
+            email_address: users.landlord.email.toString(),
+            name: users.landlord.fullname
           },
           {
-            "name": "landlord_data",
-            "value": "Петров Петр Петрович"
-          },
-
-        ]
-
+            email_address: users.employer.email.toString(),
+            name: users.employer.fullname
+          }
+        ],
       }
     )
 
 
     console.log(test)
+
+    return test;
 
   }
 

@@ -7,7 +7,7 @@ import {mkdtemp} from 'node:fs/promises';
 import * as os from 'os'
 import * as path from "path";
 import {Logger} from "@nestjs/common";
-import {Application} from "@bigdeal/application";
+import {Domain} from "@bigdeal/domain";
 
 export class HelloSignTransport extends Transport {
 
@@ -52,15 +52,13 @@ export class HelloSignTransport extends Transport {
 
   }
 
-  async deliver(stream: Stream): Promise<Stream> {
+  async deliver(stream: Stream, contract: Domain.Contract): Promise<Stream> {
 
     const streamedFile = await this.downloadFromStream(stream)
 
-    // const buffer = await Application.FileTransportAdapter.fromStreamToBuffer(streamedFile)
     const pathToFile = await this.saveFileToTmpDir(streamedFile)
 
-    // await this.provider.sign(buffer.toString('base64'))
-    await this.provider.sign(pathToFile)
+    await this.provider.sign(pathToFile, contract.users)
 
     return streamedFile;
   }

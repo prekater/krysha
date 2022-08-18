@@ -415,7 +415,6 @@ describe('Application e2e', () => {
             fullname: 'Петров Петр Петрович'
           }
         })
-
         .expect(200)
         .expect('content-type', 'application/pdf')
         .expect(res => {
