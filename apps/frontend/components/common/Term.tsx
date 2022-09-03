@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import dynamic from 'next/dynamic';
-import clsx from 'clsx';
-
-import { TerminationRule } from './TerminationRule';
-import { AddButton } from '../ui/AddButton';
-import { DeleteButton } from '../ui/DeleteButton';
-import { DropdownSelect } from '../ui/DropdownSelect';
+import {TerminationRule} from './TerminationRule';
+import {AddButton} from '../ui/AddButton';
+import {DropdownSelect} from '../ui/DropdownSelect';
 
 import {
   periodOptions,
@@ -29,42 +26,18 @@ const Term = (props: Props) => {
     onChange: onChangeTerm,
     onAddTerminationRule,
     onDeleteTerminationRule,
-    onDelete,
   } = props;
-  const termVariantsMock = ['1 вариант', '2 вариант'];
-  const [activeItem, setActiveItem] = useState(
-    termVariantsMock[Math.floor(Math.random() * 2)]
-  );
-  const termVariantClassName = (item: string) =>
-    clsx(styles.termVariant, {
-      [styles.termVariant_active]: item === activeItem,
-    });
-  const handleClickVariantBtn = (index: number) => () =>
-    setActiveItem(termVariantsMock[index]);
+
 
   return (
     <article className={styles.root}>
-      {/*<div>ID: {term.ID}</div>*/}
-      <aside className={styles.termOptions}>
-        {termVariantsMock.map((item, index) => (
-          <div
-            className={termVariantClassName(item)}
-            key={index}
-            onClick={handleClickVariantBtn(index)}
-          >
-            {item}
-          </div>
-        ))}
-        {/*@TODO добавить ховер*/}
-        <DeleteButton handleClick={onDelete} text="Удалить" />
-      </aside>
       <fieldset className={styles.fieldsGroup} id="period-fields">
         <legend className={styles.fieldTitle}>Cрок:</legend>
         <div className={styles.periodFields}>
           <input
             value={term.periodFrom}
             className={styles.periodInput}
-            name="period-fields"
+            name="periodFrom"
             onChange={onChangeTerm('periodFrom')}
             type="number"
             placeholder="От"
@@ -72,12 +45,13 @@ const Term = (props: Props) => {
           <input
             value={term.periodTo}
             className={styles.periodInput}
-            name="period-fields"
+            name="periodTo"
             onChange={onChangeTerm('periodTo')}
             type="number"
             placeholder="До"
           />
           <DropdownSelect
+            name={'period-unit'}
             options={periodOptions}
             defaultValue={defaultPeriodOption}
             handleChange={onChangeTerm('periodUnit')}
@@ -95,12 +69,13 @@ const Term = (props: Props) => {
                 value={term.price}
                 onChange={onChangeTerm('price')}
                 className={styles.priceInput}
-                name="price-fields"
+                name="price"
                 type="number"
                 placeholder="50000"
               />
             </label>
             <DropdownSelect
+              name={'price-currency'}
               options={currencyOptions}
               defaultValue={defaultCurrencyOption}
               handleChange={onChangeTerm('priceUnit')}
@@ -117,7 +92,7 @@ const Term = (props: Props) => {
                 checked={term.deposit.isEnabled}
               />
               С залогом
-              <span className={styles.radioCheckMark} />
+              <span className={styles.radioCheckMark}/>
             </label>
             <label className={styles.radioLabel}>
               <input
@@ -128,7 +103,7 @@ const Term = (props: Props) => {
                 checked={!term.deposit.isEnabled}
               />
               Без залога
-              <span className={styles.radioCheckMark} />
+              <span className={styles.radioCheckMark}/>
             </label>
           </div>
         </div>
@@ -170,7 +145,7 @@ const Term = (props: Props) => {
                   onChange={onChangeTerm('deposit.collectOptions.0.isEnabled')}
                 />
                 Убрать залог за дополнительную плату
-                <span className={styles.checkboxMark} />
+                <span className={styles.checkboxMark}/>
               </label>
             </section>
 
@@ -198,7 +173,7 @@ const Term = (props: Props) => {
                   onChange={onChangeTerm('deposit.collectOptions.1.isEnabled')}
                 />
                 Разбить залог на 2 месяца
-                <span className={styles.checkboxMark} />
+                <span className={styles.checkboxMark}/>
               </label>
             </section>
             {term.deposit.collectOptions[1].isEnabled && (
@@ -233,7 +208,7 @@ const Term = (props: Props) => {
               checked={term.deposit.returnType === 'RECALCULATE_PRICE'}
             />
             Пересчет арендной ставки
-            <span className={styles.radioCheckMark} />
+            <span className={styles.radioCheckMark}/>
           </label>
           <label className={styles.radioLabel}>
             <input
@@ -243,7 +218,7 @@ const Term = (props: Props) => {
               onChange={onChangeTerm('deposit.returnType')}
             />
             Залог удерживается в случае досрочного выезда
-            <span className={styles.radioCheckMark} />
+            <span className={styles.radioCheckMark}/>
           </label>
           <label className={styles.radioLabel}>
             <input
@@ -253,7 +228,7 @@ const Term = (props: Props) => {
               onChange={onChangeTerm('deposit.returnType')}
             />
             Залог возвращается при предупреждении о выезде за 30 дней
-            <span className={styles.radioCheckMark} />
+            <span className={styles.radioCheckMark}/>
           </label>
         </div>
       </fieldset>
@@ -280,11 +255,7 @@ const Term = (props: Props) => {
         </fieldset>
       )}
 
-      <AddButton
-        handleClick={() => console.log('add term')}
-        text="Добавить вариант аренды"
-        customTextStyle={styles.addTermButton}
-      />
+
     </article>
   );
 };

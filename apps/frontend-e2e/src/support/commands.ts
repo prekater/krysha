@@ -32,46 +32,70 @@ declare namespace Cypress {
   }
 }
 
+const periodUnitMap = {
+  days: 0,
+  months: 1,
+  years: 2
+}
+const currencyMap = {
+  RUB: 0,
+  EUR: 1,
+  USD: 2
+}
 Cypress.Commands.add('fillOfferTerms', (terms: any) => {
 
+  cy.scrollTo(0, 1500) // Scroll the window 500px down
+
+
   terms.forEach((t, i) => {
-    cy.get('.term-price').last().type(t.price)
-    cy.get('.term-currency').last().select(t.priceUnit)
-    cy.get('.term-period-from').last().type(t.periodFrom)
-    cy.get('.term-period-to').last().type(t.periodTo)
-    cy.get('.term-period-unit').last().select(t.periodUnit)
+    const periodUnitOption = periodUnitMap[t.periodUnit]
 
-    // -- Deposit Block --
-    if (t.deposit.isEnabled) {
-      cy.get('.with-deposit').last().click({force: true})
-      cy.get('.term-deposit-value').last().type(t.deposit.value)
-      if (t.deposit.collectOptions[0].isEnabled) {
-        cy.get('.remove-deposit-price-affect-checkbox input').last().click({force: true})
-        cy.get('.term-deposit-remove-deposit-price-affect').last().clear().type(String(t.deposit.collectOptions[0].priceAffect))
-      }
-      if (t.deposit.collectOptions[1].isEnabled) {
-        cy.get('.partial-deposit-price-affect-checkbox input').last().click({force: true})
-        cy.get('.term-deposit-partial-deposit-price-affect').last().clear().type(String(t.deposit.collectOptions[1].priceAffect))
-      }
+    // cy.get('.term-currency').last().select(t.priceUnit)
+    cy.get('input[name="periodFrom"]').last().type(t.periodFrom)
+    cy.get('input[name="periodTo"]').last().type(t.periodTo)
+    cy.get('.period-unit').last().click()
+    cy.get('.period-unit [role="option"]').eq(periodUnitOption).click()
+    cy.get('input[name="price"]').last().type(t.price)
+    cy.get('.price-currency').last().click()
+    cy.get('.price-currency [role="option"]').eq(periodUnitOption).click()
+
+
+    //
+    // // -- Deposit Block --
+    // if (t.deposit.isEnabled) {
+    //   cy.get('.with-deposit').last().click({force: true})
+    //   cy.get('.term-deposit-value').last().type(t.deposit.value)
+    //   if (t.deposit.collectOptions[0].isEnabled) {
+    //     cy.get('.remove-deposit-price-affect-checkbox input').last().click({force: true})
+    //     cy.get('.term-deposit-remove-deposit-price-affect').last().clear().type(String(t.deposit.collectOptions[0].priceAffect))
+    //   }
+    //   if (t.deposit.collectOptions[1].isEnabled) {
+    //     cy.get('.partial-deposit-price-affect-checkbox input').last().click({force: true})
+    //     cy.get('.term-deposit-partial-deposit-price-affect').last().clear().type(String(t.deposit.collectOptions[1].priceAffect))
+    //   }
+    // }
+    //
+    // // cy.get('.term-deposit-return-period').last().type(t.deposit.returnPeriod)
+    // // cy.get('.term-deposit-return-period-unit').last().select(t.deposit.returnPeriodUnit)
+    // // cy.get('.term-deposit-collect-type').last().select(t.deposit.collectType)
+    //
+    // // -- Termination rules Block --
+    // t.terminationRules.forEach((r, i) => {
+    //
+    //   cy.get('.term-termination-rule-period').last().type(r.period)
+    //   cy.get('.term-termination-rule-period-unit').last().select(r.periodUnit)
+    //   cy.get('.term-termination-rule-value').last().type(r.value)
+    //   cy.get('.term-termination-rule-currency').last().select(r.currency)
+    //
+    //   if (i !== t.terminationRules.length - 1) cy.get('.add-termination-rule-btn').last().click()
+    // })
+    //
+    if (i !== terms.length - 1) {
+      cy.get('#add-termination-rule-btn').click()
+      cy.get('.variant-btn').last().click()
     }
-
-    // cy.get('.term-deposit-return-period').last().type(t.deposit.returnPeriod)
-    // cy.get('.term-deposit-return-period-unit').last().select(t.deposit.returnPeriodUnit)
-    // cy.get('.term-deposit-collect-type').last().select(t.deposit.collectType)
-
-    // -- Termination rules Block --
-    t.terminationRules.forEach((r, i) => {
-
-      cy.get('.term-termination-rule-period').last().type(r.period)
-      cy.get('.term-termination-rule-period-unit').last().select(r.periodUnit)
-      cy.get('.term-termination-rule-value').last().type(r.value)
-      cy.get('.term-termination-rule-currency').last().select(r.currency)
-
-      if (i !== t.terminationRules.length - 1) cy.get('.add-termination-rule-btn').last().click()
-    })
-
-    if (i !== terms.length - 1) cy.get('#add-term-btn').click()
   })
+
 
 })
 

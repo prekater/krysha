@@ -6,9 +6,9 @@ interface IProps {
   text: string;
 }
 
-export const DeleteButton = ({ handleClick, text }: IProps) => {
+export const DeleteButton = ({ handleClick, text}: IProps) => {
   return (
-    <button className={styles.root} type="button" onClick={handleClick}>
+    <button data-element={'delete-button'} className={styles.root} type="button" onClick={handleClick}>
       <img
         src="/images/delete-button.svg"
         alt="add rule"

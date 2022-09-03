@@ -16,6 +16,7 @@ interface IProps {
   defaultValue: string;
   handleChange: () => void;
   customStyle?: string;
+  name: string;
 }
 
 export const DropdownSelect = ({
@@ -23,12 +24,14 @@ export const DropdownSelect = ({
   defaultValue,
   handleChange,
   customStyle,
+  name
 }: IProps) => {
   const dropdownWrapperClassName = clsx(styles.root, customStyle);
 
   return (
     <div className={dropdownWrapperClassName}>
       <Dropdown
+        className={name}
         options={options}
         onChange={handleChange}
         value={defaultValue}

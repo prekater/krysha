@@ -1,6 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import Term from '../common/Term';
+import clsx from "clsx";
+import styles from "../common/Term.module.scss";
+import {DeleteButton} from "../ui/DeleteButton";
+import {AddButton} from "../ui/AddButton";
 
 type Props = {
   terms: any;
@@ -14,24 +18,54 @@ type Props = {
 export const TermStep = (props: Props) => {
   const {
     terms,
+    onAddTerm,
     onChangeTerm,
     onAddTerminationRule,
     onDeleteTerminationRule,
     onDeleteTerm,
   } = props;
+  const variantsLabels = terms.map((_, i) => `${i + 1} вариант`);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const termVariantClassName = (index: number) =>
+    clsx(styles.termVariant, {
+      [styles.termVariant_active]: index === activeIndex,
+    });
+  const handleClickVariantBtn = (index: number) => () => setActiveIndex(index);
 
   return (
     <>
-      {terms.map((term, index) => (
-        <Term
-          term={term}
-          onChange={onChangeTerm(index)}
-          onAddTerminationRule={onAddTerminationRule(index)}
-          onDeleteTerminationRule={onDeleteTerminationRule(index)}
-          onDelete={onDeleteTerm(index)}
-          key={term.id}
+      <article className={styles.root}>
+        <aside className={styles.termOptions}>
+          {variantsLabels.map((item, index) => (
+            <div
+              className={`variant-btn ${termVariantClassName(index)}`}
+              key={index}
+              onClick={handleClickVariantBtn(index)}
+            >
+              {item}
+            </div>
+          ))}
+          {/*@TODO добавить ховер*/}
+          {terms.length > 1 && <DeleteButton handleClick={onDeleteTerm(activeIndex)} text="Удалить"/>}
+        </aside>
+      </article>
+
+      <Term
+        term={terms[activeIndex]}
+        onChange={onChangeTerm(activeIndex)}
+        onAddTerminationRule={onAddTerminationRule(activeIndex)}
+        onDeleteTerminationRule={onDeleteTerminationRule(activeIndex)}
+        onDelete={onDeleteTerm(activeIndex)}
+        key={terms[activeIndex].id}
+      />
+      <article className={styles.root}>
+        <AddButton
+          id={'add-termination-rule-btn'}
+          handleClick={() => onAddTerm()}
+          text="Добавить вариант аренды"
+          customTextStyle={styles.addTermButton}
         />
-      ))}
+      </article>
     </>
   );
 };
