@@ -39,6 +39,7 @@ export const PaymentStep = ({
           <label className={styles.checkboxLabel} key={i}>
             <input
               type="checkbox"
+              data-type={pso.type}
               checked={pso.isEnabled}
               onChange={(e) => onChangeStartOption(i, e)}
             />
@@ -55,11 +56,11 @@ export const PaymentStep = ({
         <label className={longTextLabelClassName}>
           <input
             type="checkbox"
+            className={payments.paymentTypeOptions[0].type}
             checked={payments.paymentTypeOptions[0].isEnabled}
             onChange={onChangeTwoPaymentsCheckbox}
           />
-          Возможность внесения аренды несколькими платежами в течение 15 дней
-          оплачиваемого месяца
+          Возможность внесения аренды двумя платежами
           <span className={longTextCheckmarkClassName} />
         </label>
         <label className={styles.sumOptionsLabel}>
@@ -68,10 +69,10 @@ export const PaymentStep = ({
             disabled={!payments.paymentTypeOptions[0].isEnabled}
             value={payments.paymentTypeOptions[0].priceAffect}
             onChange={onChangeTwoPaymentsPriceAffect}
-            className={styles.sumOptionsInput}
+            className={`payment-price-affect ${styles.sumOptionsInput}`}
             placeholder="2000"
           />
-          руб. в месяц дополнительно
+          руб. дополнительно к сумме регулярного платежа
         </label>
       </fieldset>
     </article>

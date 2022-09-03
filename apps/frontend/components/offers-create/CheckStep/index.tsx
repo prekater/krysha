@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import clsx from 'clsx';
 
 import styles from './CheckStep.module.scss';
+import {MappingType, useMapping} from "../../../hooks/mapping.hook";
 
 const offerMock = [
   {
@@ -47,26 +48,32 @@ const offerMock = [
   },
 ];
 
-const variantsMock = ['1 вариант', '2 вариант', '3 вариант'];
+type Props = {
+  terms: any;
+}
+export const CheckStep = ({terms}: Props) => {
+  const variantsLabels = terms.map((_, i) => `${i + 1} вариант`);
 
-export const CheckStep = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const term = terms[activeIndex]
+  const periodText = useMapping(MappingType.PERIOD, term.periodUnit.value)
+  const currencyText = useMapping(MappingType.CURRENCY, term.priceUnit.value)
   const makeFieldClassName = (index: number) =>
     clsx(styles.fieldsGroup, { [styles.fieldsGroup_2col]: index > 1 });
-  const [activeItem, setActiveItem] = useState(
-    variantsMock[Math.floor(Math.random() * 3)]
-  );
-  const variantItemClassName = (item: string) =>
-    clsx(styles.item, { [styles.item_active]: item === activeItem });
-  const handleClickVariantBtn = (index: number) => () =>
-    setActiveItem(variantsMock[index]);
+  const handleClickVariantBtn = (index: number) => () => setActiveIndex(index);
+
+  const variantItemClassName = (index: number) =>
+    clsx(styles.item, { [styles.item_active]: index === activeIndex });
+
 
   return (
     <article className={styles.root}>
       <nav className={styles.variants}>
-        {variantsMock.map((item, index) => (
+        {variantsLabels.map((item, index) => (
           <span
             key={index}
-            className={variantItemClassName(item)}
+            className={variantItemClassName(index)}
             onClick={handleClickVariantBtn(index)}
           >
             {item}
@@ -80,6 +87,20 @@ export const CheckStep = () => {
             <p className={styles.fieldText}>{item.value}</p>
           </section>
         ))}
+
+
+          <section>
+            <h6 className={styles.fieldTitle}>Срок</h6>
+            <p className={styles.fieldText}>От {term.periodFrom} до {term.periodTo} {periodText.PLURAL} </p>
+          </section>
+        <section>
+            <h6 className={styles.fieldTitle}>Стоимость</h6>
+            <p className={styles.fieldText}>{term.price} {currencyText}</p>
+          </section>
+        <section>
+            <h6 className={styles.fieldTitle}>Test</h6>
+            <p className={styles.fieldText}>Value</p>
+          </section>
       </div>
     </article>
   );

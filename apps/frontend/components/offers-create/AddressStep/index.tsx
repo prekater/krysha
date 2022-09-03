@@ -27,17 +27,27 @@ export const AddressStep = (props: Props) => {
     <article className={styles.root}>
       <fieldset className={styles.fieldsGroup}>
         <legend className={styles.fieldTitle}>Город</legend>
-        <DropdownSelect
-          options={cityOptions}
-          defaultValue={defaultCityOption}
-          handleChange={() => city.input.onChange}
-          customStyle={styles.citySelect}
+        {/*<DropdownSelect*/}
+        {/*  name={'city'}*/}
+        {/*  options={cityOptions}*/}
+        {/*  defaultValue={defaultCityOption}*/}
+        {/*  handleChange={() => city.input.onChange}*/}
+        {/*  customStyle={styles.citySelect}*/}
+        {/*/>*/}
+        <input
+          id={'city'}
+          type="text"
+          value={city.input.value}
+          onChange={city.input.onChange}
+          className={styles.streetInput}
+          placeholder="Введите город"
         />
       </fieldset>
 
       <fieldset className={styles.fieldsGroup}>
         <legend className={styles.fieldTitle}>Улица</legend>
         <input
+          id={'street'}
           type="text"
           value={street.input.value}
           onChange={street.input.onChange}
@@ -50,21 +60,34 @@ export const AddressStep = (props: Props) => {
         <fieldset className={styles.fieldsGroup}>
           <legend className={styles.fieldTitle}>Дом</legend>
           <input
+            id={'house'}
             type="text"
             value={house.input.value}
             onChange={house.input.onChange}
             className={styles.streetInput}
-            placeholder="Введите номер"
+            placeholder="Введите дом"
           />
         </fieldset>
         <fieldset className={styles.fieldsGroup}>
           <legend className={styles.fieldTitle}>Квартира</legend>
           <input
+            id={'flat'}
             type="text"
             value={flat.input.value}
             onChange={flat.input.onChange}
             className={styles.streetInput}
-            placeholder="Введите номер"
+            placeholder="Введите номер квартиры"
+          />
+        </fieldset>
+        <fieldset className={styles.fieldsGroup}>
+          <legend className={styles.fieldTitle}>Кадастровый номер</legend>
+          <input
+            id={'cadastralNumber'}
+            type="text"
+            value={flat.input.value}
+            onChange={flat.input.onChange}
+            className={styles.streetInput}
+            placeholder="Введите кадастровый номер"
           />
         </fieldset>
       </div>
@@ -72,6 +95,7 @@ export const AddressStep = (props: Props) => {
       <fieldset className={styles.fieldsGroup}>
         <legend className={styles.fieldTitle}>Тип жилья</legend>
         <DropdownSelect
+          name={'propertyType'}
           options={propertyTypeOptions}
           defaultValue={defaultPropertyTypeOption}
           handleChange={() => propertyType.input.onChange}

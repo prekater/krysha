@@ -33,12 +33,13 @@ export const TerminationRule = (props: Props) => {
             value={rule.period}
             onChange={onChangeTerm(`terminationRules.${ruleIndex}.period`)}
             className={styles.periodInput}
-            name="price-fields"
+            name="term-termination-rule-period"
             type="number"
             placeholder="6"
           />
         </label>
         <DropdownSelect
+          name={'term-termination-rule-period-unit'}
           options={periodOptions}
           defaultValue={defaultPeriodOption}
           handleChange={onChangeTerm(`terminationRules.${ruleIndex}.value`)}
@@ -56,12 +57,13 @@ export const TerminationRule = (props: Props) => {
             value={rule.value}
             onChange={onChangeTerm(`terminationRules.${ruleIndex}.value`)}
             className={styles.periodInput}
-            name="price-fields"
+            name="term-termination-rule-value"
             type="number"
             placeholder="50000"
           />
         </label>
         <DropdownSelect
+          name={'term-termination-rule-currency'}
           options={currencyOptions}
           defaultValue={defaultCurrencyOption}
           handleChange={onChangeTerm(`terminationRules.${ruleIndex}.currency`)}

@@ -4,13 +4,9 @@ import {TerminationRule} from './TerminationRule';
 import {AddButton} from '../ui/AddButton';
 import {DropdownSelect} from '../ui/DropdownSelect';
 
-import {
-  periodOptions,
-  defaultPeriodOption,
-  currencyOptions,
-  defaultCurrencyOption,
-} from '../ui/constants';
+import {currencyOptions, defaultCurrencyOption, defaultPeriodOption, periodOptions,} from '../ui/constants';
 import styles from './Term.module.scss';
+import {MappingType, PluralType, useMapping} from "../../hooks/mapping.hook";
 
 type Props = {
   term: any;
@@ -27,7 +23,7 @@ const Term = (props: Props) => {
     onAddTerminationRule,
     onDeleteTerminationRule,
   } = props;
-
+  const periodText = useMapping(MappingType.PERIOD, term.periodUnit.value)
 
   return (
     <article className={styles.root}>
@@ -86,7 +82,7 @@ const Term = (props: Props) => {
             <label className={styles.radioLabel}>
               <input
                 type="radio"
-                name="price-fields"
+                name="deposit-checkbox"
                 value="true"
                 onChange={onChangeTerm('deposit.isEnabled')}
                 checked={term.deposit.isEnabled}
@@ -97,7 +93,7 @@ const Term = (props: Props) => {
             <label className={styles.radioLabel}>
               <input
                 type="radio"
-                name="price-fields"
+                name="deposit-checkbox"
                 value="false"
                 onChange={onChangeTerm('deposit.isEnabled')}
                 checked={!term.deposit.isEnabled}
@@ -119,21 +115,14 @@ const Term = (props: Props) => {
                   value={term.deposit.value}
                   onChange={onChangeTerm('deposit.value')}
                   className={styles.sumInput}
-                  name="deposit-sum-fields"
+                  name="deposit-sum"
                   type="number"
                   placeholder="50000"
                 />
               </label>
-              {/*@TODO в макете этого селекта тоже нет, добавить onChange*/}
-              <DropdownSelect
-                options={currencyOptions}
-                defaultValue={defaultCurrencyOption}
-                handleChange={onChangeTerm('priceUnit')}
-              />
             </section>
           </fieldset>
 
-          {/*@TODO здесь что-то со сменой значений чекбоксов*/}
           <fieldset className={styles.fieldsGroup} id="deposit-options">
             <legend className={styles.fieldTitle}>Опции залога:</legend>
             <section className={styles.depositOptionsGroup}>
@@ -157,10 +146,10 @@ const Term = (props: Props) => {
                   onChange={onChangeTerm(
                     'deposit.collectOptions.0.priceAffect'
                   )}
-                  className={styles.sumOptionsInput}
+                  className={`priceAffect ${styles.sumOptionsInput}`}
                   placeholder="500000"
                 />
-                руб. в месяц
+                руб. в {periodText[PluralType.SINGLE]}
               </label>
             )}
 
@@ -172,7 +161,7 @@ const Term = (props: Props) => {
                   checked={term.deposit.collectOptions[1].isEnabled}
                   onChange={onChangeTerm('deposit.collectOptions.1.isEnabled')}
                 />
-                Разбить залог на 2 месяца
+                Разбить залог на 2 {periodText[PluralType.PLURAL]}
                 <span className={styles.checkboxMark}/>
               </label>
             </section>
@@ -184,10 +173,10 @@ const Term = (props: Props) => {
                   onChange={onChangeTerm(
                     'deposit.collectOptions.1.priceAffect'
                   )}
-                  className={styles.sumOptionsInput}
+                  className={`priceAffect ${styles.sumOptionsInput}`}
                   placeholder="500000"
                 />
-                руб. в месяц
+                руб. в {periodText[PluralType.SINGLE]}
               </label>
             )}
           </fieldset>
@@ -210,26 +199,26 @@ const Term = (props: Props) => {
             Пересчет арендной ставки
             <span className={styles.radioCheckMark}/>
           </label>
-          <label className={styles.radioLabel}>
-            <input
-              type="radio"
-              name="return-type"
-              value="FULLY_WITHHELD_UPON_CONTRACT_TERMINATION"
-              onChange={onChangeTerm('deposit.returnType')}
-            />
-            Залог удерживается в случае досрочного выезда
-            <span className={styles.radioCheckMark}/>
-          </label>
-          <label className={styles.radioLabel}>
-            <input
-              type="radio"
-              name="return-type"
-              value="REFOUND_IN_CASE_OF_1_MONTH_NOTICE"
-              onChange={onChangeTerm('deposit.returnType')}
-            />
-            Залог возвращается при предупреждении о выезде за 30 дней
-            <span className={styles.radioCheckMark}/>
-          </label>
+          {/*<label className={styles.radioLabel}>*/}
+          {/*  <input*/}
+          {/*    type="radio"*/}
+          {/*    name="return-type"*/}
+          {/*    value="FULLY_WITHHELD_UPON_CONTRACT_TERMINATION"*/}
+          {/*    onChange={onChangeTerm('deposit.returnType')}*/}
+          {/*  />*/}
+          {/*  Залог удерживается в случае досрочного выезда*/}
+          {/*  <span className={styles.radioCheckMark}/>*/}
+          {/*</label>*/}
+          {/*<label className={styles.radioLabel}>*/}
+          {/*  <input*/}
+          {/*    type="radio"*/}
+          {/*    name="return-type"*/}
+          {/*    value="REFOUND_IN_CASE_OF_1_MONTH_NOTICE"*/}
+          {/*    onChange={onChangeTerm('deposit.returnType')}*/}
+          {/*  />*/}
+          {/*  Залог возвращается при предупреждении о выезде за 30 дней*/}
+          {/*  <span className={styles.radioCheckMark}/>*/}
+          {/*</label>*/}
         </div>
       </fieldset>
 
@@ -248,14 +237,13 @@ const Term = (props: Props) => {
             />
           ))}
           <AddButton
+            id={'add-termination-rule-btn'}
             handleClick={onAddTerminationRule}
-            text="Добавить опцию"
+            text="Добавить правило расторжения"
             customTextStyle={styles.addRuleButton}
           />
         </fieldset>
       )}
-
-
     </article>
   );
 };

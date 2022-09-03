@@ -60,7 +60,7 @@ export const TermStep = (props: Props) => {
       />
       <article className={styles.root}>
         <AddButton
-          id={'add-termination-rule-btn'}
+          id={'add-term-btn'}
           handleClick={() => onAddTerm()}
           text="Добавить вариант аренды"
           customTextStyle={styles.addTermButton}

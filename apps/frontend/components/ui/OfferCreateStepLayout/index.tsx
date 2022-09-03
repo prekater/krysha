@@ -147,13 +147,16 @@ export const OfferCreateStepLayout = () => {
               />
             )}
             {step === 4 && <AddressStep form={form} />}
-            {step === 5 && <CheckStep />}
+            {step === 5 && <CheckStep
+              terms={terms}
+
+            />}
             {step < 5 ? (
               <button
                 type="button"
                 disabled={isNextDisabled}
                 onClick={() => setStep((prevState) => ++prevState)}
-                className={styles.nextButton}
+                className={`next-step ${styles.nextButton}`}
               >
                 Далее
               </button>
