@@ -21,7 +21,10 @@ export default class CustomDocument extends Document<{
   render() {
     return (
       <Html>
-        <Head>{this.props.styleTags}</Head>
+        <Head>
+          <link rel="preload" href="styles.css" as="style" crossOrigin="" />
+          {this.props.styleTags}
+        </Head>
         <body>
           <Main />
           <NextScript />

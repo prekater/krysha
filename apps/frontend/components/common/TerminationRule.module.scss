@@ -1,0 +1,39 @@
+@use '../styles/mixins';
+@use '../styles/variables';
+
+.root {
+  display: grid;
+  grid: auto / 1fr;
+  grid-gap: 26px 0;
+  justify-items: start;
+  margin: 24px 0;
+}
+
+.ruleText {
+  font: variables.$text;
+  color: variables.$gray;
+}
+
+.periodsInputsGroup {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.periodInput {
+  @include mixins.input;
+  margin-right: 18px;
+  width: 340px;
+
+  @include mixins.notDesktop {
+    width: 174px;
+  }
+}
+
+.periodDropdown {
+  width: 140px;
+
+  @include mixins.notDesktop {
+    width: 170px;
+  }
+}

@@ -1,0 +1,58 @@
+@use '../../styles/mixins';
+@use '../../styles/variables';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 64px;
+  width: 100%;
+  padding: 0 180px 0 80px;
+
+  @include mixins.notDesktop {
+    margin-top: 20px;
+    padding: 0 30px 0 60px;
+  }
+}
+
+.fieldsGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  &:not(:last-child) {
+    margin-bottom: 60px;
+  }
+}
+
+.fieldTitle {
+  font: variables.$fieldTitle;
+  margin-bottom: 18px;
+}
+
+.radioCheckMark {
+  @include mixins.radioCheckMark;
+}
+
+.radioLabel {
+  @include mixins.radioLabel;
+
+  &:not(:last-child) {
+    margin-bottom: 21px;
+  }
+}
+
+.extraPadding {
+  display: block;
+  padding-right: 21%;
+
+  @include mixins.tablet {
+    padding-right: 0;
+  }
+
+  @include mixins.mobile {
+    padding-right: 44%;
+  }
+}

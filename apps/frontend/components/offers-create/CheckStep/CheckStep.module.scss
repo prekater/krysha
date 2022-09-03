@@ -1,0 +1,70 @@
+@use '../../styles/mixins';
+@use '../../styles/variables';
+
+.root {
+  width: 100%;
+  padding: 64px 180px 0 80px;
+
+  @include mixins.notDesktop {
+    padding: 20px 30px 0 60px;
+  }
+}
+
+.variants {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 69px;
+}
+
+.item {
+  min-width: 101px;
+  padding: 7px 16px;
+  border: 1px solid variables.$lightPink;
+  font: variables.$textMobile;
+  color: variables.$lightPink;
+  cursor: pointer;
+
+  &:first-child {
+    border-radius: 25px 0 0 25px;
+  }
+
+  &:last-child {
+    border-radius: 0 25px 25px 0;
+  }
+
+  &_active {
+    color: variables.$white;
+    background: variables.$redRose;
+    border: 1px solid variables.$redRose;
+  }
+}
+
+.fieldsBlock {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-row-gap: 60px;
+}
+
+.fieldsGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  &_2col {
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
+}
+
+.fieldTitle {
+  font: variables.$fieldTitle;
+  margin-bottom: 18px;
+}
+
+.fieldText {
+  font: variables.$text;
+  color: variables.$gray;
+  margin-right: 5px;
+}

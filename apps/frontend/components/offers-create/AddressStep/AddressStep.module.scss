@@ -1,0 +1,62 @@
+@use '../../styles/mixins';
+@use '../../styles/variables';
+
+.root {
+  width: 100%;
+  padding: 60px 80px 0;
+
+  @include mixins.notDesktop {
+    padding: 20px 60px 0;
+  }
+}
+
+.fieldsGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 60px;
+
+  &:nth-of-type(3) {
+    margin-bottom: 0;
+  }
+}
+
+.fieldTitle {
+  font: variables.$fieldTitle;
+  margin-bottom: 18px;
+  margin-right: 35px;
+}
+
+.inputLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.citySelect {
+  width: 100%;
+}
+
+.input {
+  @include mixins.input;
+  width: 500px;
+  margin-right: 16px;
+
+  @include mixins.notDesktop {
+    width: 360px;
+    margin-right: 10px;
+  }
+}
+
+.streetInput {
+  @include mixins.input;
+  width: 100%;
+}
+
+.twoFieldsets {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 1fr;
+}

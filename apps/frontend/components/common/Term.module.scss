@@ -1,0 +1,216 @@
+@use '../styles/mixins';
+@use '../styles/variables';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 53px;
+  padding-left: 80px;
+
+  @include mixins.tablet {
+    padding: 0 45px;
+  }
+
+  @include mixins.mobile {
+    padding: 0 60px;
+  }
+}
+
+.termOptions {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: repeat(3, auto);
+  grid-gap: 18px 22px;
+  margin-bottom: 30px;
+
+  @include mixins.tablet {
+    margin-bottom: 40px;
+    grid-template-columns: repeat(3, auto);
+  }
+
+  @include mixins.mobile {
+    margin-bottom: 40px;
+    grid-template-columns: repeat(2, auto);
+  }
+}
+
+.termVariant {
+  border-radius: 25px;
+  width: 120px;
+  height: 46px;
+  border: 1px solid variables.$lightPink;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: variables.$lightPink;
+  font: variables.$text;
+  cursor: pointer;
+
+  &_active {
+    color: variables.$white;
+    background: variables.$redRose;
+  }
+
+  @include mixins.hover {
+    color: variables.$white;
+    background: variables.$redRose;
+  }
+
+  &:active {
+    color: variables.$white;
+    background: variables.$redRose;
+  }
+}
+
+.fieldsGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 60px;
+}
+
+.fieldTitle {
+  font: variables.$fieldTitle;
+  margin-bottom: 18px;
+}
+
+.periodFields {
+  display: grid;
+  grid-gap: 18px;
+  grid-template-columns: 142px 142px 182px;
+  grid-template-rows: auto;
+
+  @include mixins.tablet {
+    grid-template-columns: 142px 142px auto;
+  }
+
+  @include mixins.mobile {
+    grid-template-columns: 170px 170px;
+  }
+}
+
+.periodInput {
+  @include mixins.input;
+}
+
+.periodDropdown {
+  width: 182px;
+
+  @include mixins.notDesktop {
+    width: 170px;
+  }
+}
+
+.priceFields {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.priceChoice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.priceLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.priceInput {
+  @include mixins.input;
+  width: 140px;
+  margin-right: 18px;
+
+  @include mixins.notDesktop {
+    width: 170px;
+  }
+}
+
+.depositRadioBtns {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.radioCheckMark {
+  @include mixins.radioCheckMark;
+}
+
+.radioLabel {
+  @include mixins.radioLabel;
+
+  &:first-of-type {
+    margin-right: 33px;
+  }
+}
+
+.depositSumFields {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sumInput {
+  @include mixins.input;
+  width: 140px;
+  margin-right: 18px;
+
+  @include mixins.notDesktop {
+    width: 170px;
+  }
+}
+
+.sumOptionsInput {
+  @include mixins.input;
+  width: 140px;
+  margin-right: 18px;
+}
+
+.depositOptionsGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 18px 0;
+
+  &:first-of-type {
+    margin: 0 0 18px;
+  }
+}
+
+.checkboxLabel {
+  @include mixins.checkboxLabel;
+}
+
+.checkboxMark {
+  @include mixins.checkboxMark;
+}
+
+.returnTypeRadioBtns {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  row-gap: 14px;
+}
+
+.addRuleButton {
+  font: variables.$text;
+  margin-top: 12px;
+}
+
+.addTermButton {
+  font: variables.$fieldTitle;
+  margin-top: 0;
+
+  @include mixins.notDesktop {
+    font-size: 26px;
+  }
+}
