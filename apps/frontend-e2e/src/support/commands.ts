@@ -57,6 +57,7 @@ Cypress.Commands.add('fillOfferTerms', (terms: any) => {
 
   terms.forEach((t, i) => {
     const periodUnitOption = periodUnitMap[t.periodUnit]
+    const priceUnit = currencyMap[t.priceUnit] + 1
 
     // cy.get('.term-currency').last().select(t.priceUnit)
     cy.get('input[name="periodFrom"]').last().type(t.periodFrom)
@@ -65,7 +66,7 @@ Cypress.Commands.add('fillOfferTerms', (terms: any) => {
     cy.get('.period-unit [role="option"]').eq(periodUnitOption).click()
     cy.get('input[name="price"]').last().type(t.price)
     cy.get('.price-currency').last().click()
-    cy.get('.price-currency [role="option"]').eq(periodUnitOption).click()
+    cy.get('.price-currency [role="option"]').eq(priceUnit).click()
 
 
     // -- Deposit Block --
@@ -162,14 +163,14 @@ Cypress.Commands.add('createOffer', () => {
   cy.fixture('offer.json').then((offer) => {
 
     cy.fillOfferTerms(offer.terms)
-    cy.get('.next-step').click();
-    cy.fillOfferOptions(offer.options)
-    cy.get('.next-step').click();
-    cy.fillOfferPayment(offer.payment)
-    cy.get('.next-step').click();
-    cy.fillOfferAddress(offer.address)
-    cy.fillOfferMeta(offer.meta)
-    cy.get('.next-step').click();
+    // cy.get('.next-step').click();
+    // cy.fillOfferOptions(offer.options)
+    // cy.get('.next-step').click();
+    // cy.fillOfferPayment(offer.payment)
+    // cy.get('.next-step').click();
+    // cy.fillOfferAddress(offer.address)
+    // cy.fillOfferMeta(offer.meta)
+    // cy.get('.next-step').click();
 
 
     // -- Submit --

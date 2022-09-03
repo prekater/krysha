@@ -49,7 +49,7 @@ const Term = (props: Props) => {
           <DropdownSelect
             name={'period-unit'}
             options={periodOptions}
-            defaultValue={defaultPeriodOption}
+            defaultValue={term.periodUnit.value}
             handleChange={onChangeTerm('periodUnit')}
             customStyle={styles.periodDropdown}
           />
@@ -73,7 +73,7 @@ const Term = (props: Props) => {
             <DropdownSelect
               name={'price-currency'}
               options={currencyOptions}
-              defaultValue={defaultCurrencyOption}
+              defaultValue={term.priceUnit.value}
               handleChange={onChangeTerm('priceUnit')}
             />
           </section>

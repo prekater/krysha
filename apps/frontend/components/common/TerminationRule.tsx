@@ -41,8 +41,8 @@ export const TerminationRule = (props: Props) => {
         <DropdownSelect
           name={'term-termination-rule-period-unit'}
           options={periodOptions}
-          defaultValue={defaultPeriodOption}
-          handleChange={onChangeTerm(`terminationRules.${ruleIndex}.value`)}
+          defaultValue={rule.periodUnit}
+          handleChange={onChangeTerm(`terminationRules.${ruleIndex}.periodUnit`)}
           customStyle={styles.periodDropdown}
         />
       </div>
@@ -65,7 +65,7 @@ export const TerminationRule = (props: Props) => {
         <DropdownSelect
           name={'term-termination-rule-currency'}
           options={currencyOptions}
-          defaultValue={defaultCurrencyOption}
+          defaultValue={rule.currency}
           handleChange={onChangeTerm(`terminationRules.${ruleIndex}.currency`)}
         />
       </div>
