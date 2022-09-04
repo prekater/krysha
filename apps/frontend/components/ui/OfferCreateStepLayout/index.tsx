@@ -149,6 +149,9 @@ export const OfferCreateStepLayout = () => {
             {step === 4 && <AddressStep form={form} />}
             {step === 5 && <CheckStep
               terms={terms}
+              options={options}
+              payments={payments}
+              form={form}
 
             />}
             {step < 5 ? (

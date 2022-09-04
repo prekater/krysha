@@ -23,7 +23,7 @@ const Term = (props: Props) => {
     onAddTerminationRule,
     onDeleteTerminationRule,
   } = props;
-  const periodText = useMapping(MappingType.PERIOD, term.periodUnit.value)
+  const periodText = useMapping(MappingType.PERIOD, term.periodUnit)
 
   return (
     <article className={styles.root}>

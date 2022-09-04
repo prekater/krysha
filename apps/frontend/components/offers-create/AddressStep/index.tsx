@@ -19,7 +19,7 @@ type Props = {
 export const AddressStep = (props: Props) => {
   const { form } = props;
 
-  const [city, house, street, flat] = useAddress(form);
+  const [city, house, street, flat, cadastralNumber] = useAddress(form);
 
   const propertyType = useField('meta.propertyType', form);
 
@@ -84,8 +84,8 @@ export const AddressStep = (props: Props) => {
           <input
             id={'cadastralNumber'}
             type="text"
-            value={flat.input.value}
-            onChange={flat.input.onChange}
+            value={cadastralNumber.input.value}
+            onChange={cadastralNumber.input.onChange}
             className={styles.streetInput}
             placeholder="Введите кадастровый номер"
           />
@@ -97,8 +97,10 @@ export const AddressStep = (props: Props) => {
         <DropdownSelect
           name={'propertyType'}
           options={propertyTypeOptions}
-          defaultValue={defaultPropertyTypeOption}
-          handleChange={() => propertyType.input.onChange}
+          defaultValue={propertyType.input.value}
+          handleChange={(e) => {
+            propertyType.input.onChange(e)
+          }}
           customStyle={styles.citySelect}
         />
       </fieldset>

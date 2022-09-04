@@ -14,7 +14,7 @@ interface IOption {
 interface IProps {
   options: IOption[];
   defaultValue: string;
-  handleChange: () => void;
+  handleChange: (e?: any) => void;
   customStyle?: string;
   name: string;
 }
@@ -33,7 +33,7 @@ export const DropdownSelect = ({
       <Dropdown
         className={name}
         options={options}
-        onChange={handleChange}
+        onChange={e => handleChange(e.value)}
         value={defaultValue}
         controlClassName={styles.dropdownInput}
         menuClassName={styles.dropdownMenu}

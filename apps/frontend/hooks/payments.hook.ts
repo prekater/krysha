@@ -28,7 +28,7 @@ export const usePayments = () => {
     ],
   })
 
-  useEffect(() => console.log(payments), [payments])
+  // useEffect(() => console.log(payments), [payments])
 
   const toggleStartOptions = (index) => {
 
