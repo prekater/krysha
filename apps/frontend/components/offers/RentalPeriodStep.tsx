@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Heading, HStack, Input, Select, Text } from '@chakra-ui/react';
-import { reverseDate } from '../../utils';
+import React, {useEffect, useState} from 'react';
+import {Box, Heading, HStack, Input, Select, Text} from '@chakra-ui/react';
+import {reverseDate} from '../../utils';
 
 type Props = {
   onChange: (key: string) => (value: string) => void;
@@ -9,7 +9,7 @@ type Props = {
   period: any;
 };
 
-export const RentalPeriodStep = ({ period, unit, range, onChange }: Props) => {
+export const RentalPeriodStep = ({period, unit, range, onChange}: Props) => {
   let periodUnit;
   const [duration, setDuration] = useState(range[0]);
 
@@ -70,7 +70,7 @@ export const RentalPeriodStep = ({ period, unit, range, onChange }: Props) => {
         margin={'10px'}
         border={'1px solid black'}
       >
-        <Input type={'date'} onChange={(e) => onChangeStart(e.target.value)} />
+        <Input type={'date'} onChange={(e) => onChangeStart(e.target.value)}/>
       </Box>
       <Heading
         size="md"
@@ -87,11 +87,13 @@ export const RentalPeriodStep = ({ period, unit, range, onChange }: Props) => {
             value={duration}
             onChange={(e) => setDuration(Number(e.target.value))}
           >
-            {Array.from({ length: range[1] }, (_, i) => i + 1)
-              .slice(range[0] - 1)
-              .map((o) => (
-                <option value={o}>{o}</option>
-              ))}
+            {
+              Array.from({length: range[1]}, (_, i) => i + 1)
+                .slice(range[0] - 1)
+                .map((o) => (
+                  <option value={o}>{o}</option>
+                ))
+            }
           </Select>
         </Box>
         <Box

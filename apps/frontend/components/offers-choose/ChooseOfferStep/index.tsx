@@ -1,50 +1,42 @@
-import React from 'react';
+import React, {useState} from 'react';
 import clsx from 'clsx';
 
 import styles from './ChooseOfferStep.module.scss';
+import {DurationAndPrice} from "../../common/preview/DurationAndPrice";
+import {TerminationRules} from "../../common/preview/TerminationRules";
+import {Options} from "../../common/preview/Options";
 
-const offerMock = [
-  {
-    title: 'Срок',
-    value: 'От 3 до 11 месяцев',
-  },
-  {
-    title: 'Стоимость',
-    value: '50.000 руб. в месяц',
-  },
-  {
-    title: 'Условия раннего расторжения',
-    value: 'Пересчёт арендной ставки',
-  },
-  {
-    title: 'Корректировка при расторжении',
-    value:
-      'Если договор расторгнут по инициативе арендатора ранее, чем через 6 месяцев, стоимость ежемесячной аренды увеличится на 5000 руб.',
-  },
-];
 
-const variantsMock = ['1 вариант', '2 вариант', '3 вариант'];
-
-export const ChooseOfferStep = () => {
-  const makeFieldClassName = (index: number) =>
-    clsx(styles.fieldsGroup, { [styles.fieldsGroup_2col]: index > 1 });
+export const ChooseTermStep = ({currentTerm, terms, onChange}) => {
 
   return (
     <article className={styles.root}>
-      {variantsMock.map((item, index) => (
+      {terms.map((term, index) => (
         <div key={index} className={styles.variantBlock}>
           <label className={styles.radioLabel}>
-            <input type="radio" name="price-fields" value="true" />
-            {item}
-            <span className={styles.radioCheckMark} />
+            <input
+              type="radio"
+              onClick={() => onChange(term.ID)}
+              name="term-picker"
+              value="true"
+              checked={term.ID === currentTerm.ID}
+            />
+            {`${index + 1} вариант`}
+            <span className={styles.radioCheckMark}/>
           </label>
           <div className={styles.fieldsBlock}>
-            {offerMock.map((item, index) => (
-              <section className={makeFieldClassName(index)} key={index}>
-                <h6 className={styles.fieldTitle}>{item.title}</h6>
-                <p className={styles.fieldText}>{item.value}</p>
-              </section>
-            ))}
+            <DurationAndPrice
+              periodFrom={term.periodFrom}
+              periodTo={term.periodTo}
+              price={term.price}
+              priceUnit={term.priceUnit}
+              periodUnit={term.periodUnit}
+            />
+            <TerminationRules
+              terminationRules={term.terminationRules.map(({props}) => props)}
+              priceUnit={term.priceUnit}
+              periodUnit={term.periodUnit}
+            />
           </div>
         </div>
       ))}

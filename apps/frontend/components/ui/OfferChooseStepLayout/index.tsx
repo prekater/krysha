@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useRouter } from 'next/router';
 
 import clsx from 'clsx';
 import axios from 'axios';
-import { useForm } from 'react-final-form-hooks';
 
-import { useTerms } from '../../../hooks/terms.hook';
-import { usePayments } from '../../../hooks/payments.hook';
-import { useOptions } from '../../../hooks/options.hook';
-import { ChooseOfferStep } from '../../offers-choose/ChooseOfferStep';
+import { ChooseTermStep } from '../../offers-choose/ChooseOfferStep';
 import { DepositStep } from '../../offers-choose/DepositStep';
 import { OfferPageHeader } from '../OfferPageHeader';
 
@@ -20,74 +16,120 @@ import styles from './OfferChooseCtepLayout.module.scss';
 import { PeriodStep } from '../../offers-choose/PeriodStep';
 import { PaymentStep } from '../../offers-choose/PaymentsStep';
 import { CheckStep } from '../../offers-choose/CheckStep';
+import {reverseDate} from "../../../utils";
 
-const validate = (values) => {
-  const errors: any = {};
-  // if (!values.firstName) {
-  //   errors.firstName = 'Required'
-  // }
-  // if (!values.lastName) {
-  //   errors.lastName = 'Required'
-  // }
-  return errors;
-};
+type Props = {
+  offer: any
+}
 
-export const OfferChooseStepLayout = () => {
-  const router = useRouter();
+export const OfferChooseStepLayout = ({offer}: Props) => {
+  const initialPeriod = {
+    startDate: '',
+    endDate: '',
+  }
+  const router = useRouter()
+  const [period, setPeriod] = useState(initialPeriod)
+  const [term, setTerm] = useState(offer.terms[0])
   const [step, setStep] = useState<number>(1);
+  const [deposit, setDeposit] = useState(null)
+  const [payment, setPayment] = useState(null)
   const [isPrevDisabled, isNextDisabled] = [step === 1, step === 5];
 
-  // terms block
-  const {
-    terms,
-    onAddTerm,
-    onChangeTerm: oCT,
-    onAddTerminationRule: oATR,
-    onDeleteTerminationRule,
-    onDeleteTerm,
-  } = useTerms();
+  useEffect(() => {
+    console.log(period)
+  }, [period])
+  useEffect(() => {
+    offer && setPayment({
+      ...offer.payment,
+      paymentStartOptions: [
+        ...offer.payment.paymentStartOptions
+          .filter(o => o.isEnabled)
+          .map(o => ({...o, isEnabled: false}))
+      ],
+      paymentTypeOptions: [
+        ...offer.payment.paymentTypeOptions
+          .filter(o => o.isEnabled)
+          .map(o => ({...o, isEnabled: false}))
+      ],
+    })
+  }, [offer])
+  useEffect(() => {
 
-  const {
-    payments,
-    toggleTwoPayments,
-    setTwoPaymentsPriceAffect,
-    toggleStartOptions,
-  } = usePayments();
-
-  // options block
-  const { options, onChangeOption, onAddOption, onRemoveOption } = useOptions();
-
-  const onChangeTerm = (index) => (field) => oCT(index, field);
-  const onAddTerminationRule = (index) => oATR(index);
-
-  const removeUnnecessaryTerminationRules = (t) => {
-    if (t.deposit.returnType !== 'RECALCULATE_PRICE') {
-      return { ...t, terminationRules: [] };
+    term && console.log('changed', term.deposit)
+    if (term) {
+      setDeposit({
+        ...term.deposit,
+        collectOptions: [
+          ...term.deposit.collectOptions
+            .filter(o => o.isEnabled)
+            .map(o => ({...o, isEnabled: false}))
+        ]
+      })
+      setPeriod(initialPeriod)
     }
-    return t;
-  };
-  const onSubmit = async (values) => {
+  }, [term])
+
+  if (!offer) return null;
+
+  const onChangeDepositOption = (index: number, event: any) => {
+
+    let value = event?.target?.value ||
+      (typeof event?.target?.checked === 'boolean' && String(event?.target?.checked))
+      || event
+
+    value = ["true", "false", "on"].includes(value) ? /^\s*(true|1|on)\s*$/i.test(value) : value
+
+    setDeposit(prev => {
+      prev.collectOptions = prev.collectOptions.map(o => ({...o, isEnabled: false}))
+      prev.collectOptions[index].isEnabled = value
+      return {...prev};
+    })
+  }
+  const setDefaultDeposit = () => {
+    setDeposit({
+      ...term.deposit,
+      collectOptions: [
+        ...term.deposit.collectOptions
+          .filter(o => o.isEnabled)
+          .map(o => ({...o, isEnabled: false}))
+      ]
+    })
+  }
+  const onChangePaymentOption = (type: string) => (index: number, event: any) => {
+
+    let value = event?.target?.value ||
+      (typeof event?.target?.checked === 'boolean' && String(event?.target?.checked))
+      || event
+
+    value = ["true", "false"].includes(value) ? /^\s*(true|1|on)\s*$/i.test(value) : value
+
+    setPayment(prev => {
+      prev[type][index].isEnabled = value
+      return {...prev};
+    })
+  }
+  const onChangeTerm = (ID: string) => setTerm(offer.terms.find(t => t.ID === ID))
+  const onChangeRentalPeriod = key => (value) => {
+    setPeriod(prevState => {
+      return ({...prevState, [key]: value})
+    })
+  }
+
+  const onSubmit = async () => {
     const payload = {
-      ...values,
-      options,
-      terms: terms.map(removeUnnecessaryTerminationRules),
-      authorId: 'weofkwpfokw',
-      payment: payments,
-    };
-    const { data } = await axios.post(
-      `http://ec2-44-200-125-244.compute-1.amazonaws.com:3333/api/offers`,
-      payload
-    );
+      offerId: offer.ID,
+      termId: term.ID,
+      rentalStart: period.startDate,
+      rentalEnd: period.endDate,
+      depositOption: deposit.collectOptions.find(co => co.isEnabled)?.type || (deposit.isEnabled ? 'CONCLUSION': 'ABSENT'),
+      paymentStartOption: payment.paymentStartOptions.find(pso => pso.isEnabled)?.type,
+      paymentTypeOption: payment.paymentTypeOptions.find(pto => pto.isEnabled)?.type,
+    }
 
-    router.push(
-      `http://ec2-44-200-125-244.compute-1.amazonaws.com:3000/offers/${data.resourceId}`
-    );
-  };
+    const {data} = await axios.post(`http://ec2-44-200-125-244.compute-1.amazonaws.com:3333/api/contracts`, payload)
 
-  const { form, handleSubmit, values } = useForm({
-    onSubmit,
-    validate,
-  });
+    router.push(`http://ec2-44-200-125-244.compute-1.amazonaws.com:3000/contracts/${data.resourceId}`)
+  }
 
   const desktopBtnClassName = clsx(styles.backBtn, [styles.backBtn__web]);
   const mobileBtnClassName = clsx(styles.backBtn, [styles.backBtn__mobile]);
@@ -98,7 +140,7 @@ export const OfferChooseStepLayout = () => {
   return (
     <>
       <OfferPageHeader step={step} />
-      <form onSubmit={handleSubmit}>
+      <form>
         <main className={styles.root}>
           <aside className={styles.textBlock}>
             <section className={styles.textWrapper}>
@@ -119,9 +161,22 @@ export const OfferChooseStepLayout = () => {
           </aside>
           <div className={styles.divider} />
           <div className={styles.formBlock}>
-            {step === 1 && <ChooseOfferStep />}
-            {step === 2 && <DepositStep />}
-            {step === 3 && <PeriodStep />}
+            {step === 1 && <ChooseTermStep
+              currentTerm={term}
+              terms={offer.terms}
+              onChange={onChangeTerm}
+            />}
+            {step === 2 && <DepositStep
+              deposit={term?.deposit}
+              onChange={onChangeDepositOption}
+              setDefaultDeposit={setDefaultDeposit}
+            />}
+            {step === 3 && <PeriodStep
+              range={[term.periodFrom, term.periodTo].slice(0, 2).map(Number)}
+              onChange={onChangeRentalPeriod}
+              unit={term.periodUnit}
+              period={period}
+            />}
             {step === 4 && <PaymentStep />}
             {step === 5 && <CheckStep />}
             {step < 5 ? (
@@ -137,7 +192,8 @@ export const OfferChooseStepLayout = () => {
               <button
                 type="submit"
                 disabled={false}
-                onClick={() => console.log('the form  was submit')}
+                onClick={onSubmit}
+                id={'create-contract'}
                 className={styles.nextButton}
               >
                 Отправить
