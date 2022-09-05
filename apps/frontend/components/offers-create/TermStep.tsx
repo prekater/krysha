@@ -1,33 +1,71 @@
-import {Button, Heading, Input, Spacer} from "@chakra-ui/react";
-import Term from "../common/Term";
-import React from "react";
+import React, {useState} from 'react';
 
+import Term from '../common/Term';
+import clsx from "clsx";
+import styles from "../common/Term.module.scss";
+import {DeleteButton} from "../ui/DeleteButton";
+import {AddButton} from "../ui/AddButton";
 
 type Props = {
   terms: any;
   onAddTerm: any;
   onChangeTerm: any;
   onAddTerminationRule: any;
-  onDeleteTerminationRule: any
-  onDeleteTerm: any
-}
+  onDeleteTerminationRule: any;
+  onDeleteTerm: any;
+};
 
 export const TermStep = (props: Props) => {
-  const {terms, onChangeTerm, onAddTerminationRule, onDeleteTerminationRule, onDeleteTerm, onAddTerm} = props
+  const {
+    terms,
+    onAddTerm,
+    onChangeTerm,
+    onAddTerminationRule,
+    onDeleteTerminationRule,
+    onDeleteTerm,
+  } = props;
+  const variantsLabels = terms.map((_, i) => `${i + 1} вариант`);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const termVariantClassName = (index: number) =>
+    clsx(styles.termVariant, {
+      [styles.termVariant_active]: index === activeIndex,
+    });
+  const handleClickVariantBtn = (index: number) => () => setActiveIndex(index);
 
-  return (<>
-    <Heading size='md'>Шаг 1: Условия аренды <Button id="add-term-btn" size={'xs'} onClick={onAddTerm} colorScheme={'green'}> +</Button></Heading>
-    <br/>
-    <hr/>
-    {terms.map((term, index) => (
+  return (
+    <>
+      <article className={styles.root}>
+        <aside className={styles.termOptions}>
+          {variantsLabels.map((item, index) => (
+            <div
+              className={`variant-btn ${termVariantClassName(index)}`}
+              key={index}
+              onClick={handleClickVariantBtn(index)}
+            >
+              {item}
+            </div>
+          ))}
+          {/*@TODO добавить ховер*/}
+          {terms.length > 1 && <DeleteButton handleClick={onDeleteTerm(activeIndex)} text="Удалить"/>}
+        </aside>
+      </article>
+
       <Term
-        term={term}
-        onChange={onChangeTerm(index)}
-        onAddTerminationRule={onAddTerminationRule(index)}
-        onDeleteTerminationRule={onDeleteTerminationRule(index)}
-        onDelete={onDeleteTerm(index)}
+        term={terms[activeIndex]}
+        onChange={onChangeTerm(activeIndex)}
+        onAddTerminationRule={onAddTerminationRule(activeIndex)}
+        onDeleteTerminationRule={onDeleteTerminationRule(activeIndex)}
+        onDelete={onDeleteTerm(activeIndex)}
+        key={terms[activeIndex].id}
       />
-    ))}
-  </>)
-
-}
+      <article className={styles.root}>
+        <AddButton
+          id={'add-term-btn'}
+          handleClick={() => onAddTerm()}
+          text="Добавить вариант аренды"
+          customTextStyle={styles.addTermButton}
+        />
+      </article>
+    </>
+  );
+};

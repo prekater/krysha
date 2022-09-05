@@ -1,45 +1,43 @@
-import React, {useEffect, useState} from "react";
-import {Box, Heading, HStack, Input, Select, Text} from "@chakra-ui/react";
-import {reverseDate} from "../../utils";
+import React, {useEffect, useState} from 'react';
+import {Box, Heading, HStack, Input, Select, Text} from '@chakra-ui/react';
+import {reverseDate} from '../../utils';
 
 type Props = {
-  onChange: (key: string) => (value: string) => void
+  onChange: (key: string) => (value: string) => void;
   range: number[];
   unit: string;
   period: any;
-}
+};
 
 export const RentalPeriodStep = ({period, unit, range, onChange}: Props) => {
-
   let periodUnit;
-  const [duration, setDuration] = useState(range[0])
+  const [duration, setDuration] = useState(range[0]);
 
   switch (unit) {
     case 'days':
-      periodUnit = 'дней'
+      periodUnit = 'дней';
       break;
     case 'months':
-      periodUnit = 'месяцев'
+      periodUnit = 'месяцев';
       break;
     case 'years':
-      periodUnit = 'лет'
+      periodUnit = 'лет';
       break;
   }
 
   useEffect(() => {
-    onChangeEnd(duration)
-  }, [period.startDate])
+    onChangeEnd(duration);
+  }, [period.startDate]);
 
   const onChangeStart = (date: string) => {
-    onChange('startDate')(reverseDate(date))
-  }
+    onChange('startDate')(reverseDate(date));
+  };
 
   const onChangeEnd = (value: number) => {
-
-    const date = new Date(reverseDate(period.startDate))
+    const date = new Date(reverseDate(period.startDate));
     let endDate;
     switch (unit) {
-      case "days":
+      case 'days':
         endDate = new Date(date.setDate(date.getDate() + value));
         break;
       case 'months':
@@ -49,33 +47,33 @@ export const RentalPeriodStep = ({period, unit, range, onChange}: Props) => {
         endDate = new Date(date.setFullYear(date.getFullYear() + value));
         break;
     }
-    onChange('endDate')(endDate.toLocaleDateString('ru-RU'))
-  }
-
+    onChange('endDate')(endDate.toLocaleDateString('ru-RU'));
+  };
 
   useEffect(() => {
-    onChangeEnd(duration)
-  }, [duration])
-
+    onChangeEnd(duration);
+  }, [duration]);
 
   return (
     <>
       <Heading
-        size='md'
+        size="md"
         border={'1px solid black'}
         padding={'10px'}
         margin={'10px'}
-      >Выбрать дату начала аренды </Heading>
+      >
+        Выбрать дату начала аренды{' '}
+      </Heading>
       <Box
         cursor={'pointer'}
         padding={'10px'}
         margin={'10px'}
         border={'1px solid black'}
       >
-        <Input type={'date'} onChange={e => onChangeStart(e.target.value)}/>
+        <Input type={'date'} onChange={(e) => onChangeStart(e.target.value)}/>
       </Box>
       <Heading
-        size='md'
+        size="md"
         border={'1px solid black'}
         padding={'10px'}
         margin={'10px'}
@@ -84,16 +82,17 @@ export const RentalPeriodStep = ({period, unit, range, onChange}: Props) => {
       </Heading>
 
       <HStack>
-        <Box
-          cursor={'pointer'}
-          padding={'10px'}
-          margin={'10px'}
-        >
-          <Select value={duration} onChange={e => setDuration(Number(e.target.value))}>
-            {Array
-              .from({length: range[1]}, (_, i) => i + 1)
-              .slice(range[0] - 1)
-              .map(o => (<option value={o}>{o}</option>))
+        <Box cursor={'pointer'} padding={'10px'} margin={'10px'}>
+          <Select
+            value={duration}
+            onChange={(e) => setDuration(Number(e.target.value))}
+          >
+            {
+              Array.from({length: range[1]}, (_, i) => i + 1)
+                .slice(range[0] - 1)
+                .map((o) => (
+                  <option value={o}>{o}</option>
+                ))
             }
           </Select>
         </Box>
@@ -103,11 +102,12 @@ export const RentalPeriodStep = ({period, unit, range, onChange}: Props) => {
           margin={'10px'}
           border={'1px solid black'}
         >
-          <Text>Раннее расторжение договора будет считаться от {duration} {periodUnit}</Text>
+          <Text>
+            Раннее расторжение договора будет считаться от {duration}{' '}
+            {periodUnit}
+          </Text>
         </Box>
       </HStack>
-
-
     </>
-  )
-}
+  );
+};

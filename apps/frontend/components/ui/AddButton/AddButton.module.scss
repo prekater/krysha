@@ -1,0 +1,45 @@
+@use '../../styles/variables';
+@use '../../styles/mixins';
+
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: variables.$black;
+
+  &:focus {
+    outline: none;
+  }
+
+  &_icon {
+    margin-right: 12px;
+    border: 1px solid variables.$redRose;
+    background: variables.$redRose;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      filter: brightness(0) invert(1);
+    }
+
+    @include mixins.hover {
+      background: variables.$white;
+
+      img {
+        filter: unset;
+      }
+    }
+
+    &:active {
+      background: variables.$white;
+
+      img {
+        filter: unset;
+      }
+    }
+  }
+}

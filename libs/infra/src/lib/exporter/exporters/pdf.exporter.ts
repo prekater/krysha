@@ -6,7 +6,6 @@ import {Stream} from "stream";
 import TextOptions = PDFKit.Mixins.TextOptions;
 import * as PDFTable from 'voilab-pdf-table'
 import {Exporter} from "../interfaces/exporter.abstract";
-import * as _ from 'lodash'
 
 export class PdfExporter extends Exporter {
 
@@ -28,7 +27,7 @@ export class PdfExporter extends Exporter {
     document.text(text, {align: 'center', lineGap: PdfExporter.LINE_GAP, ...options})
   }
 
-  private addPassportTable(document: typeof PDFKit) {
+  private addPassportTable(document: typeof PDFKit, landlordFullname: string, employerFullname) {
 
     document.font(`${__dirname}/../fonts/arial.ttf`)
     const table = new PDFTable(document, {
@@ -59,17 +58,55 @@ export class PdfExporter extends Exporter {
       ])
 
     table.addBody([
-      {employer: 'Петров Петр Петрович', landlord: 'Иванов Иван Иванович'},
-      {employer: 'Паспорт: 4646474848', landlord: 'Паспорт: 4646474848'},
-      {employer: 'Выдан: кем-то', landlord: 'Выдан: кем-то, но другим'},
+      {employer: employerFullname, landlord: landlordFullname},
+      {employer: 'Паспорт: [text|req|signer2] ', landlord: 'Паспорт: [text|req|signer1] '},
+      {employer: 'Выдан: [text|req|signer2] ', landlord: 'Выдан: [text|req|signer1] '},
       {
-        employer: 'Зарегистрирован по адресу: г. Москва, улица свободы, дом 56',
-        landlord: 'Зарегистрирован по адресу:  г. Москва, улица свободы, дом 56'
+        employer: 'Зарегистрирован: [text|req|signer2] ',
+        landlord: 'Зарегистрирован: [text|req|signer1] '
       },
-      {employer: 'Подпись: ________', landlord: 'Подпись: __________'}
+      {employer: 'Подпись: [sig|req|signer2]', landlord: 'Подпись: [sig|req|signer1]'}
     ]);
 
   }
+
+    private addSignTable(document: typeof PDFKit, landlordFullname: string, employerFullname) {
+
+    document.font(`${__dirname}/../fonts/arial.ttf`)
+    const table = new PDFTable(document, {
+      bottomMargin: 30,
+      bottomTop: 30
+    });
+
+    table
+      // set defaults to your columns
+      .setColumnsDefaults({
+        headerBorder: 'B',
+        align: 'right'
+      })
+      .addColumns([
+        {
+          id: 'landlord',
+          header: 'Арендодатель',
+          align: 'left',
+          width: 200
+        },
+        {
+          id: 'employer',
+          header: 'Арендатор',
+          align: 'left',
+          width: 200
+
+        },
+      ])
+
+    table.addBody([
+      {employer: employerFullname, landlord: landlordFullname},
+      {employer: 'Подпись: [sig|req|signer2]', landlord: 'Подпись: [sig|req|signer1]'}
+    ]);
+
+  }
+
 
   private addPropertyTable(document: typeof PDFKit) {
 
@@ -136,6 +173,8 @@ export class PdfExporter extends Exporter {
   async createDocumentFromContract(contract: Domain.Contract, language: Language = Language.RU): Promise<Stream> {
     const memoryStream = new MemoryStream()
 
+    console.log(contract.users)
+
     const contentParts = await this.getContentParts(contract, language)
 
     let document = new PDFKit()
@@ -150,7 +189,7 @@ export class PdfExporter extends Exporter {
       align: "left",
       lineGap: PdfExporter.LINE_GAP
     })
-    this.writeLine(document, 'Гражданин РФ,______________________, именуемый(-ая) в дальнейшем "Арендодатель", с одной стороны, и гражданин РФ _________________________, именуемый в дальнейшем "Арендатор", вместе именуемые в дальнейшем "Стороны", заключили настоящий Договор о нижеследующем:')
+    this.writeLine(document, `Гражданин РФ,${contract.users.landlord.fullname}, именуемый(-ая) в дальнейшем "Арендодатель", с одной стороны, и гражданин РФ, ${contract.users.employer.fullname}, именуемый в дальнейшем "Арендатор", вместе именуемые в дальнейшем "Стороны", заключили настоящий Договор о нижеследующем:`)
 
     this.writeHeader(document, '1. Предмет договора')
 
@@ -232,11 +271,11 @@ export class PdfExporter extends Exporter {
     this.writeLine(document, '6.3. Настоящий Договор составлен в двух экземплярах, имеющих одинаковую юридическую силу, по одному экземпляру для каждой Стороны.')
 
 
-    this.writeHeader(document, `7. Паспортные данные сторон.`)
+    this.writeHeader(document, `7. Адреса и реквизиты сторон.`)
 
     for (let i = 0; i < 2; i++) this.writeLine(document, `\n`)
 
-    this.addPassportTable(document)
+    this.addPassportTable(document, contract.users.landlord.fullname, contract.users.employer.fullname)
 
     document.addPage()
 
@@ -247,8 +286,8 @@ export class PdfExporter extends Exporter {
     this.writeHeader(document, `Акт \n приема-передачи жилого помещения`, {lineGap: 0})
 
     this.writeLine(document, `г. ${contract.address.city} ` + contract.date, {align: "left"})
-    this.writeLine(document, `Гражданин РФ, _____________________________, именуемый (-ая) в дальнейшем "Арендодатель", с одной стороны и`, {align: "left"})
-    this.writeLine(document, `гражданин РФ, _____________________________, именуемый (-ая) в дальнейшем "Арендатор", с другой стороны, вместе именуемые в дальнейшем "Стороны", совместно составили настоящий Акт о том, что Арендодатель передал, а Арендатор принял во временное пользование изолированное жилое помещение в виде ${contentParts.meta.propertyType} с кадастровым номером ${contract.address.cadastralNumber}, расположенное по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat} (далее - Жилое помещение, Помещение).
+    this.writeLine(document, `Гражданин РФ, ${contract.users.landlord.fullname}, именуемый (-ая) в дальнейшем "Арендодатель", с одной стороны и`, {align: "left"})
+    this.writeLine(document, `гражданин РФ, ${contract.users.employer.fullname}, именуемый (-ая) в дальнейшем "Арендатор", с другой стороны, вместе именуемые в дальнейшем "Стороны", совместно составили настоящий Акт о том, что Арендодатель передал, а Арендатор принял во временное пользование изолированное жилое помещение в виде ${contentParts.meta.propertyType} с кадастровым номером ${contract.address.cadastralNumber}, расположенное по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat} (далее - Жилое помещение, Помещение).
 `, {align: "left", lineGap: PdfExporter.LINE_GAP})
     this.writeLine(document, `1. Общее состояние инженерных коммуникаций: ________________________________________________`, {align: "left"})
     this.writeLine(document, `2. На момент составления настоящего Акта Жилое помещение находится в следующем техническом состоянии:`, {align: "left"})
@@ -270,6 +309,9 @@ export class PdfExporter extends Exporter {
 
     this.writeHeader(document, 'Подписи Сторон')
 
+    this.addSignTable(document, contract.users.landlord.fullname, contract.users.employer.fullname)
+
+
     document.addPage()
 
     this.writeLine(document, 'Приложение №2', {align: "right"})
@@ -278,9 +320,7 @@ export class PdfExporter extends Exporter {
 
     this.writeHeader(document, `Перечень имущества`, {lineGap: 0})
 
-
     this.addPropertyTable(document)
-
 
     this.writeLine(document, `Настоящий Перечень составлен в соответствии с Договором аренды от ${contract.date} г. № ${contract.ID.toString()} `, {
       align: 'left',
@@ -291,16 +331,19 @@ export class PdfExporter extends Exporter {
 
     this.writeHeader(document, 'Подписи Сторон')
 
-    document.addPage()
+    this.addSignTable(document, contract.users.landlord.fullname, contract.users.employer.fullname)
 
+
+    document.addPage()
 
     this.writeLine(document, 'Приложение №3', {align: "right"})
     this.writeLine(document, 'К договору аренды жилого помещения', {align: "right"})
     this.writeLine(document, `от ${contract.date} г. № ${contract.ID.toString()} `, {align: "right"})
     this.writeLine(document, `\n`)
 
-    this.writeLine(document, `Гражданин РФ, _____________________________, именуемый (-ая) в дальнейшем "Арендодатель", с одной стороны и`)
-    this.writeLine(document, `гражданин РФ  _____________________________, именуемый (-ая) в дальнейшем "Арендатор", с другой стороны, вместе именуемые в дальнейшем "Стороны", совместно составили настоящий Акт о том, что Арендатор возвратил, а Арендодатель принял обратно жилое помещение в виде ${contentParts.meta.propertyType} с кадастровым номером ${contract.address.cadastralNumber}, расположенное по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat} (далее - жилое помещение, Помещение).`)
+    this.writeLine(document, `Гражданин РФ, ${contract.users.landlord.fullname}, именуемый (-ая) в дальнейшем "Арендодатель", с одной стороны и`)
+    this.writeLine(document, `гражданин РФ  ${contract.users.employer.fullname}, именуемый (-ая) в дальнейшем "Арендатор", с другой стороны, вместе именуемые в дальнейшем "Стороны", совместно составили настоящий Акт о том, что Арендатор возвратил, а Арендодатель принял обратно жилое помещение в виде ${contentParts.meta.propertyType} с кадастровым номером ${contract.address.cadastralNumber}, расположенное по адресу: ${contentParts.address.city} ${contentParts.address.street}  ${contentParts.address.house}  ${contentParts.address.flat} (далее - жилое помещение, Помещение).`)
+
     this.writeLine(document, `1. Общее состояние инженерных коммуникаций: ________________________________________________`, {align: "left"})
     this.writeLine(document, `2. Общее состояние жилого помещения на момент возврата ____________________________________________`, {align: "left"})
     this.writeLine(document, `3. Возвращаются предметы домашнего обихода и обстановки, бытовая техника, мебель, указанные в Приложении №2 к Договору.`, {align: "left"})
@@ -312,6 +355,10 @@ export class PdfExporter extends Exporter {
     this.writeLine(document, `6. Обнаруженные недостатки _________________________________________________________________`)
     this.writeLine(document, `7. Стороны взаимных претензий, кроме прямо оговоренных в настоящем Акте, не имеют.`)
     this.writeLine(document, `8. Настоящий Акт составлен в двух экземплярах, имеющих равную юридическую силу, по одному для каждой из Сторон.`)
+
+    this.writeHeader(document, 'Подписи Сторон')
+
+    this.addSignTable(document, contract.users.landlord.fullname, contract.users.employer.fullname)
 
 
     document.end()

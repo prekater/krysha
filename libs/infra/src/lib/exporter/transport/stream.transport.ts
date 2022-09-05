@@ -10,7 +10,7 @@ export class StreamTransport extends Transport{
         r(stream)
       } )
     })
-    
+
     return result;
   }
 

@@ -3340,6 +3340,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/hellosign-sdk@^1.6.10":
+  version "1.6.10"
+  resolved "https://registry.yarnpkg.com/@types/hellosign-sdk/-/hellosign-sdk-1.6.10.tgz#7c2547bbd1768eeb939a7f8169bf7fb9d2eb4752"
+  integrity sha512-7xnhaqsL1x11e82euFMvmEJ+RejVEk93aBD+GYzu0Nx0KGB+n/7xZCHoQrADDA94jNaxcCNKS4xzTcIgtpqEzw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/hoist-non-react-statics@*":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
@@ -5045,6 +5052,11 @@ class-validator@^0.13.2:
     libphonenumber-js "^1.9.43"
     validator "^13.7.0"
 
+classnames@^2.2.3:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
+  integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
+
 clean-stack@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/clean-stack/-/clean-stack-2.2.0.tgz#ee8472dbb129e727b31e8a10a427dee9dfe4008b"
@@ -5101,6 +5113,11 @@ clone@^1.0.2, clone@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
+
+clsx@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.2.1.tgz#0ddc4a20a549b59c93a4116bb26f5294ca17dc12"
+  integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
 
 co@^4.6.0:
   version "4.6.0"
@@ -7180,6 +7197,15 @@ fork-ts-checker-webpack-plugin@6.2.10:
     semver "^7.3.2"
     tapable "^1.0.0"
 
+form-data@^2.3.2:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.5.1.tgz#f2cbec57b5e59e23716e128fe44d4e5dd23895f4"
+  integrity sha512-m21N3WOmEEURgk6B9GLOE4RuWOFf28Lhh9qGYeNlGq4VDXUlJy2th2slBNU8Gp8EzloYZOibZJ7t5ecIrFSjVA==
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.6"
+    mime-types "^2.1.12"
+
 form-data@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-3.0.1.tgz#ebd53791b78356a99af9a300d4282c4d5eb9755f"
@@ -7662,6 +7688,13 @@ he@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/he/-/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
+
+hellosign-sdk@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/hellosign-sdk/-/hellosign-sdk-2.1.0.tgz#8af9143fee077f5b5712334ca24868a3ccaaea8a"
+  integrity sha512-2O83jVSvXDgzI+4+sPvCKlN6rdPDmKIQqBVMWnTUczSwqPYO6DlYCoHb3rFdUoubsXMFSnHX+kMBOw6W6BKwnw==
+  dependencies:
+    form-data "^2.3.2"
 
 hexoid@1.0.0:
   version "1.0.0"
@@ -10931,6 +10964,13 @@ react-dom@18.0.0:
     loose-envify "^1.1.0"
     scheduler "^0.21.0"
 
+react-dropdown@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/react-dropdown/-/react-dropdown-1.10.0.tgz#c566e5de5212dc4bf2041c20d755e667760b8fab"
+  integrity sha512-jvlPVB5KU1tuacx9+igu5c+Xtpzjos5ZRXhMxHiVmdEM0SR2vabeAoL9QfN3p4e1CjgdjYsM8gCXbFNSyT25EQ==
+  dependencies:
+    classnames "^2.2.3"
+
 react-fast-compare@3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
@@ -11436,6 +11476,15 @@ sass@^1.42.1:
   version "1.52.1"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.52.1.tgz#554693da808543031f9423911d62c60a1acf7889"
   integrity sha512-fSzYTbr7z8oQnVJ3Acp9hV80dM1fkMN7mSD/25mpcct9F7FPBMOI8krEYALgU1aZoqGhQNhTPsuSmxjnIvAm4Q==
+  dependencies:
+    chokidar ">=3.0.0 <4.0.0"
+    immutable "^4.0.0"
+    source-map-js ">=0.6.2 <2.0.0"
+
+sass@^1.54.4:
+  version "1.54.4"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.54.4.tgz#803ff2fef5525f1dd01670c3915b4b68b6cba72d"
+  integrity sha512-3tmF16yvnBwtlPrNBHw/H907j8MlOX8aTBnlNX1yrKx24RKcJGPyLhFUwkoKBKesR3unP93/2z14Ll8NicwQUA==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"

@@ -45,7 +45,7 @@ export abstract class Exporter implements Domain.IExporter {
 
     const file = await this.createDocumentFromContract(contract, language)
 
-    return await this.transport.deliver(file)
+    return await this.transport.deliver(file, contract)
   }
 
 

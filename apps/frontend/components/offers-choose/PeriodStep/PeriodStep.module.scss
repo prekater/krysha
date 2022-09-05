@@ -1,0 +1,78 @@
+@use '../../styles/mixins';
+@use '../../styles/variables';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 60px 0;
+
+  @include mixins.notDesktop {
+    padding: 0 60px;
+    align-items: flex-start;
+  }
+}
+
+.fieldsGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  position: relative;
+
+  &:not(:last-child) {
+    margin-bottom: 60px;
+  }
+}
+
+.fieldTitle {
+  font: variables.$fieldTitle;
+  margin-bottom: 18px;
+}
+
+.periodInput {
+  @include mixins.input;
+  width: 240px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  @include mixins.notDesktop {
+    width: 100%;
+  }
+
+  &__opened {
+    border: 1px solid variables.$redRose;
+    &:hover {
+      border: 1px solid variables.$redRose;
+    }
+  }
+}
+
+.periodInputText {
+  font: variables.$text;
+  color: variables.$gray;
+}
+
+.monthInputBlock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.monthDropdown {
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.monthInputText {
+  font: variables.$text;
+  padding: 0 30% 0 31px;
+
+  @include mixins.notDesktop {
+    padding: 0 0 0 31px;
+  }
+}

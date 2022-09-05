@@ -4,6 +4,7 @@ import {Transport} from "@nestjs/microservices";
 import {injectEnv, makeContract} from "@bigdeal/test-utils";
 import {Infra} from "@bigdeal/infra";
 import {Application} from "@bigdeal/application";
+import {Domain} from "@bigdeal/domain";
 import * as request from 'supertest'
 import {v4 as uuid} from 'uuid';
 import * as pdfParser from 'pdf-parse'
@@ -11,13 +12,14 @@ import {AppModule} from "../../../gateway/src/app.module";
 import {OffersModule} from "../../../offers/src/offers.module";
 import {ContractsModule} from "../../../contracts/src/contracts.module";
 import {createOfferPayload1} from "./mocks/create-offer-payload";
-import {Domain} from "@bigdeal/domain";
 
+jest.setTimeout(30000)
 describe('Application e2e', () => {
   let gateway: INestApplication;
 
   process.env.OFFERS_MICROSERVICE_HOST = 'localhost'
   process.env.CONTRACTS_MICROSERVICE_HOST = 'localhost'
+  process.env.HELLOSIGN_API_KEY = '65e191a57a94fe7870de6a7fc140c81528edad708c262ace44f8914dfe187403'
 
   beforeAll(async () => {
 
@@ -321,7 +323,10 @@ describe('Application e2e', () => {
         imports: [ContractsModule],
         providers: [],
         controllers: []
-      }).compile();
+      })
+        .overrideProvider(Infra.Transport)
+        .useClass(Infra.HelloSignTransport)
+        .compile();
 
       contractsMicroservice = moduleFixture.createNestApplication();
       contractsMicroservice.connectMicroservice({
@@ -400,7 +405,17 @@ describe('Application e2e', () => {
       await repo.persist(contract)
 
       await request(gateway.getHttpServer())
-        .get(`/api/contracts/${contract.ID.toString()}/export`)
+        .post(`/api/contracts/${contract.ID.toString()}/export`)
+        .send({
+          landlord: {
+            email: 'kontaktAK@yandex.ru',
+            fullname: 'Иванов Иван Иванович'
+          },
+          employer: {
+            email: 'kontaktAK@yandex.ru',
+            fullname: 'Петров Петр Петрович'
+          }
+        })
         .expect(200)
         .expect('content-type', 'application/pdf')
         .expect(res => {
@@ -410,7 +425,7 @@ describe('Application e2e', () => {
         })
       const data = await pdfParser(buffer)
 
-      console.log(data, buffer)
+      console.log(data)
 
 
     });

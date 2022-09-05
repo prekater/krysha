@@ -6,18 +6,18 @@ import './styles.css';
 
 function CustomApp({Component, pageProps}: AppProps) {
   return (
-    <ChakraProvider>
+    <>
       <Head>
         <title> Крыша </title>
       </Head>
-      <Box alignItems='center' >
-        <Box p='2'>
-          <Heading size='md'>Крыша</Heading>
-        </Box>
-        <Spacer/>
+      {/*<Box alignItems='center' >*/}
+        {/*<Box p='2'>*/}
+        {/*  <Heading size='md'>Крыша</Heading>*/}
+        {/*</Box>*/}
+        {/*<Spacer/>*/}
         <Component {...pageProps} />
-      </Box>
-    </ChakraProvider>
+      {/*</Box>*/}
+    </>
   );
 }
 

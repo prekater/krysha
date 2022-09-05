@@ -124,12 +124,9 @@ export const useTerms = () => {
 
   const onChangeTerm = (i, key) => (event) => {
 
-    let value = event?.target?.value ||
-      (typeof event?.target?.checked === 'boolean' && String(event?.target?.checked))
-      || event
+    let value = (event?.target?.type === 'checkbox' && typeof event?.target?.checked === 'boolean' && String(event?.target?.checked)) || event?.target?.value || event
 
-    value = ["true", "false"].includes(value) ? /^\s*(true|1|on)\s*$/i.test(value) : value
-
+    value = ["true", "false", "on"].includes(value) ? /^\s*(true|on)\s*$/i.test(value) : value
 
     const path = key.split('.')
     const tmp = [...terms]

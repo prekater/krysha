@@ -8,6 +8,7 @@ export * from './exporter/interfaces/exporter.abstract';
 export * from './exporter/interfaces/transport.abstract';
 export * from './exporter/exporters/pdf.exporter';
 export * from './exporter/transport/local-filesystem.transport';
+export * from './exporter/transport/hellosign.transport';
 export * from './exporter/transport/stream.transport';
 export * from './exporter/adapters/address.adapter';
 export * from './exporter/adapters/term.adapter';

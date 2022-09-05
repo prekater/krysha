@@ -32,46 +32,87 @@ declare namespace Cypress {
   }
 }
 
+const periodUnitMap = {
+  days: 0,
+  months: 1,
+  years: 2
+}
+const currencyMap = {
+  RUB: 0,
+  EUR: 1,
+  USD: 2
+}
+const propertyTypeMap = {
+  'ONE_ROOM': 0,
+  'TWO_ROOM': 1,
+  'THREE_ROOM': 2,
+  'FOUR_ROOM': 3,
+  'FIVE_ROOM': 4,
+  'STUDIO': 5
+}
 Cypress.Commands.add('fillOfferTerms', (terms: any) => {
 
+  cy.scrollTo(0, 1500) // Scroll the window 500px down
+
+
   terms.forEach((t, i) => {
-    cy.get('.term-price').last().type(t.price)
-    cy.get('.term-currency').last().select(t.priceUnit)
-    cy.get('.term-period-from').last().type(t.periodFrom)
-    cy.get('.term-period-to').last().type(t.periodTo)
-    cy.get('.term-period-unit').last().select(t.periodUnit)
+    const periodUnitOption = periodUnitMap[t.periodUnit]
+    const priceUnit = currencyMap[t.priceUnit] + 1
+
+    // cy.get('.term-currency').last().select(t.priceUnit)
+    cy.get('input[name="periodFrom"]').last().type(t.periodFrom)
+    cy.get('input[name="periodTo"]').last().type(t.periodTo)
+    cy.get('.period-unit').last().click()
+    cy.get('.period-unit [role="option"]').eq(periodUnitOption).click()
+    cy.get('input[name="price"]').last().type(t.price)
+    cy.get('.price-currency').last().click()
+    cy.get('.price-currency [role="option"]').eq(priceUnit).click()
+
 
     // -- Deposit Block --
     if (t.deposit.isEnabled) {
-      cy.get('.with-deposit').last().click({force: true})
-      cy.get('.term-deposit-value').last().type(t.deposit.value)
+      cy.get('input[name="deposit-checkbox"]').first().click({force: true})
+      cy.get('input[name="deposit-sum"]').type(t.deposit.value)
       if (t.deposit.collectOptions[0].isEnabled) {
-        cy.get('.remove-deposit-price-affect-checkbox input').last().click({force: true})
-        cy.get('.term-deposit-remove-deposit-price-affect').last().clear().type(String(t.deposit.collectOptions[0].priceAffect))
+        cy.get('[name="deposit-options"]').first().click({force: true})
+        cy.get('.priceAffect').last().clear().type(String(t.deposit.collectOptions[0].priceAffect))
       }
       if (t.deposit.collectOptions[1].isEnabled) {
-        cy.get('.partial-deposit-price-affect-checkbox input').last().click({force: true})
-        cy.get('.term-deposit-partial-deposit-price-affect').last().clear().type(String(t.deposit.collectOptions[1].priceAffect))
+        cy.get('[name="deposit-options"]').last().click({force: true})
+        cy.get('.priceAffect').last().clear().type(String(t.deposit.collectOptions[1].priceAffect))
       }
+
     }
+
+    cy.get('[value="RECALCULATE_PRICE"]').click()
 
     // cy.get('.term-deposit-return-period').last().type(t.deposit.returnPeriod)
     // cy.get('.term-deposit-return-period-unit').last().select(t.deposit.returnPeriodUnit)
     // cy.get('.term-deposit-collect-type').last().select(t.deposit.collectType)
-
-    // -- Termination rules Block --
+    //
+    // // -- Termination rules Block --
     t.terminationRules.forEach((r, i) => {
 
-      cy.get('.term-termination-rule-period').last().type(r.period)
-      cy.get('.term-termination-rule-period-unit').last().select(r.periodUnit)
-      cy.get('.term-termination-rule-value').last().type(r.value)
-      cy.get('.term-termination-rule-currency').last().select(r.currency)
+      const periodUnitOption = periodUnitMap[r.periodUnit]
 
-      if (i !== t.terminationRules.length - 1) cy.get('.add-termination-rule-btn').last().click()
+      cy.get('[name="term-termination-rule-period"]').last().type(r.period)
+
+      cy.get('.term-termination-rule-period-unit').last().click()
+      cy.get('.term-termination-rule-period-unit [role="option"]').eq(periodUnitOption).click()
+
+      cy.get('[name="term-termination-rule-value"]').last().type(r.value)
+      cy.get('.term-termination-rule-currency').last().click()
+      cy.get('.term-termination-rule-currency [role="option"]').eq(periodUnitOption).click()
+
+      if (i !== t.terminationRules.length - 1) cy.get('#add-termination-rule-btn').last().click()
     })
-
-    if (i !== terms.length - 1) cy.get('#add-term-btn').click()
+    //
+    if (i !== terms.length - 1) {
+      cy.get('#add-term-btn').click()
+      cy.get('.variant-btn').last().click()
+    }
   })
+
 
 })
 
@@ -87,12 +128,12 @@ Cypress.Commands.add('fillOfferOptions', (options) => {
 })
 Cypress.Commands.add('fillOfferPayment', (payment) => {
 
- payment.paymentStartOptions.forEach(pso => {
+  payment.paymentStartOptions.forEach(pso => {
 
-   if ( pso.isEnabled) {
-     cy.get(`.${pso.type}`).click()
-   }
- })
+    if (pso.isEnabled) {
+      cy.get(`[data-type="${pso.type}"]`).click()
+    }
+  })
   if (payment.paymentTypeOptions[0].isEnabled) {
     cy.get(`.${payment.paymentTypeOptions[0].type}`).click()
     cy.get('.payment-price-affect').type(payment.paymentTypeOptions[0].priceAffect)
@@ -109,7 +150,9 @@ Cypress.Commands.add('fillOfferAddress', (address) => {
 
 })
 Cypress.Commands.add('fillOfferMeta', (meta) => {
-  cy.get('#propertyType').select(meta.propertyType)
+  const option = propertyTypeMap[meta.propertyType]
+  cy.get('.propertyType').last().click()
+  cy.get('.propertyType [role="option"]').eq(option + 1).click()
 })
 
 //
@@ -127,13 +170,15 @@ Cypress.Commands.add('createOffer', () => {
     cy.get('.next-step').click();
     cy.fillOfferAddress(offer.address)
     cy.fillOfferMeta(offer.meta)
+    cy.get('.next-step').click();
+
 
     // -- Submit --
     cy.get('[type="submit"]').click()
 
-    // cy.wait('@Submit').then(i => {
-    //   cy.wrap(i.response.body.resourceId).as('OfferID');
-    // })
+    cy.wait('@Submit').then(i => {
+      cy.wrap(i.response.body.resourceId).as('OfferID');
+    })
 
 
   })
@@ -166,7 +211,7 @@ Cypress.Commands.add('insertOffer', () => {
 })
 Cypress.Commands.add('createContract', () => {
 
-  cy.intercept('POST', 'api/contracts').as('Submit')
+  // cy.intercept('POST', 'api/contracts').as('Submit')
 
   // cy.get('.term').first().click()
   // cy.get('.rental-period-start').type('2022-10-09')
