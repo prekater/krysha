@@ -60,7 +60,7 @@ export const CheckStep = ({terms, options, payments, form}: Props) => {
         />
         <Options options={options}/>
         <Payment data={payments}/>
-        <Address address={address} meta={meta}/>
+        <Address address={address}/>
       </div>
     </article>
   );
