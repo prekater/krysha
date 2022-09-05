@@ -101,7 +101,7 @@ const CalendarBlock = ({
     });
 
   return (
-    <div className={styles.root}>
+    <div className={`calendar-block ${styles.root}`}>
       <header className={styles.header}>
         <button
           className={clsx(styles.navBtn, styles.navBtn__isPrev)}
@@ -132,7 +132,8 @@ const CalendarBlock = ({
               const currentDay = index - (startDay - 2);
               return (
                 <div
-                  className={makeDayClassName(currentDay)}
+                  className={`calendar-day ${makeDayClassName(currentDay)}`}
+                  data-date={new Intl.DateTimeFormat().format(new Date(year, month, currentDay))}
                   key={index}
                   onClick={() => handleChangeDate(currentDay)}
                 >

@@ -7,6 +7,7 @@ import {DurationAndPrice} from "../../common/preview/DurationAndPrice";
 import {TerminationRules} from "../../common/preview/TerminationRules";
 import {Options} from "../../common/preview/Options";
 import {Payment} from "../../common/preview/Payment";
+import Address from "../../common/preview/Address";
 
 type Props = {
   terms: any[];
@@ -18,15 +19,6 @@ type Props = {
 export const CheckStep = ({terms, options, payments, form}: Props) => {
   const variantsLabels = terms.map((_, i) => `${i + 1} вариант`);
 
-  const propertyTypes = {
-    ONE_ROOM: 'Однокомнатная квартира',
-    TWO_ROOM: 'Двухкомнатная квартира',
-    THREE_ROOM: 'Трехкомнатная квартира',
-    FOUR_ROOM: 'Четырехкомнатная квартира',
-    FIVE_ROOM: 'Пятикомнатная квартира',
-    STUDIO: 'Студия',
-  };
-
   const [activeIndex, setActiveIndex] = useState(0);
 
   const term = terms[activeIndex]
@@ -37,13 +29,9 @@ export const CheckStep = ({terms, options, payments, form}: Props) => {
     clsx(styles.item, {[styles.item_active]: index === activeIndex});
 
 
-  const {
-    address: {city, house, street, flat, cadastralNumber},
-    meta: {propertyType: {value: propertyType}}
-  } = form.getState().values
+  const {address, meta} = form.getState().values
 
 
-  const addressText = `г. ${city}, ${street}, дом ${house}, квартира ${flat}`
   return (
     <article className={styles.root}>
       <nav className={styles.variants}>
@@ -72,21 +60,7 @@ export const CheckStep = ({terms, options, payments, form}: Props) => {
         />
         <Options options={options}/>
         <Payment data={payments}/>
-
-        <section className={styles.fieldsGroup_2col}>
-          <h6 className={styles.fieldTitle}>Адрес жилья: </h6>
-          <p className={styles.fieldText}>{addressText}</p>
-        </section>
-        <section className={styles.fieldsGroup_2col}>
-          <h6 className={styles.fieldTitle}>Кадастровый номер: </h6>
-          <p className={styles.fieldText}>{cadastralNumber}</p>
-        </section>
-
-        <section className={styles.fieldsGroup_2col}>
-          <h6 className={styles.fieldTitle}>Тип жилья: </h6>
-          <p className={styles.fieldText}>{propertyTypes[propertyType]}</p>
-        </section>
-
+        <Address address={address} meta={meta}/>
       </div>
     </article>
   );

@@ -2,64 +2,86 @@ import React from 'react';
 import clsx from 'clsx';
 
 import styles from './CheckStep.module.scss';
+import {DurationAndPrice} from "../../common/preview/DurationAndPrice";
+import {TerminationRules} from "../../common/preview/TerminationRules";
+import {Options} from "../../common/preview/Options";
+import {Payment} from "../../common/preview/Payment";
+import Address from "../../common/preview/Address";
+import CadastralNumber from "../../common/preview/CadastralNumber";
 
-const offerMock = [
-  {
-    title: 'Срок',
-    value: 'От 3 до 11 месяцев',
-  },
-  {
-    title: 'Стоимость',
-    value: '50.000 руб. в месяц',
-  },
-  {
-    title: 'Условия раннего расторжения',
-    value: 'Пересчёт арендной ставки',
-  },
-  {
-    title: 'Корректировка при расторжении',
-    value:
-      'Если договор расторгнут по инициативе арендатора ранее, чем через 6 месяцев, стоимость ежемесячной аренды увеличится на 5000 руб.',
-  },
-  {
-    title: 'Включено в стоимость аренды',
-    value: 'Уборка и замена постельного белья',
-  },
-  {
-    title: 'Не включено в стоимость аренды',
-    value: ['Wi-Fi', 'Телевидение'],
-  },
-  {
-    title: 'Ежемесячная оплата',
-    value: 'Первого числа каждого месяца',
-  },
-  {
-    title: 'Возможность разбить платежи',
-    value: 'Нет',
-  },
-  {
-    title: 'Адрес жилья',
-    value: 'Москва, ул. Марксистская, д. 5, кв. 87',
-  },
-  {
-    title: 'Тип жилья',
-    value: 'Трёхкомнатная квартира',
-  },
-];
 
-export const CheckStep = () => {
-  const makeFieldClassName = (index: number) =>
-    clsx(styles.fieldsGroup, { [styles.fieldsGroup_2col]: index > 1 });
+export const CheckStep = ({term, options, payments, address, employer, setEmployer, landlord, setLandlord}) => {
+
 
   return (
     <article className={styles.root}>
       <div className={styles.fieldsBlock}>
-        {offerMock.map((item, index) => (
-          <section className={makeFieldClassName(index)} key={index}>
-            <h6 className={styles.fieldTitle}>{item.title}</h6>
-            <p className={styles.fieldText}>{item.value}</p>
-          </section>
-        ))}
+        <DurationAndPrice
+          periodFrom={term.periodFrom}
+          periodTo={term.periodTo}
+          price={term.price}
+          priceUnit={term.priceUnit}
+          periodUnit={term.periodUnit}
+        />
+        <TerminationRules
+          terminationRules={term.terminationRules.map(({props}) => props)}
+          priceUnit={term.priceUnit}
+          periodUnit={term.periodUnit}
+        />
+        <Options options={options}/>
+        <Payment data={payments}/>
+        <Address address={address}/>
+        <label className={styles.priceLabel}>
+          <input
+            value={employer.email}
+            onChange={(e) => setEmployer(prev => ({
+              ...prev,
+              email: e.target.value
+            }))}
+            className={styles.periodInput}
+            name="employer-email"
+            type="email"
+            placeholder="Email Арендатора"
+          />
+        </label>
+        <label className={styles.priceLabel}>
+          <input
+            value={landlord.email}
+            onChange={(e) => setLandlord(prev => ({
+              ...prev,
+              email: e.target.value
+            }))}
+            className={styles.periodInput}
+            name="landlord-email"
+            type="email"
+            placeholder="Email Арендодателя"
+          />
+        </label>
+        <label className={styles.priceLabel}>
+          <input
+            value={employer.fullname}
+            onChange={(e) => setEmployer(prev => ({
+              ...prev,
+              fullname: e.target.value
+            }))}
+            className={styles.periodInput}
+            name="employer-fullname"
+            placeholder="ФИО Арендатора"
+          />
+        </label>
+        <label className={styles.priceLabel}>
+          <input
+            value={landlord.fullname}
+            onChange={(e) => setLandlord(prev => ({
+              ...prev,
+              fullname: e.target.value
+            }))}
+            className={styles.periodInput}
+            name="landlord-fullname"
+            placeholder="ФИО Арендодателя"
+          />
+        </label>
+
       </div>
     </article>
   );

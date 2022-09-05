@@ -13,6 +13,7 @@ import {OffersModule} from "../../../offers/src/offers.module";
 import {ContractsModule} from "../../../contracts/src/contracts.module";
 import {createOfferPayload1} from "./mocks/create-offer-payload";
 
+jest.setTimeout(30000)
 describe('Application e2e', () => {
   let gateway: INestApplication;
 

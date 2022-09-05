@@ -20,7 +20,7 @@ export const DepositStep = ({deposit, onChange,setDefaultDeposit}) => {
                 type="radio"
                 value={'CONCLUSION'}
                 name={'deposit'}
-                defaultChecked={true}
+                defaultChecked={deposit.collectOptions.every(co => !co.isEnabled )}
                 onChange={setDefaultDeposit}
               />
               Внесение {deposit.value} руб. при заключении договора
@@ -28,10 +28,11 @@ export const DepositStep = ({deposit, onChange,setDefaultDeposit}) => {
             </label>
 
             {deposit.collectOptions.map((o, i) => (
-              <label className={styles.radioLabel}>
+              <label key={i} className={styles.radioLabel}>
                 <input
                   type="radio"
                   value={o.type}
+                  checked={o.isEnabled}
                   name={'deposit'}
                   onChange={e => onChange(i, e)}
                 />

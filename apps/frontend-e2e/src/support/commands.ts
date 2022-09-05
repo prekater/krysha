@@ -211,7 +211,7 @@ Cypress.Commands.add('insertOffer', () => {
 })
 Cypress.Commands.add('createContract', () => {
 
-  cy.intercept('POST', 'api/contracts').as('Submit')
+  // cy.intercept('POST', 'api/contracts').as('Submit')
 
   // cy.get('.term').first().click()
   // cy.get('.rental-period-start').type('2022-10-09')

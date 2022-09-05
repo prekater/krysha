@@ -1,10 +1,8 @@
-import React, {useState} from 'react';
-import clsx from 'clsx';
+import React from 'react';
 
 import styles from './ChooseOfferStep.module.scss';
 import {DurationAndPrice} from "../../common/preview/DurationAndPrice";
 import {TerminationRules} from "../../common/preview/TerminationRules";
-import {Options} from "../../common/preview/Options";
 
 
 export const ChooseTermStep = ({currentTerm, terms, onChange}) => {
@@ -16,7 +14,8 @@ export const ChooseTermStep = ({currentTerm, terms, onChange}) => {
           <label className={styles.radioLabel}>
             <input
               type="radio"
-              onClick={() => onChange(term.ID)}
+              className={'term-picker'}
+              onChange={() => onChange(term.ID)}
               name="term-picker"
               value="true"
               checked={term.ID === currentTerm.ID}

@@ -63,8 +63,8 @@ export const PeriodStep = ({ period, unit, range, onChange }) => {
     <article className={styles.root}>
       <fieldset className={styles.fieldsGroup} id="period-fields">
         <legend className={styles.fieldTitle}>Дата начала аренды:</legend>
-        <div className={makePeriodInputClassName} onClick={handleOpenCalendar}>
-          <span className={styles.periodInputText}>
+        <div className={`date-picker ${makePeriodInputClassName}`} onClick={handleOpenCalendar}>
+          <span className={`start-date ${styles.periodInputText}`}>
             {period.startDate || 'Выберите дату'}
           </span>
           <img
