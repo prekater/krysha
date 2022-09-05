@@ -41,6 +41,7 @@ services:
       MONGO_URL: "mongodb://mongodbuser:NlNTuLEcHZlY@docdb-2022-06-16-18-17-51.cluster-cyl9g3y6spqu.us-east-1.docdb.amazonaws.com:27017/?replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
       PORT: '3002'
       CONTRACTS_MICROSERVICE_HOST: 'contracts'
+      HELLOSIGN_API_KEY: '65e191a57a94fe7870de6a7fc140c81528edad708c262ace44f8914dfe187403'
   frontend:
     image: registry.gitlab.com/alexanderkir1994/contracts-svc/microservice/monorepo:1.0
     networks:
