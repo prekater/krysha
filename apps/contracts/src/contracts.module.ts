@@ -34,7 +34,7 @@ import {ExportContractHandler} from "./handlers/export-contract.handler";
       },
       {
         provide: Infra.Transport,
-        useClass: Infra.StreamTransport
+        useClass: Infra.HelloSignTransport
       }
     ],
     controllers: [
