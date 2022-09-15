@@ -4,7 +4,7 @@ import {
 
 describe('frontend', () => {
   beforeEach(() => {
-    cy.visit('/offers/create')
+    cy.visit('http://localhost:4200')
     cy.viewport(1600, 900)
   });
 

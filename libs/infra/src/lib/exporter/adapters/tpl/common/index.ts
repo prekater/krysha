@@ -11,7 +11,7 @@ export const periodUnit = {
 export const priceUnit = {
 
   ru: {
-    [Domain.PriceUnit.RUB]: 'рублей',
+    [Domain.PriceUnit.RUB]: 'руб.',
     [Domain.PriceUnit.USD]: 'долларов',
     [Domain.PriceUnit.EUR]: 'евро',
   }
@@ -29,7 +29,7 @@ export const depositReturnType = {
   ru: {
     [Domain.DepositReturnType.REFOUND_IN_CASE_OF_1_MONTH_NOTICE]: 'Депозит возвращается при уведомлении за 1 месяц',
     [Domain.DepositReturnType.FULLY_WITHHELD_UPON_CONTRACT_TERMINATION]: 'Депозит удерживается полностью при разрыве контракта',
-    //todo: recalculate logic
+    [Domain.DepositReturnType.NO_WITHHELD]: 'Депозит не удерживается',
     [Domain.DepositReturnType.RECALCULATE_PRICE]: 'Стоимость месяца пересчитывается',
   }
 }

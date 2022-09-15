@@ -199,26 +199,26 @@ const Term = (props: Props) => {
             Пересчет арендной ставки
             <span className={styles.radioCheckMark}/>
           </label>
-          {/*<label className={styles.radioLabel}>*/}
-          {/*  <input*/}
-          {/*    type="radio"*/}
-          {/*    name="return-type"*/}
-          {/*    value="FULLY_WITHHELD_UPON_CONTRACT_TERMINATION"*/}
-          {/*    onChange={onChangeTerm('deposit.returnType')}*/}
-          {/*  />*/}
-          {/*  Залог удерживается в случае досрочного выезда*/}
-          {/*  <span className={styles.radioCheckMark}/>*/}
-          {/*</label>*/}
-          {/*<label className={styles.radioLabel}>*/}
-          {/*  <input*/}
-          {/*    type="radio"*/}
-          {/*    name="return-type"*/}
-          {/*    value="REFOUND_IN_CASE_OF_1_MONTH_NOTICE"*/}
-          {/*    onChange={onChangeTerm('deposit.returnType')}*/}
-          {/*  />*/}
-          {/*  Залог возвращается при предупреждении о выезде за 30 дней*/}
-          {/*  <span className={styles.radioCheckMark}/>*/}
-          {/*</label>*/}
+          <label className={styles.radioLabel}>
+            <input
+              type="radio"
+              name="return-type"
+              value="FULLY_WITHHELD_UPON_CONTRACT_TERMINATION"
+              onChange={onChangeTerm('deposit.returnType')}
+            />
+            Залог удерживается в случае досрочного выезда
+            <span className={styles.radioCheckMark}/>
+          </label>
+          <label className={styles.radioLabel}>
+            <input
+              type="radio"
+              name="return-type"
+              value="NO_WITHHELD"
+              onChange={onChangeTerm('deposit.returnType')}
+            />
+            Не удерживается
+            <span className={styles.radioCheckMark}/>
+          </label>
         </div>
       </fieldset>
 

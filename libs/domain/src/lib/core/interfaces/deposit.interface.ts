@@ -14,6 +14,8 @@ export enum DepositCollectOptionType {
 export enum DepositReturnType {
   // удерживается полностью при разрыве контракта
   FULLY_WITHHELD_UPON_CONTRACT_TERMINATION = 'FULLY_WITHHELD_UPON_CONTRACT_TERMINATION',
+  // не удерживается
+  NO_WITHHELD = 'NO_WITHHELD',
   // депозит будет возвращен в случае предупреждения за 1 мес
   REFOUND_IN_CASE_OF_1_MONTH_NOTICE = 'REFOUND_IN_CASE_OF_1_MONTH_NOTICE',
   // пересчет на стоимость каждого месяца

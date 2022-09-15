@@ -39,7 +39,8 @@ export class PdfExporter extends Exporter {
       // set defaults to your columns
       .setColumnsDefaults({
         headerBorder: 'B',
-        align: 'right'
+        align: 'right',
+        padding: [7, 7, 7, 7]
       })
       .addColumns([
         {
@@ -70,7 +71,7 @@ export class PdfExporter extends Exporter {
 
   }
 
-    private addSignTable(document: typeof PDFKit, landlordFullname: string, employerFullname) {
+  private addSignTable(document: typeof PDFKit, landlordFullname: string, employerFullname: string, esign = true) {
 
     document.font(`${__dirname}/../fonts/arial.ttf`)
     const table = new PDFTable(document, {
@@ -102,7 +103,7 @@ export class PdfExporter extends Exporter {
 
     table.addBody([
       {employer: employerFullname, landlord: landlordFullname},
-      {employer: 'Подпись: [sig|req|signer2]', landlord: 'Подпись: [sig|req|signer1]'}
+      {employer: `Подпись:${esign ? '[sig|req|signer2]' : '__________'}`, landlord: `Подпись:${esign ? '[sig|req|signer1]' : '__________'}`}
     ]);
 
   }
@@ -309,7 +310,7 @@ export class PdfExporter extends Exporter {
 
     this.writeHeader(document, 'Подписи Сторон')
 
-    this.addSignTable(document, contract.users.landlord.fullname, contract.users.employer.fullname)
+    this.addSignTable(document, contract.users.landlord.fullname, contract.users.employer.fullname, false)
 
 
     document.addPage()
@@ -331,7 +332,7 @@ export class PdfExporter extends Exporter {
 
     this.writeHeader(document, 'Подписи Сторон')
 
-    this.addSignTable(document, contract.users.landlord.fullname, contract.users.employer.fullname)
+    this.addSignTable(document, contract.users.landlord.fullname, contract.users.employer.fullname, false)
 
 
     document.addPage()
@@ -358,7 +359,7 @@ export class PdfExporter extends Exporter {
 
     this.writeHeader(document, 'Подписи Сторон')
 
-    this.addSignTable(document, contract.users.landlord.fullname, contract.users.employer.fullname)
+    this.addSignTable(document, contract.users.landlord.fullname, contract.users.employer.fullname, false)
 
 
     document.end()

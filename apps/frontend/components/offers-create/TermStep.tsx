@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import Term from '../common/Term';
 import clsx from "clsx";
@@ -26,6 +26,11 @@ export const TermStep = (props: Props) => {
   } = props;
   const variantsLabels = terms.map((_, i) => `${i + 1} вариант`);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    setActiveIndex(terms.length - 1)
+  }, [terms.length])
+
   const termVariantClassName = (index: number) =>
     clsx(styles.termVariant, {
       [styles.termVariant_active]: index === activeIndex,
@@ -50,14 +55,14 @@ export const TermStep = (props: Props) => {
         </aside>
       </article>
 
-      <Term
+      {terms[activeIndex] && (<Term
         term={terms[activeIndex]}
         onChange={onChangeTerm(activeIndex)}
         onAddTerminationRule={onAddTerminationRule(activeIndex)}
         onDeleteTerminationRule={onDeleteTerminationRule(activeIndex)}
         onDelete={onDeleteTerm(activeIndex)}
         key={terms[activeIndex].id}
-      />
+      />)}
       <article className={styles.root}>
         <AddButton
           id={'add-term-btn'}
