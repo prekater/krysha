@@ -14,7 +14,18 @@
   }
 
   @include mixins.mobile {
-    padding: 0 60px;
+    padding: 0 12.5%;
+  }
+}
+
+.variantsTags {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  @include mixins.notDesktop {
+    margin-bottom: 40px;
   }
 }
 
@@ -26,12 +37,12 @@
   margin-bottom: 30px;
 
   @include mixins.tablet {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     grid-template-columns: repeat(3, auto);
   }
 
   @include mixins.mobile {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     grid-template-columns: repeat(2, auto);
   }
 }
@@ -88,34 +99,40 @@
   }
 
   @include mixins.mobile {
-    grid-template-columns: 170px 170px;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
 .periodInput {
   @include mixins.input;
+  width: 100%;
 }
 
 .periodDropdown {
   width: 182px;
 
-  @include mixins.notDesktop {
+  @include mixins.tablet {
     width: 170px;
+  }
+
+  @include mixins.mobile {
+    width: 100%;
   }
 }
 
 .priceFields {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-}
+  display: grid;
+  grid-gap: 32px 18px ;
+  grid-template-columns: 240px 182px;
+  grid-template-rows: auto;
 
-.priceChoice {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 32px;
+  @include mixins.tablet {
+    grid-template-columns: 240px auto;
+  }
+
+  @include mixins.mobile {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .priceLabel {
@@ -126,18 +143,7 @@
 
 .priceInput {
   @include mixins.input;
-  width: 140px;
-  margin-right: 18px;
-
-  @include mixins.notDesktop {
-    width: 170px;
-  }
-}
-
-.depositRadioBtns {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  width: 100%;
 }
 
 .radioCheckMark {

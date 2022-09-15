@@ -7,6 +7,10 @@
   @include mixins.notDesktop {
     padding: 20px 18px 0 60px;
   }
+
+  @include mixins.mobile {
+    padding: 0 12.5%;
+  }
 }
 
 .fieldsGroup {
@@ -21,6 +25,7 @@
       margin-bottom: 0;
     }
   }
+
 }
 
 .fieldTitle {
@@ -34,6 +39,10 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 16px;
+
+  @include mixins.notDesktop {
+    width: 100%;
+  }
 }
 
 .input {
@@ -42,7 +51,7 @@
   margin-right: 16px;
 
   @include mixins.notDesktop {
-    width: 360px;
+    width: 100%;
     margin-right: 10px;
   }
 }

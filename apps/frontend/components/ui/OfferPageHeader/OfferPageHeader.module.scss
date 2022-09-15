@@ -71,6 +71,10 @@
   &_lastStep {
     text-align: right;
   }
+
+  @include mixins.notDesktop {
+    text-align: left;
+  }
 }
 
 .pageText {

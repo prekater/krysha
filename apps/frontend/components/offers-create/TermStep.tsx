@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 import Term from '../common/Term';
-import clsx from "clsx";
-import styles from "../common/Term.module.scss";
-import {DeleteButton} from "../ui/DeleteButton";
-import {AddButton} from "../ui/AddButton";
+import clsx from 'clsx';
+import styles from '../common/Term.module.scss';
+import { DeleteButton } from '../ui/DeleteButton';
+import { AddButton } from '../ui/AddButton';
 
 type Props = {
   terms: any;
@@ -35,19 +35,32 @@ export const TermStep = (props: Props) => {
   return (
     <>
       <article className={styles.root}>
-        <aside className={styles.termOptions}>
-          {variantsLabels.map((item, index) => (
-            <div
-              className={`variant-btn ${termVariantClassName(index)}`}
-              key={index}
-              onClick={handleClickVariantBtn(index)}
-            >
-              {item}
-            </div>
-          ))}
-          {/*@TODO добавить ховер*/}
-          {terms.length > 1 && <DeleteButton handleClick={onDeleteTerm(activeIndex)} text="Удалить"/>}
-        </aside>
+        <div className={styles.variantsTags}>
+          <aside className={styles.termOptions}>
+            {variantsLabels.map((item, index) => (
+              <div
+                className={`variant-btn ${termVariantClassName(index)}`}
+                key={index}
+                onClick={handleClickVariantBtn(index)}
+              >
+                {item}
+              </div>
+            ))}
+            {/*@TODO добавить ховер*/}
+            {terms.length > 1 && (
+              <DeleteButton
+                handleClick={onDeleteTerm(activeIndex)}
+                text="Удалить"
+              />
+            )}
+          </aside>
+          <AddButton
+            id={'add-term-btn'}
+            handleClick={() => onAddTerm()}
+            text="Добавить вариант условий"
+            customTextStyle={styles.addTermButton}
+          />
+        </div>
       </article>
 
       <Term
@@ -58,14 +71,14 @@ export const TermStep = (props: Props) => {
         onDelete={onDeleteTerm(activeIndex)}
         key={terms[activeIndex].id}
       />
-      <article className={styles.root}>
-        <AddButton
-          id={'add-term-btn'}
-          handleClick={() => onAddTerm()}
-          text="Добавить вариант аренды"
-          customTextStyle={styles.addTermButton}
-        />
-      </article>
+      {/*<article className={styles.root}>*/}
+      {/*  <AddButton*/}
+      {/*    id={'add-term-btn'}*/}
+      {/*    handleClick={() => onAddTerm()}*/}
+      {/*    text="Добавить вариант аренды"*/}
+      {/*    customTextStyle={styles.addTermButton}*/}
+      {/*  />*/}
+      {/*</article>*/}
     </>
   );
 };

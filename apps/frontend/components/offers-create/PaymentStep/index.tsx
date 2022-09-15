@@ -26,6 +26,7 @@ export const PaymentStep = ({
     styles.checkboxMark,
     styles.checkboxMark__long
   );
+
   const longTextLabelClassName = clsx(
     styles.checkboxLabel,
     styles.checkboxLabel__long
@@ -72,7 +73,7 @@ export const PaymentStep = ({
             className={`payment-price-affect ${styles.sumOptionsInput}`}
             placeholder="2000"
           />
-          руб. дополнительно к сумме регулярного платежа
+          руб. в месяц дополнительно
         </label>
       </fieldset>
     </article>

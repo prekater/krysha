@@ -68,3 +68,7 @@
   color: variables.$gray;
   margin-right: 5px;
 }
+
+.terminationRule:not(:last-of-type) {
+  margin-bottom: 12px;
+}

@@ -28,7 +28,6 @@ export const AddButton = ({
       <div className={styles.root_icon}>
         <img src="/images/plus.svg" alt="add rule" />
       </div>
-      {/*<img src="/images/add-button.svg" alt="add rule" className={styles.root_icon}/>*/}
       {text}
     </button>
   );

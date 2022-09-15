@@ -20,7 +20,7 @@ import { ArrowBackIcon } from '../../../public/images/svgIcons/ArrowBackIcon';
 
 import { createStepDescriptions, createStepTitles } from '../constants';
 
-import styles from './OfferStepLayout.module.scss';
+import styles from './OfferCreateStepLayout.module.scss';
 
 const validate = (values) => {
   const errors: any = {};
@@ -147,13 +147,14 @@ export const OfferCreateStepLayout = () => {
               />
             )}
             {step === 4 && <AddressStep form={form} />}
-            {step === 5 && <CheckStep
-              terms={terms}
-              options={options}
-              payments={payments}
-              form={form}
-
-            />}
+            {step === 5 && (
+              <CheckStep
+                terms={terms}
+                options={options}
+                payments={payments}
+                form={form}
+              />
+            )}
             {step < 5 ? (
               <button
                 type="button"
@@ -170,7 +171,7 @@ export const OfferCreateStepLayout = () => {
                 onClick={() => console.log('the form  was submit')}
                 className={styles.nextButton}
               >
-                Отправить
+                Страница арендатора
               </button>
             )}
 

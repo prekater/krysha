@@ -1,13 +1,5 @@
 @use "variables";
 
-@mixin qwe {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid red;
-}
-
 @mixin desktop {
   @media (min-width: variables.$xl) {
     @content;
@@ -130,11 +122,12 @@
 
 @mixin checkboxMark {
   position: absolute;
-  top: -2px;
+  top: 50%;
   left: 0;
   height: 29px;
   width: 29px;
   border: 1px solid variables.$inputBorderColor;
+  transform: translateY(-50%);
 
   &:after {
     content: " ";

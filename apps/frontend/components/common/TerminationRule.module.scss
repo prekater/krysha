@@ -15,25 +15,25 @@
 }
 
 .periodsInputsGroup {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  display: grid;
+  grid-gap: 32px 18px ;
+  grid-template-columns: 240px 140px;
+  grid-template-rows: auto;
+
+  @include mixins.tablet {
+    grid-template-columns: 240px auto;
+  }
+
+  @include mixins.mobile {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .periodInput {
   @include mixins.input;
-  margin-right: 18px;
-  width: 340px;
-
-  @include mixins.notDesktop {
-    width: 174px;
-  }
+  width: 100%;
 }
 
 .periodDropdown {
-  width: 140px;
-
-  @include mixins.notDesktop {
-    width: 170px;
-  }
+  width: 100%;
 }

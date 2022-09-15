@@ -11,6 +11,7 @@ import {
 } from '../../ui/constants';
 import { DropdownSelect } from '../../ui/DropdownSelect';
 import styles from './AddressStep.module.scss';
+import clsx from 'clsx';
 
 type Props = {
   form: any;
@@ -22,6 +23,11 @@ export const AddressStep = (props: Props) => {
   const [city, house, street, flat, cadastralNumber] = useAddress(form);
 
   const propertyType = useField('meta.propertyType', form);
+
+  const cadastralFieldClassName = clsx(
+    styles.fieldsGroup,
+    styles.fieldsGroup__cadastral
+  );
 
   return (
     <article className={styles.root}>
@@ -79,7 +85,7 @@ export const AddressStep = (props: Props) => {
             placeholder="Введите номер квартиры"
           />
         </fieldset>
-        <fieldset className={styles.fieldsGroup}>
+        <fieldset className={cadastralFieldClassName}>
           <legend className={styles.fieldTitle}>Кадастровый номер</legend>
           <input
             id={'cadastralNumber'}
@@ -99,7 +105,7 @@ export const AddressStep = (props: Props) => {
           options={propertyTypeOptions}
           defaultValue={propertyType.input.value}
           handleChange={(e) => {
-            propertyType.input.onChange(e)
+            propertyType.input.onChange(e);
           }}
           customStyle={styles.citySelect}
         />
