@@ -76,12 +76,12 @@ export const OfferCreateStepLayout = () => {
       payment: payments,
     };
     const { data } = await axios.post(
-      `http://ec2-44-200-125-244.compute-1.amazonaws.com:3333/api/offers`,
+      `http://ec2-3-94-232-213.compute-1.amazonaws.com:3333/api/offers`,
       payload
     );
 
     router.push(
-      `http://ec2-44-200-125-244.compute-1.amazonaws.com:3000/offers/${data.resourceId}`
+      `http://ec2-3-94-232-213.compute-1.amazonaws.com:3000/offers/${data.resourceId}`
     );
   };
 

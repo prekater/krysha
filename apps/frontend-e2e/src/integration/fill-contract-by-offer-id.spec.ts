@@ -3,7 +3,7 @@ describe('Fill contract', () => {
   // перед каждым выполнить
   beforeEach(() => {
     cy.viewport(1600, 900)
-    cy.visit('http://ec2-44-200-125-244.compute-1.amazonaws.com:3000/offers/29d35a53-9827-466d-97b4-f302bccdc47d')
+    cy.visit('http://ec2-3-94-232-213.compute-1.amazonaws.com:3000/offers/29d35a53-9827-466d-97b4-f302bccdc47d')
   });
 
   it('should correctly fill data', () => {

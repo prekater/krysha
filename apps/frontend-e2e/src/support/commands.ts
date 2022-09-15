@@ -163,14 +163,14 @@ Cypress.Commands.add('createOffer', () => {
   cy.fixture('offer.json').then((offer) => {
 
     cy.fillOfferTerms(offer.terms)
-    // cy.get('.next-step').click();
-    // cy.fillOfferOptions(offer.options)
-    // cy.get('.next-step').click();
-    // cy.fillOfferPayment(offer.payment)
-    // cy.get('.next-step').click();
-    // cy.fillOfferAddress(offer.address)
-    // cy.fillOfferMeta(offer.meta)
-    // cy.get('.next-step').click();
+    cy.get('.next-step').click();
+    cy.fillOfferOptions(offer.options)
+    cy.get('.next-step').click();
+    cy.fillOfferPayment(offer.payment)
+    cy.get('.next-step').click();
+    cy.fillOfferAddress(offer.address)
+    cy.fillOfferMeta(offer.meta)
+    cy.get('.next-step').click();
 
 
     // -- Submit --
