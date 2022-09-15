@@ -8,7 +8,7 @@ variables:
   # IPv4 Public IP
   DEPLOYMENT_SERVER_HOST: "44.200.125.244"
   # Public DNS
-  APP_ENDPOINT: "ec2-44-200-125-244.compute-1.amazonaws.com"
+  APP_ENDPOINT: "ec2-3-94-232-213.compute-1.amazonaws.com"
 
 image: alpine:3.15.1
 stages:
