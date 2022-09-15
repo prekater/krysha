@@ -81,7 +81,7 @@ export const OfferCreateStepLayout = () => {
     );
 
     router.push(
-      `http://ec2-3-94-232-213.compute-1.amazonaws.com:3000/offers/${data.resourceId}`
+      `/offers/${data.resourceId}`
     );
   };
 
