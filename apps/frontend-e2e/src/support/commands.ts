@@ -65,8 +65,8 @@ Cypress.Commands.add('fillOfferTerms', (terms: any) => {
     cy.get('.period-unit').last().click()
     cy.get('.period-unit [role="option"]').eq(periodUnitOption).click()
     cy.get('input[name="price"]').last().type(t.price)
-    cy.get('.price-currency').last().click()
-    cy.get('.price-currency [role="option"]').eq(priceUnit).click()
+    // cy.get('.price-currency').last().click()
+    // cy.get('.price-currency [role="option"]').eq(priceUnit).click()
 
 
     // -- Deposit Block --
@@ -97,12 +97,7 @@ Cypress.Commands.add('fillOfferTerms', (terms: any) => {
 
       cy.get('[name="term-termination-rule-period"]').last().type(r.period)
 
-      cy.get('.term-termination-rule-period-unit').last().click()
-      cy.get('.term-termination-rule-period-unit [role="option"]').eq(periodUnitOption).click()
-
       cy.get('[name="term-termination-rule-value"]').last().type(r.value)
-      cy.get('.term-termination-rule-currency').last().click()
-      cy.get('.term-termination-rule-currency [role="option"]').eq(periodUnitOption).click()
 
       if (i !== t.terminationRules.length - 1) cy.get('#add-termination-rule-btn').last().click()
     })

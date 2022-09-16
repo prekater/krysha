@@ -57,15 +57,11 @@ export const createOfferPayload1 = {
       "ID": "4578b396-cd7a-4e2c-8c1e-ac83eb1d030d",
       "terminationRules": [
         {
-          "currency": "RUB",
           "period": "3",
-          "periodUnit": "months",
           "value": "145000"
         },
         {
-          "currency": "RUB",
           "period": "6",
-          "periodUnit": "months",
           "value": "150000"
         }
       ]
@@ -98,21 +94,15 @@ export const createOfferPayload1 = {
       "ID": "0aef4f7b-eb11-418c-8224-bb78b448f4df",
       "terminationRules": [
         {
-          "currency": "RUB",
           "period": "3",
-          "periodUnit": "months",
           "value": "160000"
         },
         {
-          "currency": "RUB",
           "period": "6",
-          "periodUnit": "months",
           "value": "140000"
         },
         {
-          "currency": "RUB",
           "period": "9",
-          "periodUnit": "months",
           "value": "120000"
         }
       ]
@@ -145,9 +135,7 @@ export const createOfferPayload1 = {
       "ID": "e46775d9-58f2-4ca1-9ab9-65e6754939c0",
       "terminationRules": [
         {
-          "currency": "RUB",
           "period": "6",
-          "periodUnit": "months",
           "value": "110000"
         }
       ]

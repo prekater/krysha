@@ -7,7 +7,7 @@ export abstract class AbstractContentAdapter {
   protected translates = commonTranslates;
 
   constructor(
-    protected readonly resource:  any,
+    protected readonly resource: any,
     protected readonly language: Language
   ) {
   }
@@ -22,9 +22,9 @@ export abstract class AbstractContentAdapter {
     return this.translates.priceUnit[this.language][unit]
   }
 
-  protected getTranslatedPeriodUnit(unit: Domain.PeriodUnit): string {
+  protected getTranslatedPeriodUnit(unit: Domain.PeriodUnit, single = false): string {
 
-    return this.translates.periodUnit[this.language][unit]
+    return single ? this.translates.periodUnitSingle[this.language][unit] : this.translates.periodUnit[this.language][unit]
   }
 
   protected getTranslatedDepositCollectType(type: Domain.DepositCollectOptionType): string {

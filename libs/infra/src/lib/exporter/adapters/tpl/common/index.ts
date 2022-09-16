@@ -8,6 +8,14 @@ export const periodUnit = {
     [Domain.PeriodUnit.YEAR]: 'лет',
   }
 }
+export const periodUnitSingle = {
+
+  ru: {
+    [Domain.PeriodUnit.DAY]: 'день',
+    [Domain.PeriodUnit.MONTH]: 'месяц',
+    [Domain.PeriodUnit.YEAR]: 'год',
+  }
+}
 export const priceUnit = {
 
   ru: {

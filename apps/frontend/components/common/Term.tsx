@@ -3,8 +3,7 @@ import dynamic from 'next/dynamic';
 import {TerminationRule} from './TerminationRule';
 import {AddButton} from '../ui/AddButton';
 import {DropdownSelect} from '../ui/DropdownSelect';
-
-import {currencyOptions, defaultCurrencyOption, defaultPeriodOption, periodOptions,} from '../ui/constants';
+import {currencyOptions,periodOptions,} from '../ui/constants';
 import styles from './Term.module.scss';
 import {MappingType, PluralType, useMapping} from "../../hooks/mapping.hook";
 
@@ -24,6 +23,7 @@ const Term = (props: Props) => {
     onDeleteTerminationRule,
   } = props;
   const periodText = useMapping(MappingType.PERIOD, term.periodUnit)
+  const currencyText = useMapping(MappingType.CURRENCY, term.priceUnit)
 
   return (
     <article className={styles.root}>
@@ -49,7 +49,7 @@ const Term = (props: Props) => {
           <DropdownSelect
             name={'period-unit'}
             options={periodOptions}
-            defaultValue={term.periodUnit.value}
+            defaultValue={term.periodUnit}
             handleChange={onChangeTerm('periodUnit')}
             customStyle={styles.periodDropdown}
           />
@@ -70,12 +70,15 @@ const Term = (props: Props) => {
                 placeholder="50000"
               />
             </label>
-            <DropdownSelect
-              name={'price-currency'}
-              options={currencyOptions}
-              defaultValue={term.priceUnit.value}
-              handleChange={onChangeTerm('priceUnit')}
-            />
+            {/*<DropdownSelect*/}
+            {/*  disabled={true}*/}
+            {/*  name={'price-currency'}*/}
+            {/*  options={currencyOptions}*/}
+            {/*  defaultValue={term.priceUnit}*/}
+            {/*  handleChange={onChangeTerm('priceUnit')}*/}
+            {/*/>*/}
+            {currencyText}
+
           </section>
 
           <div className={styles.depositRadioBtns}>
@@ -119,6 +122,7 @@ const Term = (props: Props) => {
                   type="number"
                   placeholder="50000"
                 />
+                {currencyText}
               </label>
             </section>
           </fieldset>
@@ -205,6 +209,7 @@ const Term = (props: Props) => {
               name="return-type"
               value="FULLY_WITHHELD_UPON_CONTRACT_TERMINATION"
               onChange={onChangeTerm('deposit.returnType')}
+              checked={term.deposit.returnType === 'FULLY_WITHHELD_UPON_CONTRACT_TERMINATION'}
             />
             Залог удерживается в случае досрочного выезда
             <span className={styles.radioCheckMark}/>
@@ -215,6 +220,7 @@ const Term = (props: Props) => {
               name="return-type"
               value="NO_WITHHELD"
               onChange={onChangeTerm('deposit.returnType')}
+              checked={term.deposit.returnType === 'NO_WITHHELD'}
             />
             Не удерживается
             <span className={styles.radioCheckMark}/>
@@ -229,6 +235,8 @@ const Term = (props: Props) => {
           </legend>
           {term.terminationRules.map((rule, ruleIndex, id) => (
             <TerminationRule
+              currency={currencyText}
+              periodUnit={periodText[PluralType.PLURAL]}
               rule={rule}
               onChangeTerm={onChangeTerm}
               ruleIndex={ruleIndex}

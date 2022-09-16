@@ -117,9 +117,7 @@ export const makeTerminationRule = (defaults: Partial<Domain.TerminationRule> = 
 
   return Domain.TerminationRule.create({
     period: 3,
-    periodUnit: Domain.PeriodUnit.MONTH,
     value: 45000,
-    currency: Domain.PriceUnit.RUB,
     ...defaults
   })
 }

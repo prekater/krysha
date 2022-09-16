@@ -42,13 +42,11 @@ export const useTerms = () => {
     periodTo: '',
     periodUnit: 'days',
     price: '',
-    priceUnit: '',
+    priceUnit: 'RUB',
     ID: uuid(),
     terminationRules: [
       {
-        currency: 'RUB',
         period: '',
-        periodUnit: 'months',
         value: ''
       }
     ]
@@ -60,9 +58,7 @@ export const useTerms = () => {
     const newTerms = [...terms];
 
     newTerms[termIndex].terminationRules.push({
-      currency: 'RUB',
       period: '',
-      periodUnit: 'months',
       value: ''
     } as any)
 
@@ -109,13 +105,11 @@ export const useTerms = () => {
       periodTo: '',
       periodUnit: 'days',
       price: '',
-      priceUnit: '',
+      priceUnit: 'RUB',
       ID: uuid(),
       terminationRules: [
         {
-          currency: 'RUB',
           period: '',
-          periodUnit: 'months',
           value: ''
         }
       ]
