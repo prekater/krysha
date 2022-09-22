@@ -14,12 +14,15 @@ import styles from './TerminationRule.module.scss';
 type Props = {
   rule: any;
   ruleIndex: number;
+  currency: string;
+  periodUnit: string;
   onChangeTerm: (field: string) => any;
   onDelete: () => any;
 };
 
 export const TerminationRule = (props: Props) => {
-  const { rule, onChangeTerm, ruleIndex, onDelete } = props;
+  const { rule, currency, periodUnit, onChangeTerm, ruleIndex, onDelete } = props;
+
 
   return (
     <section className={styles.root}>
@@ -38,13 +41,15 @@ export const TerminationRule = (props: Props) => {
             placeholder="6"
           />
         </label>
-        <DropdownSelect
-          name={'term-termination-rule-period-unit'}
-          options={periodOptions}
-          defaultValue={rule.periodUnit}
-          handleChange={onChangeTerm(`terminationRules.${ruleIndex}.periodUnit`)}
-          customStyle={styles.periodDropdown}
-        />
+        {periodUnit}
+        {/*<DropdownSelect*/}
+        {/*  disabled={true}*/}
+        {/*  name={'term-termination-rule-period-unit'}*/}
+        {/*  options={periodOptions}*/}
+        {/*  defaultValue={periodUnit}*/}
+        {/*  handleChange={onChangeTerm(`terminationRules.${ruleIndex}.periodUnit`)}*/}
+        {/*  customStyle={styles.periodDropdown}*/}
+        {/*/>*/}
       </div>
 
       <span className={styles.ruleText}>
@@ -62,12 +67,14 @@ export const TerminationRule = (props: Props) => {
             placeholder="50000"
           />
         </label>
-        <DropdownSelect
-          name={'term-termination-rule-currency'}
-          options={currencyOptions}
-          defaultValue={rule.currency}
-          handleChange={onChangeTerm(`terminationRules.${ruleIndex}.currency`)}
-        />
+        {currency}
+        {/*<DropdownSelect*/}
+        {/*  disabled={true}*/}
+        {/*  name={'term-termination-rule-currency'}*/}
+        {/*  options={currencyOptions}*/}
+        {/*  defaultValue={currency}*/}
+        {/*  handleChange={onChangeTerm(`terminationRules.${ruleIndex}.currency`)}*/}
+        {/*/>*/}
       </div>
       <DeleteButton handleClick={onDelete} text="Удалить" />
     </section>

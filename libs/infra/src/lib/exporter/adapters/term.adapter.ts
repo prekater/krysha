@@ -122,10 +122,10 @@ export class TermAdapter extends AbstractContentAdapter {
       util.format(
         tpl,
         r.value,
-        this.getTranslatedPriceUnit(r.currency),
-        this.getTranslatedPeriodUnit(r.periodUnit),
+        this.getTranslatedPriceUnit(this.resource.priceUnit),
+        this.getTranslatedPeriodUnit(this.resource.periodUnit, true),
         r.period,
-        this.getTranslatedPeriodUnit(r.periodUnit),
+        this.getTranslatedPeriodUnit(this.resource.periodUnit),
       )
     )
       .join('; ')

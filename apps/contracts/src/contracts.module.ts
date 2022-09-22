@@ -27,7 +27,6 @@ import {ExportContractHandler} from "./handlers/export-contract.handler";
       CreateContractHandler,
       ExportContractQuery,
       ExportContractHandler,
-
       {
         provide: Infra.Exporter,
         useClass: Infra.PdfExporter

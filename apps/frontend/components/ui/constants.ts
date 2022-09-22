@@ -39,10 +39,9 @@ export const periodOptions = [
 export const defaultPeriodOption = periodOptions[0].value;
 
 export const currencyOptions = [
-  { value: '', label: 'Выберите валюту' },
-  { value: 'RUB', label: 'Рубль' },
+  { value: 'RUB', label: 'Руб.' },
   { value: 'EUR', label: 'Евро' },
-  { value: 'USD', label: 'Доллар' },
+  { value: 'USD', label: '$' },
 ];
 
 export const defaultCurrencyOption = currencyOptions[0].value;

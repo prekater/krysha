@@ -1,25 +1,15 @@
 import {IValueObject} from "../value-object";
 import {UncompletedTerminationRulesException} from "../../contract/exceptions/uncompleted-termination-rules.exception";
 import {TerminationRuleProps} from "../interfaces/termination-rule.interface";
-import {PeriodUnit, PriceUnit} from "../interfaces/term.interface";
 
 export class TerminationRule implements IValueObject {
-
 
   get value() {
     return this.props.value
   }
 
-  get periodUnit() {
-    return this.props.periodUnit
-  }
-
   get period() {
     return this.props.period
-  }
-
-  get currency() {
-    return this.props.currency
   }
 
   constructor(private readonly props: TerminationRuleProps) {
@@ -31,9 +21,7 @@ export class TerminationRule implements IValueObject {
       typeof props.value !== 'number' ||
       typeof props.period !== 'number' ||
       props.value < 1 ||
-      props.period < 1 ||
-      !(Object.values(PeriodUnit).includes(props.periodUnit)) ||
-      !(Object.values(PriceUnit).includes(props.currency))
+      props.period < 1
     )
       throw new UncompletedTerminationRulesException()
 

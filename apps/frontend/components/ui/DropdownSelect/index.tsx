@@ -17,6 +17,7 @@ interface IProps {
   handleChange: (e?: any) => void;
   customStyle?: string;
   name: string;
+  disabled?: boolean
 }
 
 export const DropdownSelect = ({
@@ -24,7 +25,8 @@ export const DropdownSelect = ({
   defaultValue,
   handleChange,
   customStyle,
-  name
+  name,
+  disabled = false
 }: IProps) => {
   const dropdownWrapperClassName = clsx(styles.root, customStyle);
 
@@ -32,6 +34,7 @@ export const DropdownSelect = ({
     <div className={dropdownWrapperClassName}>
       <Dropdown
         className={name}
+        disabled={disabled}
         options={options}
         onChange={e => handleChange(e.value)}
         value={defaultValue}

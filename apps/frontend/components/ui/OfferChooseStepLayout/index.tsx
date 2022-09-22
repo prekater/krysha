@@ -141,16 +141,16 @@ export const OfferChooseStepLayout = ({offer}: Props) => {
       paymentTypeOption: payment.paymentTypeOptions.find(pto => pto.isEnabled)?.type,
     }
 
-    const {data: {resourceId}} = await axios.post(`http://ec2-44-200-125-244.compute-1.amazonaws.com:3333/api/contracts`, payload)
+    const {data: {resourceId}} = await axios.post(`http://ec2-3-94-232-213.compute-1.amazonaws.com:3333/api/contracts`, payload)
 
     await axios.post(
-      `http://ec2-44-200-125-244.compute-1.amazonaws.com:3333/api/contracts/${resourceId}/export`, {
+      `http://ec2-3-94-232-213.compute-1.amazonaws.com:3333/api/contracts/${resourceId}/export`, {
         landlord,
         employer
       }
     )
 
-    router.push(`http://ec2-44-200-125-244.compute-1.amazonaws.com:3000/`)
+    router.push(`http://ec2-3-94-232-213.compute-1.amazonaws.com:3000/`)
   }
 
   const desktopBtnClassName = clsx(styles.backBtn, [styles.backBtn__web]);

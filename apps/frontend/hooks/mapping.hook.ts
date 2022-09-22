@@ -14,7 +14,7 @@ export function useMapping(mappingType: MappingType, value) {
 
     [MappingType.CURRENCY]: {
       USD: '$',
-      RUB: '₽',
+      RUB: 'руб. ',
       EUR: '€',
     },
     [MappingType.PERIOD]: {

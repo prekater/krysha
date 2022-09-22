@@ -42,7 +42,7 @@ describe(PdfExporter, () => {
     expect(exporter).toBeDefined()
   });
 
-  it('should correctly export data to file', async function () {
+  it.skip('should correctly export data to file', async function () {
 
     expect.assertions(1)
 

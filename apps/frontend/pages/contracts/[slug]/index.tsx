@@ -9,7 +9,7 @@ function Index(props) {
   const router = useRouter()
 
   router.query.slug && axios.get(
-   `http://ec2-44-200-125-244.compute-1.amazonaws.com:3333/api/contracts/${router.query.slug}/export`,
+   `http://ec2-3-94-232-213.compute-1.amazonaws.com:3333/api/contracts/${router.query.slug}/export`,
     {responseType: 'blob'} // !!!
   ).then((response) => {
     window.open(URL.createObjectURL(response.data));
