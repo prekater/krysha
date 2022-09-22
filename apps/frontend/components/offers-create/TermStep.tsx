@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Term from '../common/Term';
 import clsx from 'clsx';
@@ -28,8 +28,8 @@ export const TermStep = (props: Props) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    setActiveIndex(terms.length - 1)
-  }, [terms.length])
+    setActiveIndex(terms.length - 1);
+  }, [terms.length]);
 
   const termVariantClassName = (index: number) =>
     clsx(styles.termVariant, {
@@ -68,14 +68,16 @@ export const TermStep = (props: Props) => {
         </div>
       </article>
 
-      {terms[activeIndex] && (<Term
-        term={terms[activeIndex]}
-        onChange={onChangeTerm(activeIndex)}
-        onAddTerminationRule={onAddTerminationRule(activeIndex)}
-        onDeleteTerminationRule={onDeleteTerminationRule(activeIndex)}
-        onDelete={onDeleteTerm(activeIndex)}
-        key={terms[activeIndex].id}
-      />)}
+      {terms[activeIndex] && (
+        <Term
+          term={terms[activeIndex]}
+          onChange={onChangeTerm(activeIndex)}
+          onAddTerminationRule={onAddTerminationRule(activeIndex)}
+          onDeleteTerminationRule={onDeleteTerminationRule(activeIndex)}
+          onDelete={onDeleteTerm(activeIndex)}
+          key={terms[activeIndex].id}
+        />
+      )}
     </>
   );
 };

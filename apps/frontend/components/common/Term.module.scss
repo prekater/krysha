@@ -122,7 +122,7 @@
 
 .priceFields {
   display: grid;
-  grid-gap: 32px 18px ;
+  grid-gap: 32px 18px;
   grid-template-columns: 240px 182px;
   grid-template-rows: auto;
 
@@ -144,6 +144,15 @@
 .priceInput {
   @include mixins.input;
   width: 100%;
+}
+
+.currencyText {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font: variables.$text;
+  color: variables.$gray;
+
 }
 
 .radioCheckMark {

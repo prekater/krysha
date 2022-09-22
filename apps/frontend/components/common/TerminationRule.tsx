@@ -21,8 +21,8 @@ type Props = {
 };
 
 export const TerminationRule = (props: Props) => {
-  const { rule, currency, periodUnit, onChangeTerm, ruleIndex, onDelete } = props;
-
+  const { rule, currency, periodUnit, onChangeTerm, ruleIndex, onDelete } =
+    props;
 
   return (
     <section className={styles.root}>
@@ -41,7 +41,7 @@ export const TerminationRule = (props: Props) => {
             placeholder="6"
           />
         </label>
-        {periodUnit}
+        <span className={styles.periodUnitText}>{periodUnit}</span>
         {/*<DropdownSelect*/}
         {/*  disabled={true}*/}
         {/*  name={'term-termination-rule-period-unit'}*/}
@@ -67,7 +67,7 @@ export const TerminationRule = (props: Props) => {
             placeholder="50000"
           />
         </label>
-        {currency}
+        <span className={styles.periodUnitText}>{currency}</span>
         {/*<DropdownSelect*/}
         {/*  disabled={true}*/}
         {/*  name={'term-termination-rule-currency'}*/}

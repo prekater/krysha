@@ -1,11 +1,11 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
-import {TerminationRule} from './TerminationRule';
-import {AddButton} from '../ui/AddButton';
-import {DropdownSelect} from '../ui/DropdownSelect';
-import {currencyOptions,periodOptions,} from '../ui/constants';
+import { TerminationRule } from './TerminationRule';
+import { AddButton } from '../ui/AddButton';
+import { DropdownSelect } from '../ui/DropdownSelect';
+import { currencyOptions, periodOptions } from '../ui/constants';
 import styles from './Term.module.scss';
-import {MappingType, PluralType, useMapping} from "../../hooks/mapping.hook";
+import { MappingType, PluralType, useMapping } from '../../hooks/mapping.hook';
 
 type Props = {
   term: any;
@@ -22,8 +22,8 @@ const Term = (props: Props) => {
     onAddTerminationRule,
     onDeleteTerminationRule,
   } = props;
-  const periodText = useMapping(MappingType.PERIOD, term.periodUnit)
-  const currencyText = useMapping(MappingType.CURRENCY, term.priceUnit)
+  const periodText = useMapping(MappingType.PERIOD, term.periodUnit);
+  const currencyText = useMapping(MappingType.CURRENCY, term.priceUnit);
 
   return (
     <article className={styles.root}>
@@ -59,23 +59,23 @@ const Term = (props: Props) => {
       <fieldset className={styles.fieldsGroup} id="price-fields">
         <legend className={styles.fieldTitle}>Стоимость:</legend>
         <div className={styles.priceFields}>
-                     <label className={styles.priceLabel}>
-              <input
-                value={term.price}
-                onChange={onChangeTerm('price')}
-                className={styles.priceInput}
-                name="price"
-                type="number"
-                placeholder="50000"
-              />
-            </label>
-            {/*<DropdownSelect*/}
-            {/*  name={'price-currency'}*/}
-            {/*  options={currencyOptions}*/}
-            {/*  defaultValue={term.priceUnit.value}*/}
-            {/*  handleChange={onChangeTerm('priceUnit')}*/}
-            {/*/>*/}
-          {currencyText}
+          <label className={styles.priceLabel}>
+            <input
+              value={term.price}
+              onChange={onChangeTerm('price')}
+              className={styles.priceInput}
+              name="price"
+              type="number"
+              placeholder="50000"
+            />
+          </label>
+          {/*<DropdownSelect*/}
+          {/*  name={'price-currency'}*/}
+          {/*  options={currencyOptions}*/}
+          {/*  defaultValue={term.priceUnit.value}*/}
+          {/*  handleChange={onChangeTerm('priceUnit')}*/}
+          {/*/>*/}
+          <span className={styles.currencyText}>{currencyText}</span>
 
           <label className={styles.radioLabel}>
             <input
@@ -116,8 +116,8 @@ const Term = (props: Props) => {
                   type="number"
                   placeholder="50000"
                 />
-                {currencyText}
               </label>
+              <span className={styles.currencyText}>{currencyText}</span>
             </section>
           </fieldset>
 
@@ -132,7 +132,7 @@ const Term = (props: Props) => {
                   onChange={onChangeTerm('deposit.collectOptions.0.isEnabled')}
                 />
                 Убрать залог за дополнительную плату
-                <span className={styles.checkboxMark}/>
+                <span className={styles.checkboxMark} />
               </label>
             </section>
 
@@ -160,7 +160,7 @@ const Term = (props: Props) => {
                   onChange={onChangeTerm('deposit.collectOptions.1.isEnabled')}
                 />
                 Разбить залог на 2 {periodText[PluralType.PLURAL]}
-                <span className={styles.checkboxMark}/>
+                <span className={styles.checkboxMark} />
               </label>
             </section>
             {term.deposit.collectOptions[1].isEnabled && (
@@ -195,7 +195,7 @@ const Term = (props: Props) => {
               checked={term.deposit.returnType === 'RECALCULATE_PRICE'}
             />
             Пересчет арендной ставки
-            <span className={styles.radioCheckMark}/>
+            <span className={styles.radioCheckMark} />
           </label>
           <label className={styles.radioLabel}>
             <input
@@ -203,10 +203,13 @@ const Term = (props: Props) => {
               name="return-type"
               value="FULLY_WITHHELD_UPON_CONTRACT_TERMINATION"
               onChange={onChangeTerm('deposit.returnType')}
-              checked={term.deposit.returnType === 'FULLY_WITHHELD_UPON_CONTRACT_TERMINATION'}
+              checked={
+                term.deposit.returnType ===
+                'FULLY_WITHHELD_UPON_CONTRACT_TERMINATION'
+              }
             />
             Залог удерживается в случае досрочного выезда
-            <span className={styles.radioCheckMark}/>
+            <span className={styles.radioCheckMark} />
           </label>
           <label className={styles.radioLabel}>
             <input
@@ -217,7 +220,7 @@ const Term = (props: Props) => {
               checked={term.deposit.returnType === 'NO_WITHHELD'}
             />
             Не удерживается
-            <span className={styles.radioCheckMark}/>
+            <span className={styles.radioCheckMark} />
           </label>
         </div>
       </fieldset>

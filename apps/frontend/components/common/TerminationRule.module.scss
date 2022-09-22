@@ -9,6 +9,14 @@
   margin: 24px 0;
 }
 
+.periodUnitText {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font: variables.$text;
+  color: variables.$gray;
+}
+
 .ruleText {
   font: variables.$text;
   color: variables.$gray;
