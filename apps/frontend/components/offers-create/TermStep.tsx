@@ -71,14 +71,6 @@ export const TermStep = (props: Props) => {
         onDelete={onDeleteTerm(activeIndex)}
         key={terms[activeIndex].id}
       />
-      {/*<article className={styles.root}>*/}
-      {/*  <AddButton*/}
-      {/*    id={'add-term-btn'}*/}
-      {/*    handleClick={() => onAddTerm()}*/}
-      {/*    text="Добавить вариант аренды"*/}
-      {/*    customTextStyle={styles.addTermButton}*/}
-      {/*  />*/}
-      {/*</article>*/}
     </>
   );
 };
